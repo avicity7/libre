@@ -1,9 +1,10 @@
 import { Pressable, StyleSheet, Text } from "react-native";
 
-const button = () => {
+const Button = () => {
     return(
         <Pressable>
             
         </Pressable>
     )
 }
+export default Button;
