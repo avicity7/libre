@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet,Dimensions } from "react-native";
 
 const globalStyles = StyleSheet.create({
   container: {
@@ -24,11 +24,8 @@ const globalStyles = StyleSheet.create({
 
   likeButton:{
     position: 'absolute',
-    width: 30,
-    height: 30,
     left: 140,
     bottom: 290,
-    shadowColor: "grey",
     
   },
 });
