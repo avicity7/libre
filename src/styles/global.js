@@ -21,6 +21,16 @@ const globalStyles = StyleSheet.create({
   containerPressed: {
     opacity: 0.5,
   },
+
+  likeButton:{
+    position: 'absolute',
+    width: 30,
+    height: 30,
+    left: 140,
+    bottom: 290,
+    shadowColor: "grey",
+    
+  },
 });
 
 export default globalStyles;
