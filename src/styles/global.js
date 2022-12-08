@@ -26,12 +26,13 @@ const globalStyles = StyleSheet.create({
     position: 'absolute',
     left : 320,
     bottom: 650,
-    backgroundColor: "",
- 
- 
-    
-  },
 
+  },
+  backButton:{
+    position: 'absolute',
+    right: 320,
+    bottom: 650,
+  }
 });
 
 export default globalStyles;
