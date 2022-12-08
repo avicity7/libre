@@ -32,6 +32,11 @@ const globalStyles = StyleSheet.create({
     position: 'absolute',
     right: 320,
     bottom: 650,
+  },
+  writeButtonPos:{
+    position: "absolute",
+    left: 290,
+    top: 630,
   }
 });
 
