@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import globalStyles from "../styles/global";
@@ -13,16 +13,25 @@ const LikeButton = () => {
     const changeState = () => setColor(!notLiked)
     return(
 
-     <TouchableOpacity onPress={changeState}>
-     <MaterialCommunityIcons
-     name={"cards-heart-outline"}
-     size={30}
-     color={ notLiked ? 'red' : 'black'
-    }
+        <View style= {globalStyles.likeButton}>
+        <MaterialCommunityIcons.Button
+        onPress={changeState}
+        name="cards-heart-outline"
+        size = {25}
+        backgroundColor = "#f5f5f5"
+        iconStyle={{marginRight: 2}}
+        borderRadius = {100}
 
-     style={ globalStyles.likeButton }/>
     
-     </TouchableOpacity>
+   
+ 
+        color={ notLiked ? 'red' : 'black'}
+         >
+        </MaterialCommunityIcons.Button>
+        </View>
+
+    
+
    
 
     )

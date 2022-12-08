@@ -8,9 +8,7 @@ const Account = () => {
     return ( 
         <View style={globalStyles.container}>
             <Text>Account</Text> 
-            <Button />
-            <LikeButton 
-            />
+            <LikeButton/>
         </View>
     )
 }

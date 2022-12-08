@@ -24,10 +24,14 @@ const globalStyles = StyleSheet.create({
 
   likeButton:{
     position: 'absolute',
-    left: 140,
-    bottom: 290,
+    left : 320,
+    bottom: 650,
+    backgroundColor: "",
+ 
+ 
     
   },
+
 });
 
 export default globalStyles;
