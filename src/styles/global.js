@@ -24,19 +24,19 @@ const globalStyles = StyleSheet.create({
 
   likeButton:{
     position: 'absolute',
-    left : 320,
-    bottom: 650,
+    left : "85%",
+    bottom: "90%",
 
   },
   backButton:{
     position: 'absolute',
-    right: 320,
-    bottom: 650,
+    right: "85%",
+    bottom: "90%",
   },
   writeButtonPos:{
     position: "absolute",
-    left: 290,
-    top: 630,
+    left: "80%",
+    top: "85%",
   }
 });
 
