@@ -4,7 +4,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import globalStyles from "../styles/global";
 import React, {useState} from 'react'
 
-const WriteButton = () => {
+const WriteButton = ({onPress}) => {
     return(
         <View style = {globalStyles.writeButtonPos}>
         <MaterialCommunityIcons.Button
@@ -15,7 +15,7 @@ const WriteButton = () => {
             iconStyle={{marginRight: 0}}
             borderRadius = {100}
             padding = {20}
-
+            onPress = {onPress}
 
         >
         </MaterialCommunityIcons.Button>
