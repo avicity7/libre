@@ -26,14 +26,14 @@ const AccountView = ({navigation}) => {
 
 const Publish = ({route}) => {
     return(
-        <View>
+        <View style = {globalStyles.container}>
             <SafeAreaView>
-                <Text>Article Name</Text>
-                <TextInput></TextInput>
-                <Text>Header Picture</Text>
+                <Text style = {globalStyles.publishSubHeader}>Article Name</Text>
+                <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
+                <Text style = {globalStyles.publishSubHeader}>Header Picture</Text>
                 <ImagePickerExample></ImagePickerExample>
-                <Text>Article Body</Text>
-                <TextInput></TextInput>
+                <Text style = {globalStyles.publishSubHeader}>Article Body</Text>
+                <TextInput style  = {globalStyles.inputBoxBodyStyle} multiline = {true}></TextInput>
                 <PublishButton />
             </SafeAreaView>
 

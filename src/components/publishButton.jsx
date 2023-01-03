@@ -5,12 +5,7 @@ import React, {useState} from 'react'
 const PublishButton = () =>{
     return(
         <View style = {globalStyles.publishButton}>
-            <Text style = {{
-                color:"white",
-                alignContent: "center",
-                justifyContent: "center",
-                alignSelf: 'center'
-        }}> Publish Article </Text>
+            <Text style = {globalStyles.publishButtonText}> Publish Article </Text>
         </View>
 
 
