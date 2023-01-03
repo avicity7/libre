@@ -8,6 +8,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Home from './src/pages/Home';
 import Library from './src/pages/Library';
 import Account from './src/pages/Account';
+import Publish from "./src/pages/Publish";
 
 const Tab = createBottomTabNavigator();
 
@@ -55,7 +56,7 @@ const App = () => {
         })}
         initialRouteName = "Home"
         >
-          <Tab.Screen name = "Library" component={Library}></Tab.Screen>
+          <Tab.Screen name = "Library" component={Publish}></Tab.Screen>
           <Tab.Screen name = "Home" component={Home}></Tab.Screen>
           <Tab.Screen name = "Account" component={Account}></Tab.Screen>
         </Tab.Navigator>

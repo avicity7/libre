@@ -37,6 +37,9 @@ const globalStyles = StyleSheet.create({
     position: "absolute",
     left: "80%",
     top: "85%",
+  },
+  publishButton:{
+    backgroundColor: "black",
   }
 });
 
