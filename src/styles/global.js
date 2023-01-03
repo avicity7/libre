@@ -37,12 +37,41 @@ const globalStyles = StyleSheet.create({
   },
   publishButton:{
     backgroundColor: "black",
+    borderRadius: "15%"
+  },
+  publishButtonText:{
+    fontSize: 20,
+    color: "white",
+    alignSelf:"center",
+    padding: 10,
   },
   header: {
     fontSize: 32,
     marginTop: 20,
     marginBottom: 15,
     marginLeft: 10
+  },
+  publishSubHeader: {
+    fontSize: 20,
+    marginLeft: 20,
+    margin: 15,
+  },
+  inputBoxArticleStyle:{
+    backgroundColor: "#F9F9F9",
+    borderRadius: "50%",
+    marginLeft: 20,
+    marginRight: 20,
+    padding: 8,
+  },
+  inputBoxBodyStyle:{
+    backgroundColor: "#F9F9F9",
+    borderRadius: "20%",
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 20,
+    paddingTop: 10,
+    padding:10,
+    height:180,
   },
   articleDetails: { 
     fontSize: 12,
