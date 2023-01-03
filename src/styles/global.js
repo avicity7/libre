@@ -41,8 +41,19 @@ const globalStyles = StyleSheet.create({
   header: {
     fontSize: 32,
     marginTop: 75,
-    marginBottom: 100,
+    marginBottom: 15,
     marginLeft: 10
+  },
+  articleDetails: { 
+    fontSize: 12,
+    marginLeft: 10,
+    marginBottom: 50
+  },
+  articleBody: { 
+    fontSize: 18,
+    marginLeft: 10,
+    marginBottom: 50,
+    lineHeight: 30
   }
 });
 
