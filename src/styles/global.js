@@ -40,7 +40,7 @@ const globalStyles = StyleSheet.create({
   },
   header: {
     fontSize: 32,
-    marginTop: 75,
+    marginTop: 20,
     marginBottom: 15,
     marginLeft: 10
   },

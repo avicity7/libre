@@ -9,7 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const ArticlesView = ({ navigation }) => {
     return ( 
-        <View style={globalStyles.container}>
+        <SafeAreaView style={globalStyles.container}>
             <Text
                 style={globalStyles.header}
             >
@@ -25,7 +25,7 @@ const ArticlesView = ({ navigation }) => {
             
             </ScrollView>
             
-        </View>
+        </SafeAreaView>
     )
 }
 

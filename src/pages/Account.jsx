@@ -13,14 +13,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const AccountView = ({navigation}) => {
     return ( 
-        <View style={globalStyles.container}> 
-        <Text
+        <SafeAreaView style={globalStyles.container}> 
+            <Text
                 style={globalStyles.header}
             >
                 Account
             </Text>
             <WriteButton onPress = {() => {navigation.navigate("Publish")}}/>
-        </View>
+        </SafeAreaView>
     )
 }
 
