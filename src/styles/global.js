@@ -47,8 +47,8 @@ const globalStyles = StyleSheet.create({
   },
   header: {
     fontSize: 32,
-    marginTop: 75,
-    marginBottom: 100,
+    marginTop: 20,
+    marginBottom: 15,
     marginLeft: 10
   },
   publishSubHeader: {
@@ -72,6 +72,17 @@ const globalStyles = StyleSheet.create({
     paddingTop: 10,
     padding:10,
     height:180,
+  },
+  articleDetails: { 
+    fontSize: 12,
+    marginLeft: 10,
+    marginBottom: 50
+  },
+  articleBody: { 
+    fontSize: 18,
+    marginLeft: 10,
+    marginBottom: 50,
+    lineHeight: 30
   }
 });
 
