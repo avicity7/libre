@@ -30,7 +30,7 @@ const ArticlesView = ({ navigation }) => {
 }
 
 const Article = ({route}) => { 
-
+    
     return (
         <View style={globalStyles.container}>
             <ScrollView>
