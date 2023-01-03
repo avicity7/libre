@@ -5,7 +5,12 @@ import globalStyles from "../styles/global";
 const Home = () => {
     return ( 
         <View style={globalStyles.container}>
-            <Text>Home</Text> 
+            <Text
+                style={globalStyles.header}
+            >
+                Articles
+            </Text>
+            
         </View>
     )
 }

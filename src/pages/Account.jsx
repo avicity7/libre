@@ -4,7 +4,11 @@ import globalStyles from '../styles/global'
 const Account = () => {
     return ( 
         <View style={globalStyles.container}>
-            <Text>Account</Text> 
+            <Text
+                style={globalStyles.header}
+            >
+                Account
+            </Text>
         </View>
     )
 }
