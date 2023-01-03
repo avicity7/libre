@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet,Dimensions } from "react-native";
 
 const globalStyles = StyleSheet.create({
   container: {
@@ -19,11 +19,28 @@ const globalStyles = StyleSheet.create({
   containerPressed: {
     opacity: 0.5,
   },
+  likeButton:{
+    position: 'absolute',
+    left : "85%",
+    bottom: "90%",
+
+  },
+  backButton:{
+    position: 'absolute',
+    right: "85%",
+    bottom: "90%",
+  },
+  writeButtonPos:{
+    position: "absolute",
+    left: "80%",
+    top: "85%",
+  },
   header: {
     fontSize: 32,
     marginTop: 75,
     marginBottom: 100,
     marginLeft: 10
+
   }
 });
 
