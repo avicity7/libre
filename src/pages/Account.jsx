@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View,TextInput } from 'react-native';
+import { Pressable, StyleSheet, Text, View,TextInput, ScrollView } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import globalStyles from '../styles/global'
 import Button from '../components/button'
@@ -26,21 +26,15 @@ const AccountView = ({navigation}) => {
 
 const Publish = ({route}) => {
     return(
-        <View style = {globalStyles.container}>
-            <SafeAreaView>
-                <Text style = {globalStyles.publishSubHeader}>Article Name</Text>
-                <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
-                <Text style = {globalStyles.publishSubHeader}>Header Picture</Text>
-                <ImagePickerExample></ImagePickerExample>
-                <Text style = {globalStyles.publishSubHeader}>Article Body</Text>
-                <TextInput style  = {globalStyles.inputBoxBodyStyle} multiline = {true}></TextInput>
-                <PublishButton />
-            </SafeAreaView>
-
-
-
-
-        </View>
+        <ScrollView style = {globalStyles.container}>
+            <Text style = {globalStyles.publishSubHeader}>Article Name</Text>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
+            <Text style = {globalStyles.publishSubHeader}>Header Picture</Text>
+            <ImagePickerExample></ImagePickerExample>
+            <Text style = {globalStyles.publishSubHeader}>Article Body</Text>
+            <TextInput style  = {globalStyles.inputBoxBodyStyle} multiline = {true}></TextInput>
+            <PublishButton />
+        </ScrollView>
     )
 
 }
