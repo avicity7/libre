@@ -35,12 +35,14 @@ const globalStyles = StyleSheet.create({
     left: "80%",
     top: "85%",
   },
+  publishButton:{
+    backgroundColor: "black",
+  },
   header: {
     fontSize: 32,
     marginTop: 75,
     marginBottom: 100,
     marginLeft: 10
-
   }
 });
 
