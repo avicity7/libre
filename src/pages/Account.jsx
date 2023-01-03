@@ -7,11 +7,15 @@ import BackButton from '../components/backbutton';
 import WriteButton from '../components/writebutton';
 const Account = () => {
     return ( 
-        <View style={globalStyles.container}>
-            <Text>Account</Text> 
+        <View style={globalStyles.container}> 
             <LikeButton/>
             <BackButton/>
             <WriteButton/>
+            <Text
+                style={globalStyles.header}
+            >
+                Account
+            </Text>
         </View>
     )
 }

@@ -10,11 +10,13 @@ import Library from './src/pages/Library';
 import Account from './src/pages/Account';
 import Publish from "./src/pages/Publish";
 
+//Create bottom tab 
 const Tab = createBottomTabNavigator();
 
 
 const App = () => {
   return (
+    //Provide safe area (notch etc.)
     <SafeAreaProvider>
       <NavigationContainer>
         <Tab.Navigator
