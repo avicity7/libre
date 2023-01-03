@@ -33,11 +33,13 @@ const globalStyles = StyleSheet.create({
   writeButtonPos:{
     position: "absolute",
     left: "80%",
-    top: "85%",
+    top: "95%",
   },
   publishButton:{
     backgroundColor: "black",
-    borderRadius: "15%"
+    borderRadius: "15%",
+    marginLeft: 20,
+    marginRight: 20,
   },
   publishButtonText:{
     fontSize: 20,
