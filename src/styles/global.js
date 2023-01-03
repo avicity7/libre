@@ -6,8 +6,6 @@ const globalStyles = StyleSheet.create({
     backgroundColor: "white",
     padding: 8,
     margin: "auto",
-    justifyContent: "center",
-    alignItems: "center",
   },
   deviceContainer: {
     flex: 1,
@@ -21,7 +19,6 @@ const globalStyles = StyleSheet.create({
   containerPressed: {
     opacity: 0.5,
   },
-
   likeButton:{
     position: 'absolute',
     left : "85%",
@@ -37,6 +34,13 @@ const globalStyles = StyleSheet.create({
     position: "absolute",
     left: "80%",
     top: "85%",
+  },
+  header: {
+    fontSize: 32,
+    marginTop: 75,
+    marginBottom: 100,
+    marginLeft: 10
+
   }
 });
 

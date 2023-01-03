@@ -5,7 +5,11 @@ import globalStyles from '../styles/global'
 const Library = () => {
     return ( 
         <View style={globalStyles.container}>
-            <Text>Library</Text> 
+            <Text
+                style={globalStyles.header}
+            >
+                Library
+            </Text>
         </View>
     )
 }

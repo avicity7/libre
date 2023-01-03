@@ -5,8 +5,15 @@ import WriteButton from '../components/writebutton';
 const Home = () => {
     return ( 
         <View style={globalStyles.container}>
-            <Text>Home</Text> 
+        
             <WriteButton/>
+
+            <Text
+                style={globalStyles.header}
+            >
+                Articles
+            </Text>
+            
         </View>
     )
 }
