@@ -37,7 +37,7 @@ const globalStyles = StyleSheet.create({
   },
   publishButton:{
     backgroundColor: "black",
-    borderRadius: "15%",
+    borderRadius: 15,
     marginLeft: 20,
     marginRight: 20,
   },
@@ -60,14 +60,14 @@ const globalStyles = StyleSheet.create({
   },
   inputBoxArticleStyle:{
     backgroundColor: "#F9F9F9",
-    borderRadius: "50%",
+    borderRadius: 50,
     marginLeft: 20,
     marginRight: 20,
     padding: 8,
   },
   inputBoxBodyStyle:{
     backgroundColor: "#F9F9F9",
-    borderRadius: "20%",
+    borderRadius: 20,
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 20,
