@@ -10,16 +10,18 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import PublishButton from '../components/publishButton';
 import ImagePickerExample from '../components/imagePicker';
 import { SafeAreaView } from "react-native-safe-area-context";
+import CoverPhoto from '../components/coverPhoto';
+import ProfilePhoto from '../components/profilePhoto';
 
 const AccountView = ({navigation}) => {
     return ( 
         <SafeAreaView style={globalStyles.container}> 
-            <Text
-                style={globalStyles.header}
-            >
-                Account
-            </Text>
             <WriteButton onPress = {() => {navigation.navigate("Publish")}}/>
+            <View>
+            <CoverPhoto />
+            <ProfilePhoto />
+            </View>
+            <Text style = {globalStyles.profileName}>Hiroyuki Nishimura</Text>
         </SafeAreaView>
     )
 }

@@ -1,9 +1,9 @@
 import { View } from "react-native";
 
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import globalStyles from "../styles/global";
 import React, {useState} from 'react'
 
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 const BackButton = () => {
 
     return(

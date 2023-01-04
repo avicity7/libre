@@ -1,17 +1,17 @@
-import { StyleSheet,Dimensions } from "react-native";
+import { StyleSheet,Dimensions } from 'react-native';
 
 const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     padding: 8,
-    margin: "auto",
+    margin: 'auto',
   },
   deviceContainer: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     padding: 8,
-    alignItems: "center",
+    alignItems: 'center',
   },
   containerUnpressed: {
     opacity: 1,
@@ -21,30 +21,30 @@ const globalStyles = StyleSheet.create({
   },
   likeButton:{
     position: 'absolute',
-    left : "85%",
-    bottom: "90%",
+    left : '85%',
+    bottom: '90%',
 
   },
   backButton:{
     position: 'absolute',
-    right: "85%",
-    bottom: "90%",
+    right: '85%',
+    bottom: '90%',
   },
   writeButtonPos:{
-    position: "absolute",
-    left: "80%",
-    top: "95%",
+    position: 'absolute',
+    left: '80%',
+    top: '95%',
   },
   publishButton:{
-    backgroundColor: "black",
-    borderRadius: "15%",
+    backgroundColor: 'black',
+    borderRadius: 15,
     marginLeft: 20,
     marginRight: 20,
   },
   publishButtonText:{
     fontSize: 20,
-    color: "white",
-    alignSelf:"center",
+    color: 'white',
+    alignSelf:'center',
     padding: 10,
   },
   header: {
@@ -59,15 +59,15 @@ const globalStyles = StyleSheet.create({
     margin: 15,
   },
   inputBoxArticleStyle:{
-    backgroundColor: "#F9F9F9",
-    borderRadius: "50%",
+    backgroundColor: '#F9F9F9',
+    borderRadius: 50,
     marginLeft: 20,
     marginRight: 20,
     padding: 8,
   },
   inputBoxBodyStyle:{
-    backgroundColor: "#F9F9F9",
-    borderRadius: "20%",
+    backgroundColor: '#F9F9F9',
+    borderRadius: 20,
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 20,
@@ -85,6 +85,11 @@ const globalStyles = StyleSheet.create({
     marginLeft: 10,
     marginBottom: 50,
     lineHeight: 30
+  },
+  profileName: {
+    margin: 10,
+    fontSize: 24,
+  
   }
 });
 
