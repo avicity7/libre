@@ -21,7 +21,7 @@ const ProfilePhoto = () => {
     return(
         <View>
             <Image
-                source = {{uri:'https://cdn.mainichi.jp/vol1/2022/08/31/20220831p2a00m0na009000p/9.jpg?1'}}
+                source = {{uri:'https://resources.stuff.co.nz/content/dam/images/1/e/l/h/x/4/image.related.StuffLandscapeThreeByTwo.1464x976.1elhn3.png/1475619330888.png'}}
                 style = {styles.circle}
             >
 
