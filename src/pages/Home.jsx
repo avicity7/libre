@@ -17,15 +17,13 @@ const ArticlesView = ({ navigation }) => {
             >
                 Articles
             </Text>
-            <ArticleCarou/>
             <ScrollView>
-
+            <ArticleCarou/>
                 <Button 
                     style = {globalStyles.articleCard}
                     text = {"Open Article"}
                     onPress = {()=>{navigation.navigate("Article")}}
                 />
-            
             </ScrollView>
             
         </SafeAreaView>
