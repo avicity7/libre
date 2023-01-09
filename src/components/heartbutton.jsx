@@ -8,7 +8,6 @@ import React, {useState} from 'react'
 
 const LikeButton = () => {
     
-    
     const [notLiked,setColor] = useState(notLiked);
     const changeState = () => setColor(!notLiked)
     return(
