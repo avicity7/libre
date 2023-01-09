@@ -1,4 +1,4 @@
-import { View , Image, StyleSheet,SafeAreaView} from "react-native";
+import { View , Image, StyleSheet,SafeAreaView , Dimensions} from "react-native";
 
 import globalStyles from "../styles/global";
 import React, {useState} from 'react'
@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
 
 
     imageSize:{
-        width:375,
+        width:Dimensions.get('window').width - 15,
         height:120,
         zIndex:0
 

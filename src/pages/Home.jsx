@@ -6,6 +6,7 @@ import Button from '../components/button';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ArticleCarou from '../components/carou';
 
 const ArticlesView = ({ navigation }) => {
     return ( 
@@ -16,13 +17,12 @@ const ArticlesView = ({ navigation }) => {
                 Articles
             </Text>
             <ScrollView>
-
+                <ArticleCarou/>
                 <Button 
                     style = {globalStyles.articleCard}
                     text = {"Open Article"}
                     onPress = {()=>{navigation.navigate("Article")}}
                 />
-            
             </ScrollView>
             
         </SafeAreaView>
@@ -39,6 +39,7 @@ const Article = ({route}) => {
                 >
                     Article
                 </Text>
+                
                 <Text
                     style={globalStyles.articleDetails}
                 >
