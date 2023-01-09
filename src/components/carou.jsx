@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Text, View, SafeAreaView, Image, ImageBackground,Dimensions} from 'react-native';
 
-import Carousel from '../react-native-snap-carousel';
+import Carousel, {Pagination}from '../react-native-snap-carousel';
 
 export default class ArticleCarou extends React.Component {
 
@@ -45,9 +45,39 @@ export default class ArticleCarou extends React.Component {
         )
     }
 
+    get pagination () {
+        const { carouselItems , activeIndex } = this.state;
+        return (
+            <Pagination
+
+              style = {{width: Dimensions.get('window').width - 10, height: 10}}
+              dotsLength={carouselItems.length}
+              activeDotIndex={activeIndex}
+              containerStyle={{  width: Dimensions.get('window').width -10 ,  marginTop: -15, marginBottom: -15}}
+              dotStyle={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: 5,
+                  marginHorizontal: 0,
+                  backgroundColor: 'rgba(0, 0, 0, 0.92)'
+              }}
+              inactiveDotStyle={{
+                width: 10,
+                height: 10,
+                borderRadius: 5,
+                marginHorizontal: 0,
+                backgroundColor: 'rgba(0, 0, 0, 1)'
+              }}
+              inactiveDotOpacity={0.2}
+              inactiveDotScale={0.6}
+            />
+        );
+    }
+
     render() {
         return (
-         
+         <View>
+
             <View style={{ flex: 0, flexDirection:'row', justifyContent: 'center', }}>
                 <Carousel
                   layout={"default"}
@@ -57,7 +87,10 @@ export default class ArticleCarou extends React.Component {
                   itemWidth={380}
                   renderItem={this._renderItem}
                   onSnapToItem = { index => this.setState({activeIndex:index}) } />
+                  
             </View>
+            {this.pagination}
+         </View>
         );
     }
 }
