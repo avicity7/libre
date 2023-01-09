@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View,TextInput, ScrollView } from 'react-native';
+import { Pressable, StyleSheet, Text, View,TextInput, ScrollView, StatusBar } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import globalStyles from '../styles/global'
 import LikeButton  from '../components/heartbutton';
@@ -11,16 +11,19 @@ import ImagePickerExample from '../components/imagePicker';
 import { SafeAreaView } from "react-native-safe-area-context";
 import CoverPhoto from '../components/coverPhoto';
 import ProfilePhoto from '../components/profilePhoto';
+import { useFonts } from 'expo-font';
 
 const AccountView = ({navigation}) => {
     return ( 
-        <SafeAreaView style={globalStyles.container}> 
+        <SafeAreaView style={globalStyles.accountContainer}> 
+            <ScrollView>
+                <View>
+                <CoverPhoto />
+                <ProfilePhoto />
+                </View>
+                <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>Hiroyuki Nishimura</Text>
+            </ScrollView>
             <WriteButton onPress = {() => {navigation.navigate("Publish")}}/>
-            <View>
-            <CoverPhoto />
-            <ProfilePhoto />
-            </View>
-            <Text style = {globalStyles.profileName}>Hiroyuki Nishimura</Text>
         </SafeAreaView>
     )
 }

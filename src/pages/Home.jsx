@@ -1,15 +1,24 @@
 import { Pressable, StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import globalStyles from "../styles/global";
-import WriteButton from '../components/writebutton';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ArticleCarou from '../components/carou';
 
 const databaseData = require('../../api/database.json');
+import { useFonts } from 'expo-font';
+import BackButton from '../components/backbutton';
 
 const ArticlesView = ({ navigation }) => {
+    const [loaded] = useFonts({
+        NotoSerifRegular: require('../../assets/fonts/NotoSerif-Regular.ttf'),
+        NotoSerifBold: require('../../assets/fonts/NotoSerif-Bold.ttf')
+      });
+    
+      if (!loaded) {
+        return null;
+    }
 
     const ArticleCard = ({item}) => {
         return(
@@ -17,11 +26,15 @@ const ArticlesView = ({ navigation }) => {
                 <Pressable
                     onPress = {() => {navigation.navigate("Article",item)}}
                 >
-                    <View style={{display:"flex"}}>
-                        <Text style = {style.text}>{item.title}</Text> 
-                        <Text style = {style.category}>{item.category}</Text>
+                    <Text style = {[style.text,{fontFamily: 'NotoSerifRegular'}]}>{item.title}</Text> 
+                    <View style={{flexDirection:"row",marginTop:15}}>
+                        <View style = {{flex:1}}>
+                            <Text style = {[style.category,{fontFamily: 'NotoSerifBold'},item.category == "Politics"?{color:"#882A2A"}:item.category == "Society"? {color:"#3A6E7E"}:{color:"#591B8A"}]}>{item.category}</Text>
+                        </View>
+                        <View style = {{flex:1}}>
+                            <Text style = {[style.author,{fontFamily: 'NotoSerifRegular'}]}>by {item.author}</Text> 
+                        </View>
                     </View>
-                    <Text style = {style.author}>by {item.author}</Text> 
                 </Pressable>
             </View>
         )
@@ -30,7 +43,7 @@ const ArticlesView = ({ navigation }) => {
     return ( 
         <SafeAreaView style={globalStyles.container}>
             <Text
-                style={globalStyles.header}
+                style={[globalStyles.header,{fontFamily: 'NotoSerifBold'}]}
             >
                 Articles
             </Text>
@@ -47,23 +60,24 @@ const ArticlesView = ({ navigation }) => {
     )
 }
 
-const Article = ({route}) => { 
+const Article = ({route,navigation}) => { 
     const article  = route.params;
     return (
         <ScrollView style = {globalStyles.articleContainer}>
+            <BackButton onPress={() => {navigation.navigate("Articles")}}/>
             <Text
-                style={globalStyles.header}
+                style={[globalStyles.header,{fontFamily: 'NotoSerifBold',marginTop:120,marginLeft:15,marginRight:15}]}
             >
                 {article.title}
             </Text>
             
             <Text
-                style={globalStyles.articleDetails}
+                style={[globalStyles.articleDetails,{fontFamily: 'NotoSerifRegular',marginLeft:15,marginRight:15}]}
             >
                 Published by: {article.author}
             </Text>
             <Text
-                style={globalStyles.articleBody}
+                style={[globalStyles.articleBody,{fontFamily: 'NotoSerifRegular',marginLeft:15,marginRight:15}]}
             >
                 {article.body}
             </Text>
@@ -85,13 +99,7 @@ const Home = () => {
           <Stack.Screen
             name="Article"
             component={Article}
-            options={{
-              headerBackTitle: "",
-              headerTintColor: "black",
-              headerTitleStyle: {
-                color: "black",
-              }
-            }}
+            options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>
@@ -110,13 +118,11 @@ const style = StyleSheet.create({
         fontSize: 20,
     },
     author: { 
-        fontSize: 13,
-        marginTop: 10,
-        alignSelf: "flex-end"
+        fontSize: 12,
+        textAlign: "right"
     },
     category: {
-        fontSize: 15,
-        textAlign: "right"
+        fontSize: 12,
     }
 });
 export default Home 

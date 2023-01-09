@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-
+import { useFonts } from 'expo-font';
 
 //Import pages
 import Home from './src/pages/Home';
@@ -14,6 +14,13 @@ const Tab = createBottomTabNavigator();
 
 
 const App = () => {
+  const [loaded] = useFonts({
+    NotoSerifRegular: require('./assets/fonts/NotoSerif-Regular.ttf'),
+  });
+
+  if (!loaded) {
+    return null;
+  }
   return (
     //Provide safe area (notch etc.)
     <SafeAreaProvider>
@@ -47,9 +54,11 @@ const App = () => {
           tabBarStyle: {
             borderTopWidth: 0,
             elevation: 0,
+            height:80
           },
           tabBarLabelStyle: {
             fontSize: 12,
+            fontFamily: "NotoSerifRegular"
           },
           headerTitleStyle: {
           },

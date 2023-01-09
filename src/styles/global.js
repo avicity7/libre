@@ -10,7 +10,10 @@ const globalStyles = StyleSheet.create({
   articleContainer: {
     flex: 1,
     backgroundColor: 'white',
-    padding: 8,
+  },
+  accountContainer: {
+    flex: 1,
+    backgroundColor: 'white',
   },
   deviceContainer: {
     flex: 1,
@@ -32,12 +35,12 @@ const globalStyles = StyleSheet.create({
   },
   backButton:{
     position: 'absolute',
-    right: '85%',
-    bottom: '90%',
+    right: '87%',
+    bottom: '87.5%',
   },
   writeButtonPos:{
     position: 'absolute',
-    left: '80%',
+    left: '76%',
     top: '95%',
   },
   publishButton:{
@@ -54,8 +57,8 @@ const globalStyles = StyleSheet.create({
   },
   header: {
     fontSize: 32,
-    marginTop: 20,
-    marginBottom: 30,
+    marginTop: 10,
+    marginBottom: 20,
     marginLeft: 10
   },
   publishSubHeader: {
@@ -105,6 +108,12 @@ const globalStyles = StyleSheet.create({
     fontSize: 22,
     marginLeft: 10,
     marginRight: 10,
+  },
+  shadowProp: {
+    shadowColor: '#75757560',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
   }
 });
 

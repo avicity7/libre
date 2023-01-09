@@ -13,7 +13,7 @@ export default class ArticleCarou extends React.Component {
           carouselItems: [
           {
               title:"The Amazon Fire",
-              text: "What REALLY happened in the fight against the Fire.",
+              text: "What really happened in the fight against the Fire.",
               image: 'https://static.scientificamerican.com/sciam/cache/file/C1CBDCD7-0471-4C47-846607ADAF8585F4_source.jpg'
           },
           {
@@ -33,10 +33,10 @@ export default class ArticleCarou extends React.Component {
     _renderItem({item,index}){
         return (
         <SafeAreaView>
-            <ImageBackground source={{uri: item.image}} style = {{width: Dimensions.get('window').width - 15, height: 180}}>
-                <View style = {{flex: 1, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(0, 0, 0, .5)'}}>
-                  <Text style={{fontSize: 30, color:"white", textAlign: 'center', fontWeight: '500',backgroundColor: 'transparent'}}>{item.title}</Text>
-                  <Text style = {{color:"white", textAlign: 'center', fontWeight: '300', backgroundColor:'transparent' }}>{item.text}</Text>
+            <ImageBackground source={{uri: item.image}} imageStyle= {{borderRadius: 14}}style = {{width: Dimensions.get('window').width - 16, height: 180}}>
+                <View style = {{flex: 1, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(0, 0, 0, .5)',borderRadius: 14}}>
+                  <Text style={{fontSize: 25, color:"white", textAlign: 'center', fontWeight: '500',backgroundColor: 'transparent',fontFamily: 'NotoSerifBold'}}>{item.title}</Text>
+                  <Text style = {{color:"white", textAlign: 'center', fontWeight: '300', backgroundColor:'transparent',fontFamily: 'NotoSerifRegular',fontSize: 15,margin:10}}>{item.text}</Text>
                 </View>
             </ImageBackground>
         </SafeAreaView>
