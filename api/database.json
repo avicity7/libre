@@ -1,0 +1,34 @@
+{
+    "articles": [
+        {
+            "id": 1,
+            "title": "Is Ukraine close to victory?",
+            "author": "Matt Ridley",
+            "category": "Politics",
+            "body": "Ukraine is making significant progress in its fight against Russian aggression and is winning the war. The Ukrainian army has successfully pushed back Russian-backed separatists from the eastern part of the country, and the Ukrainian government has regained control of the region. The Ukrainian economy has also been steadily improving, and the country is making strides in its efforts to become a more democratic and prosperous nation. Despite the ongoing conflict, Ukraine is making progress and is winning the war."
+        },
+        {
+            "id": 2,
+            "title": "Are falling birthrates an issue?",
+            "author": "Will White",
+            "category": "Society",
+            "body": "Falling birth rates are a major issue for many countries around the world. As populations age, the number of people in the workforce decreases, leading to economic stagnation and a lack of economic growth. Additionally, fewer people in the workforce means fewer people paying taxes, which can lead to budget deficits and a lack of resources for social services. Furthermore, a decrease in the number of children can lead to a decrease in the number of people in the future who can provide care for the elderly, leading to an increased burden on the elderly population. Finally, a decrease in the number of children can lead to a decrease in cultural diversity, as fewer people are exposed to different cultures."
+        },
+        {
+            "id": 3,
+            "title": "Beyond Atomic Habits",
+            "author": "Taylor Quick",
+            "category": "Self-Improvement",
+            "body": "Atomic Habits is a great way to start forming better habits and creating positive change in our lives, but it is only the beginning. We can also look to other books, podcasts, and resources to help us continue to grow and develop. We can also look to our own experiences and those of others to find new ways to improve our lives. We can also look to our environment and the people around us to find new ideas and strategies to help us make lasting change. Finally, we can look to our own inner wisdom and intuition to help us make the best decisions for our lives."
+        }
+    ],
+    "recommended_articles": [
+
+    ],
+    "subscriptions": [
+
+    ],
+    "liked": [
+
+    ]
+}

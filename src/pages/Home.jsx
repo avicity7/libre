@@ -1,14 +1,32 @@
-import { Pressable, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Pressable, StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import globalStyles from "../styles/global";
 import WriteButton from '../components/writebutton';
-import Button from '../components/button';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ArticleCarou from '../components/carou';
 
+const databaseData = require('../../api/database.json');
+
 const ArticlesView = ({ navigation }) => {
+
+    const ArticleCard = ({item}) => {
+        return(
+            <View style = {style.container}>
+                <Pressable
+                    onPress = {() => {navigation.navigate("Article",item)}}
+                >
+                    <View style={{display:"flex"}}>
+                        <Text style = {style.text}>{item.title}</Text> 
+                        <Text style = {style.category}>{item.category}</Text>
+                    </View>
+                    <Text style = {style.author}>by {item.author}</Text> 
+                </Pressable>
+            </View>
+        )
+    }
+    
     return ( 
         <SafeAreaView style={globalStyles.container}>
             <Text
@@ -18,10 +36,10 @@ const ArticlesView = ({ navigation }) => {
             </Text>
             <ScrollView>
                 <ArticleCarou/>
-                <Button 
-                    style = {globalStyles.articleCard}
-                    text = {"Open Article"}
-                    onPress = {()=>{navigation.navigate("Article")}}
+                <FlatList
+                    data={databaseData.articles}
+                    renderItem={ArticleCard}
+                    keyExtractor={item => item.id}
                 />
             </ScrollView>
             
@@ -30,29 +48,26 @@ const ArticlesView = ({ navigation }) => {
 }
 
 const Article = ({route}) => { 
-
+    const article  = route.params;
     return (
-        <View style={globalStyles.container}>
-            <ScrollView>
-                <Text
-                    style={globalStyles.header}
-                >
-                    Article
-                </Text>
-                
-                <Text
-                    style={globalStyles.articleDetails}
-                >
-                    Published by: Author
-                </Text>
-                <Text
-                    style={globalStyles.articleBody}
-                >
-                    Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment. Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring. Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.
-                </Text>
-            </ScrollView>
+        <ScrollView style = {globalStyles.articleContainer}>
+            <Text
+                style={globalStyles.header}
+            >
+                {article.title}
+            </Text>
             
-        </View>
+            <Text
+                style={globalStyles.articleDetails}
+            >
+                Published by: {article.author}
+            </Text>
+            <Text
+                style={globalStyles.articleBody}
+            >
+                {article.body}
+            </Text>
+        </ScrollView>
     )
 }
 
@@ -83,4 +98,25 @@ const Home = () => {
     );
   };
 
+const style = StyleSheet.create({
+    container: {
+        padding: 16,
+        borderTopColor: "#F0F0F0",
+        borderTopWidth: 1,
+        borderBottomColor: "#F0F0F0",
+        borderBottomWidth: 1
+    },
+    text: { 
+        fontSize: 20,
+    },
+    author: { 
+        fontSize: 13,
+        marginTop: 10,
+        alignSelf: "flex-end"
+    },
+    category: {
+        fontSize: 15,
+        textAlign: "right"
+    }
+});
 export default Home 

@@ -7,6 +7,11 @@ const globalStyles = StyleSheet.create({
     padding: 8,
     margin: 'auto',
   },
+  articleContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    padding: 8,
+  },
   deviceContainer: {
     flex: 1,
     backgroundColor: 'white',
@@ -50,7 +55,7 @@ const globalStyles = StyleSheet.create({
   header: {
     fontSize: 32,
     marginTop: 20,
-    marginBottom: 15,
+    marginBottom: 30,
     marginLeft: 10
   },
   publishSubHeader: {
@@ -87,9 +92,19 @@ const globalStyles = StyleSheet.create({
     lineHeight: 30
   },
   profileName: {
-    margin: 10,
+    marginTop: 10,
+    marginLeft: 20,
     fontSize: 24,
   
+  },
+  tabHeader: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  tabHeaderText: {
+    fontSize: 22,
+    marginLeft: 10,
+    marginRight: 10,
   }
 });
 
