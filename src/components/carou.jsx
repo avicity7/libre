@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Text, View, SafeAreaView, Image, ImageBackground,Dimensions} from 'react-native';
 
-import Carousel from 'react-native-snap-carousel';
+import Carousel from '../react-native-snap-carousel';
 
 export default class ArticleCarou extends React.Component {
 
