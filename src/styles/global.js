@@ -10,6 +10,7 @@ const globalStyles = StyleSheet.create({
   articleContainer: {
     flex: 1,
     backgroundColor: 'white',
+    marginBottom:-30
   },
   accountContainer: {
     flex: 1,
@@ -26,17 +27,6 @@ const globalStyles = StyleSheet.create({
   },
   containerPressed: {
     opacity: 0.5,
-  },
-  likeButton:{
-    position: 'absolute',
-    left : '85%',
-    bottom: '90%',
-
-  },
-  backButton:{
-    position: 'absolute',
-    right: '87%',
-    bottom: '87.5%',
   },
   writeButtonPos:{
     position: 'absolute',
@@ -88,8 +78,13 @@ const globalStyles = StyleSheet.create({
     marginLeft: 10,
     marginBottom: 50
   },
+  articleTitle:{
+    fontSize: 26,
+    marginBottom: 20,
+    marginLeft: 10
+  },
   articleBody: { 
-    fontSize: 18,
+    fontSize: 16,
     marginLeft: 10,
     marginBottom: 50,
     lineHeight: 30
@@ -105,7 +100,7 @@ const globalStyles = StyleSheet.create({
     flexDirection: 'row'
   },
   tabHeaderText: {
-    fontSize: 22,
+    fontSize: 16,
     marginLeft: 10,
     marginRight: 10,
   },

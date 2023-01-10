@@ -3,17 +3,21 @@ import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useFonts } from 'expo-font';
-
+import {useState, useEffect} from 'react';
 //Import pages
 import Home from './src/pages/Home';
 import Library from './src/pages/Library';
 import Account from './src/pages/Account';
+
+//Import data 
+const databaseData = require('./api/database.json');
 
 //Create bottom tab 
 const Tab = createBottomTabNavigator();
 
 
 const App = () => {
+  const [likedArticles, setLikedArticles] = useState(databaseData.liked)
   const [loaded] = useFonts({
     NotoSerifRegular: require('./assets/fonts/NotoSerif-Regular.ttf'),
   });
@@ -66,9 +70,9 @@ const App = () => {
         })}
         initialRouteName = "Home"
         >
-          <Tab.Screen name = "Library" component={Library}></Tab.Screen>
-          <Tab.Screen name = "Home" component={Home}></Tab.Screen>
-          <Tab.Screen name = "Account" component={Account}></Tab.Screen>
+          <Tab.Screen name = "Library" component = {Library} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
+          <Tab.Screen name = "Home" component = {Home} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
+          <Tab.Screen name = "Account" component = {Account} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
         </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

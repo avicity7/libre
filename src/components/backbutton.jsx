@@ -4,10 +4,11 @@ import globalStyles from "../styles/global";
 import React, {useState} from 'react'
 import DropShadow from "react-native-drop-shadow";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+
 const BackButton = ({onPress}) => {
 
     return(
-        <View style = {[globalStyles.backButton,{marginLeft:10}]} >
+        <View style = {{marginLeft:10,marginTop:20,maxWidth:36,}} >
             <DropShadow style = {globalStyles.shadowProp}>
                 <MaterialCommunityIcons.Button
                     name = "arrow-left"
