@@ -11,14 +11,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 
-const useForceUpdate = () =>{
-    const [value, setValue] = useState(0); // integer state
-    return () => setValue(value => value + 1); // update state to force render
-    // An function that increment 👆🏻 the previous state like here 
-    // is better than directly setting `value + 1`
-}
-
-
 const LibraryView = ({route,navigation}) => {
     const {likedArticles,setLikedArticles} = route.params;
     const [displayCategory, setDisplayCategory] = useState(true);
@@ -69,7 +61,7 @@ const LibraryView = ({route,navigation}) => {
             </View>
 
             <FlatList
-                style = {displayCategory == false?{opacity:100}:{opacity:0},{marginTop:10}}
+                style = {[displayCategory == false?{opacity:100}:{opacity:0},{marginTop:10}]}
                 data={databaseData.articles}
                 renderItem={({ item }) => likedArticles.includes(item.id) && displayCategory == false?<ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />:null}
                 keyExtractor={item => item.id}
