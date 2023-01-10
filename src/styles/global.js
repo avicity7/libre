@@ -33,6 +33,19 @@ const globalStyles = StyleSheet.create({
     left: '76%',
     top: '95%',
   },
+  imagePickerButton: {
+    backgroundColor: 'white',
+    borderRadius: 15,
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  imagePickerButtonText:{
+    fontSize: 16,
+    color: 'black',
+    alignSelf:'center',
+    padding: 10,
+    fontFamily: 'NotoSerifRegular'
+  },
   publishButton:{
     backgroundColor: 'black',
     borderRadius: 15,
@@ -44,6 +57,7 @@ const globalStyles = StyleSheet.create({
     color: 'white',
     alignSelf:'center',
     padding: 10,
+    fontFamily: 'NotoSerifRegular'
   },
   header: {
     fontSize: 32,
@@ -55,6 +69,7 @@ const globalStyles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 20,
     margin: 15,
+    fontFamily: 'NotoSerifRegular'
   },
   inputBoxArticleStyle:{
     backgroundColor: '#F9F9F9',
@@ -100,7 +115,7 @@ const globalStyles = StyleSheet.create({
     flexDirection: 'row'
   },
   tabHeaderText: {
-    fontSize: 16,
+    fontSize: 12,
     marginLeft: 10,
     marginRight: 10,
   },

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Platform } from 'react-native';
+import {Image, View, Platform } from 'react-native';
+import Button from './button';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function ImagePickerExample() {
+  
   const [image, setImage] = useState(null);
 
   const pickImage = async () => {
@@ -22,8 +24,8 @@ export default function ImagePickerExample() {
   };
 
   return (
-    <View style={{alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderRadius: 15, borderColor: "#f0f0f0", marginLeft: 20, marginRight: 20, }}>
-      <Button title="Pick an image from camera roll" color = "black" onPress={pickImage} />
+    <View style={{alignItems: 'center', justifyContent: 'center', borderRadius: 15, marginLeft: 20, marginRight: 20, }}>
+      <Button title="Pick an image from camera roll" color = "black" onPress={pickImage}/>
       {image && <Image source={{ uri: image }} style={{ width: 200, height: 200}} />}
     </View>
   );

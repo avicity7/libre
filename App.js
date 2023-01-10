@@ -12,6 +12,14 @@ import Account from './src/pages/Account';
 //Import data 
 const databaseData = require('./api/database.json');
 
+
+//Ignoring passing setLikedArticles() into a navigation prop
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
+
 //Create bottom tab 
 const Tab = createBottomTabNavigator();
 

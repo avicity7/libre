@@ -28,27 +28,27 @@ const ArticlesView = ({ navigation }) => {
             >
                 Articles
             </Text>
-            <ScrollView>
-                <ArticleCarou/>
-                <FlatList
-                    data={databaseData.articles}
-                    renderItem={({ item }) => <ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />}
-                    keyExtractor={item => item.id}
-                />
-            </ScrollView>
-            
+                
+            <FlatList
+                removeClippedSubviews={false} 
+                ListHeaderComponent = {<ArticleCarou/>}
+                data={databaseData.articles}
+                renderItem={({ item }) => <ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />}
+                keyExtractor={item => item.id}
+            />
+        
         </SafeAreaView>
     )
 }
 
 export const Article = ({route,navigation}) => { 
-    const {article,likedArticles,setLikedArticles} = route.params;
+    const {article,likedArticles,setLikedArticles,onPress} = route.params;
     return (
         <SafeAreaView style = {globalStyles.articleContainer}>
             <ScrollView>
                 <View style = {{flexDirection:"row"}}>
                     <View style = {{flex:1}}>
-                        <BackButton onPress={() => {navigation.navigate("Articles")}}/>
+                        <BackButton onPress={() => {navigation.navigate(onPress)}}/>
                     </View>
                     <View style = {{flex:1}}>
                         <LikeButton id={article.id} likedArticles={likedArticles} setLikedArticles={setLikedArticles}/>
@@ -90,11 +90,11 @@ const Home = (props) => {
             name="Article"
             component={Article}
             options={{ headerShown: false }}
-            initialParams={{likedArticles:props.route.params.likedArticles,setLikedArticles:props.route.params.setLikedArticles}}
+            initialParams={{likedArticles:props.route.params.likedArticles,setLikedArticles:props.route.params.setLikedArticles,onPress:"Articles"}}
           />
         </Stack.Navigator>
       </NavigationContainer>
     );
-  };
+};
 
 export default Home
