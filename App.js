@@ -8,7 +8,7 @@ import {useState, useEffect} from 'react';
 import Home from './src/pages/Home';
 import Library from './src/pages/Library';
 import Account from './src/pages/Account';
-
+import Login from './src/pages/Login'
 //Import data 
 const databaseData = require('./api/database.json');
 
@@ -28,6 +28,7 @@ const App = () => {
   const [likedArticles, setLikedArticles] = useState(databaseData.liked)
   const [loaded] = useFonts({
     NotoSerifRegular: require('./assets/fonts/NotoSerif-Regular.ttf'),
+    NotoSerifBold: require('./assets/fonts/NotoSerif-Bold.ttf')
   });
 
   if (!loaded) {
@@ -76,11 +77,12 @@ const App = () => {
           },
           headerShown: false,
         })}
-        initialRouteName = "Home"
+        initialRouteName = "Login"
         >
           <Tab.Screen name = "Library" component = {Library} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
           <Tab.Screen name = "Home" component = {Home} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
           <Tab.Screen name = "Account" component = {Account} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
+          <Tab.Screen name = "Login" component={Login}></Tab.Screen>
         </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

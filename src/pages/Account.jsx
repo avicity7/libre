@@ -30,6 +30,7 @@ const AccountView = ({navigation}) => {
 
 const Publish = ({route}) => {
     return(
+
         <ScrollView style = {globalStyles.container}>
             <Text style = {globalStyles.publishSubHeader}>Article Name</Text>
             <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
@@ -39,6 +40,7 @@ const Publish = ({route}) => {
             <TextInput style  = {globalStyles.inputBoxBodyStyle} multiline = {true}></TextInput>
             <PublishButton />
         </ScrollView>
+    
     )
 
 }
