@@ -1,8 +1,6 @@
 import { Pressable, StyleSheet, Text, View,TextInput, ScrollView, StatusBar } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import globalStyles from '../styles/global'
-import LikeButton  from '../components/heartbutton';
-import BackButton from '../components/backbutton';
 import WriteButton from '../components/writebutton';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -11,7 +9,6 @@ import ImagePickerExample from '../components/imagePicker';
 import { SafeAreaView } from "react-native-safe-area-context";
 import CoverPhoto from '../components/coverPhoto';
 import ProfilePhoto from '../components/profilePhoto';
-import { useFonts } from 'expo-font';
 
 const AccountView = ({navigation}) => {
     return ( 

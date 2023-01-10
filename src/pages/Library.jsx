@@ -2,7 +2,6 @@ import { Pressable, ScrollView, StyleSheet, Text, View, FlatList } from 'react-n
 import React, {useState, useEffect} from 'react';
 import globalStyles from '../styles/global';
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useFonts } from 'expo-font';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import ArticleCard from '../components/articleCard'
 import { Article } from './Home';
