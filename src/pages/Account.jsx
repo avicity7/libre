@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View,TextInput, ScrollView, StatusBar } from 'react-native';
+import { Pressable, StyleSheet, Text, View,TextInput, ScrollView, StatusBar, FlatList } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import globalStyles from '../styles/global'
 import WriteButton from '../components/writebutton';
@@ -9,6 +9,8 @@ import ImagePickerExample from '../components/imagePicker';
 import { SafeAreaView } from "react-native-safe-area-context";
 import CoverPhoto from '../components/coverPhoto';
 import ProfilePhoto from '../components/profilePhoto';
+const databaseData = require('../../api/database.json');
+import ArticleCard from '../components/articleCard'
 
 const AccountView = ({navigation}) => {
     return ( 
@@ -19,6 +21,13 @@ const AccountView = ({navigation}) => {
                 <ProfilePhoto />
                 </View>
                 <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>Hiroyuki Nishimura</Text>
+                <Text style = {globalStyles.bioText}>A journalist enthusiastic about different perspectives. Looking to venture into Arts.</Text>
+                <FlatList
+                removeClippedSubviews={false} 
+                data={databaseData.articles}
+                renderItem={({ item }) => <ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />}
+                keyExtractor={item => item.id}
+            />
             </ScrollView>
             <WriteButton onPress = {() => {navigation.navigate("Publish")}}/>
         </SafeAreaView>

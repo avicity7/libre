@@ -124,6 +124,14 @@ const globalStyles = StyleSheet.create({
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.4,
     shadowRadius: 5,
+  },
+  bioText:{
+    fontFamily:"NotoSerifRegular",
+    marginLeft: 20,
+    marginRight: 20,
+    fontSize: 12,
+    marginBottom: 30,
+    marginTop: 5
   }
 });
 
