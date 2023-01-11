@@ -34,10 +34,10 @@ const Login = () =>{
 
             <DropShadow style = {styles.shadowProp}>
 
-             <Pressable 
-              style = {styles.loginButton}>
-                 <Text style = {{fontSize: 20, color: "white"}}> Sign In </Text>
-            </Pressable>
+                <Pressable 
+                style = {styles.loginButton}>
+                    <Text style = {{fontSize: 20, color: "white"}}> Sign In </Text>
+                </Pressable>
             
             </DropShadow>
 
