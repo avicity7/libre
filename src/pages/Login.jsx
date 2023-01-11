@@ -1,12 +1,7 @@
 import { Pressable, StyleSheet, Text, TextInput, View, ScrollView, FlatList ,Dimensions} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import globalStyles from "../styles/global";
-import { NavigationContainer, NavigationHelpersContext } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { useFonts } from 'expo-font';
-import { BottomTabBar } from '@react-navigation/bottom-tabs';
 import DropShadow from 'react-native-drop-shadow';
 
 
@@ -19,11 +14,9 @@ const Login = () =>{
             <Text style = {styles.Libre}>Libre</Text>
             <Text style = {styles.textStyle}>Username</Text>
             <TextInput
-            
             style = {styles.textContainer}
             placeholder='Login Name'
             textContentType='username'
-            
             />
             <Text style = {styles.textStyle}>Password</Text>
             <TextInput
@@ -97,10 +90,10 @@ const styles = StyleSheet.create({
         marginTop: 80
     },
     shadowProp: {
-        shadowColor: '#669cf2',
-        shadowOffset: {width: 0, height: 3},
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
+        shadowColor: '#75757560',
+        shadowOffset: {width: 0, height: 1},
+        shadowOpacity: 0.4,
+        shadowRadius: 5,
       },
 
 
