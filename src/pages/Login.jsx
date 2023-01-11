@@ -21,7 +21,6 @@ const Login = () =>{
             <TextInput
             
             style = {styles.textContainer}
-            onChangeText={username}
             placeholder='Login Name'
             textContentType='username'
             
@@ -29,7 +28,6 @@ const Login = () =>{
             <Text style = {styles.textStyle}>Password</Text>
             <TextInput
             style = {styles.textContainer}
-            onChangeText={password}
             placeholder = 'Password'
             textContentType='password'
             />
