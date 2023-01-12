@@ -27,6 +27,7 @@
     "react-native-safe-area-context": "^4.4.1",
     "react-native-screens": "^3.18.2",
     "react-native-snap-carousel": "^3.9.1",
+    "react-native-svg": "13.4.0",
     "react-native-web": "~0.18.9",
     "run": "^1.4.0",
     "yarn": "^1.22.19"

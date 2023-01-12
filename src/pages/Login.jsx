@@ -1,16 +1,13 @@
 import { Pressable, StyleSheet, Text, TextInput, View, ScrollView, FlatList ,Dimensions} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import globalStyles from "../styles/global";
-import { NavigationContainer, NavigationHelpersContext } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { useFonts } from 'expo-font';
-import { BottomTabBar } from '@react-navigation/bottom-tabs';
 import DropShadow from 'react-native-drop-shadow';
+import { useFonts } from 'expo-font';
 
 
-const Login = () =>{
+const Login = () => {
+
     return(
       
 
@@ -19,11 +16,9 @@ const Login = () =>{
             <Text style = {styles.Libre}>Libre</Text>
             <Text style = {styles.textStyle}>Username</Text>
             <TextInput
-            
             style = {styles.textContainer}
             placeholder='Login Name'
             textContentType='username'
-            
             />
             <Text style = {styles.textStyle}>Password</Text>
             <TextInput
@@ -66,18 +61,21 @@ const styles = StyleSheet.create({
     textContainer:{
         backgroundColor: '#F9F9F9',
         borderRadius: 10,
-        width: Dimensions.get('window').width - 140,
+        width: Dimensions.get('window').width - 100,
         padding: 6,
         fontSize: 20,
         alignSelf: 'center',
         alignItems:"center",
+        fontFamily:"NotoSerifRegular"
         
     },
     textStyle:{
         fontSize: 30,
         paddingTop: 5,
         paddingBottom: 5,
-        left:66,
+        marginTop: 30,
+        left:46,
+        fontFamily: "NotoSerifRegular"
         
     },
     loginButton:{
@@ -97,10 +95,10 @@ const styles = StyleSheet.create({
         marginTop: 80
     },
     shadowProp: {
-        shadowColor: '#669cf2',
-        shadowOffset: {width: 0, height: 3},
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
+        shadowColor: '#75757560',
+        shadowOffset: {width: 0, height: 1},
+        shadowOpacity: 0.4,
+        shadowRadius: 5,
       },
 
 

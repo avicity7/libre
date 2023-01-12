@@ -91,18 +91,21 @@ const globalStyles = StyleSheet.create({
   articleDetails: { 
     fontSize: 12,
     marginLeft: 10,
-    marginBottom: 50
+    marginBottom: 15
   },
   articleTitle:{
     fontSize: 26,
     marginBottom: 20,
-    marginLeft: 10
+    marginLeft: 10,
+    color:"#B0B0B0"
   },
   articleBody: { 
     fontSize: 16,
-    marginLeft: 10,
+    marginLeft: 15,
+    marginRight:15,
     marginBottom: 50,
-    lineHeight: 30
+    lineHeight: 30,
+    width: Dimensions.get('window').width - 20
   },
   profileName: {
     marginTop: 10,
@@ -124,6 +127,14 @@ const globalStyles = StyleSheet.create({
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.4,
     shadowRadius: 5,
+  },
+  bioText:{
+    fontFamily:"NotoSerifRegular",
+    marginLeft: 20,
+    marginRight: 20,
+    fontSize: 12,
+    marginBottom: 30,
+    marginTop: 5
   }
 });
 
