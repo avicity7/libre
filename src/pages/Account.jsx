@@ -10,25 +10,26 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import CoverPhoto from '../components/coverPhoto';
 import ProfilePhoto from '../components/profilePhoto';
 const databaseData = require('../../api/database.json');
-import ArticleCard from '../components/articleCard'
+import ArticleCard from '../components/articleCard';
+import { Article } from './Home';
 
 const AccountView = ({navigation}) => {
     return ( 
-        <SafeAreaView style={globalStyles.accountContainer}> 
-            <ScrollView>
-                <View>
-                <CoverPhoto />
-                <ProfilePhoto />
-                </View>
-                <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>Hiroyuki Nishimura</Text>
-                <Text style = {globalStyles.bioText}>A journalist enthusiastic about different perspectives. Looking to venture into Arts.</Text>
+        <SafeAreaView style={globalStyles.accountContainer}>
                 <FlatList
+                ListHeaderComponent={<>
+                    <View>
+                    <CoverPhoto />
+                    <ProfilePhoto />
+                    </View>
+                    <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>Hiroyuki Nishimura</Text>
+                    <Text style = {globalStyles.bioText}>A journalist enthusiastic about different perspectives. Looking to venture into Arts.</Text>
+                </>}
                 removeClippedSubviews={false} 
                 data={databaseData.articles}
                 renderItem={({ item }) => <ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />}
                 keyExtractor={item => item.id}
-            />
-            </ScrollView>
+                />
             <WriteButton onPress = {() => {navigation.navigate("Publish")}}/>
         </SafeAreaView>
     )
@@ -53,26 +54,32 @@ const Publish = ({route}) => {
 
 const Stack = createNativeStackNavigator();
 
-const Account = () => { 
+const Account = (props) => { 
     return(
         <NavigationContainer independent={true}>
             <Stack.Navigator initialRouteName="AccountView">
-            <Stack.Screen
-                name="AccountView"
-                component={AccountView}
+                <Stack.Screen
+                    name="AccountView"
+                    component={AccountView}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Publish"
+                    component={Publish}
+                    options={{
+                    headerBackTitle: "",
+                    headerTintColor: "black",
+                    headerTitleStyle: {
+                        color: "black",
+                    }
+                    }}
+                />
+                <Stack.Screen
+                name="Article"
+                component={Article}
                 options={{ headerShown: false }}
-            />
-            <Stack.Screen
-                name="Publish"
-                component={Publish}
-                options={{
-                headerBackTitle: "",
-                headerTintColor: "black",
-                headerTitleStyle: {
-                    color: "black",
-                }
-                }}
-            />
+                initialParams={{likedArticles:props.route.params.likedArticles,setLikedArticles:props.route.params.setLikedArticles,onPress:"AccountView"}}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     )
