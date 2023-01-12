@@ -8,7 +8,8 @@ import { Article } from './Home';
 const databaseData = require('../../api/database.json'); 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import ArticleCard1 from '../components/articlecard1'
+import ArticleCard2 from '../components/articlecard2'
 
 const LibraryView = ({route,navigation}) => {
     const {likedArticles,setLikedArticles} = route.params;
@@ -55,16 +56,14 @@ const LibraryView = ({route,navigation}) => {
                         <Text style={[globalStyles.tabHeaderText,displayCategory == false?{color:"black"}:{color:'#99999970'},{fontFamily: 'NotoSerifRegular'}]}>
                             Liked
                         </Text>
+                        
                     </View>
                 </Pressable>
             </View>
 
-            <FlatList
-                style = {[displayCategory == false?{opacity:100}:{opacity:0},{marginTop:10}]}
-                data={databaseData.articles}
-                renderItem={({ item }) => likedArticles.includes(item.id) && displayCategory == false?<ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />:null}
-                keyExtractor={item => item.id}
-            />
+            <ArticleCard/>
+            <ArticleCard1/>
+            <ArticleCard2/>
             
         </SafeAreaView>
     )

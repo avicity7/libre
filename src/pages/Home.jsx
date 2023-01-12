@@ -13,6 +13,8 @@ import BackButton from '../components/backbutton';
 import Svg, { Circle, Rect, Path } from 'react-native-svg';
 import DropShadow from "react-native-drop-shadow";
 import AuthorCard from '../components/authorCard';
+import ArticleCard1 from '../components/articlecard1'
+import ArticleCard2 from '../components/articlecard2'
 
 const ArticlesView = ({ navigation }) => {
     const [loaded] = useFonts({
@@ -45,14 +47,11 @@ const ArticlesView = ({ navigation }) => {
                 </Pressable>
             </View>
                 
-            <FlatList
-                removeClippedSubviews={false} 
-                ListHeaderComponent = {<ArticleCarou/>}
-                data={databaseData.articles}
-                renderItem={({ item }) => <ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />}
-                keyExtractor={item => item.id}
-            />
-        
+            <ArticleCarou/>
+            <ArticleCard/>
+            <ArticleCard1/>
+            <ArticleCard2/>
+
         </SafeAreaView>
     )
 }
@@ -76,24 +75,27 @@ export const Article = ({route,navigation}) => {
                 <Text
                     style={globalStyles.imageTitle}
                 >
-                    {article.title}
+                    Is Ukraine close to victory?
                 </Text>
                 </View>
                 </ImageBackground>
                 <Text
                     style={globalStyles.titleStyle}
                 >
-                    {article.title}
+                    Is Ukraine close to victory?
                 </Text>
                 <Text
                     style={[globalStyles.articleDetails,globalStyles.detailPos]}
                 >
-                    Published by: {article.author}
+                    Published by: Hiroyuki Nishimura
                 </Text>
                 <Text
                     style={[globalStyles.articleBody,{fontFamily: 'NotoSerifRegular'}]}
                 >
-                    {article.body}
+                  Ukraine is making significant progress in its fight against Russian aggression and is winning the war.
+                  The Ukrainian army has successfully pushed back Russian-backed separatists from the eastern part of the country, and the Ukrainian government has regained control of the region.
+                  The Ukrainian economy has also been steadily improving, and the country is making strides in its efforts to become a more democratic and prosperous nation.
+                  Despite the ongoing conflict, Ukraine is making progress and is winning the war.
                 </Text>
             </ScrollView>
         </SafeAreaView>

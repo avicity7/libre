@@ -1,15 +1,15 @@
 import { Pressable, StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
 
-const ArticleCard = ({item,onPress}) => {
+const ArticleCard2 = ({item,onPress}) => {
     return(
         <View style = {style.container}>
             <Pressable
                 onPress = {onPress}
             >
-                <Text style = {[style.text,{fontFamily: 'NotoSerifRegular'}]}>Is Ukraine close to victory?</Text> 
+                <Text style = {[style.text,{fontFamily: 'NotoSerifRegular'}]}>Beyond Atomic Habits</Text> 
                 <View style={{flexDirection:"row",marginTop:15}}>
                     <View style = {{flex:1}}>
-                        <Text style = {[style.category,{fontFamily: 'NotoSerifBold',color:"#882A2A"}]}>Politics</Text>
+                        <Text style = {[style.category,{fontFamily: 'NotoSerifBold',color:"#591B8A"}]}>Self-Improvement</Text>
                     </View>
                     <View style = {{flex:1}}>
                         <Text style = {[style.author,{fontFamily: 'NotoSerifRegular'}]}>by Hiroyuki Nishimura</Text> 
@@ -41,4 +41,4 @@ const style = StyleSheet.create({
     }
 });
 
-module.exports = ArticleCard
+module.exports = ArticleCard2

@@ -11,25 +11,23 @@ import CoverPhoto from '../components/coverPhoto';
 import ProfilePhoto from '../components/profilePhoto';
 const databaseData = require('../../api/database.json');
 import ArticleCard from '../components/articleCard';
+import ArticleCard1 from '../components/articlecard1';
+import ArticleCard2 from '../components/articlecard2';
+
 import { Article } from './Home';
 
 const AccountView = ({navigation}) => {
     return ( 
         <SafeAreaView style={globalStyles.accountContainer}>
-                <FlatList
-                ListHeaderComponent={<>
-                    <View>
-                    <CoverPhoto />
-                    <ProfilePhoto />
-                    </View>
-                    <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>Hiroyuki Nishimura</Text>
-                    <Text style = {globalStyles.bioText}>A journalist enthusiastic about different perspectives. Looking to venture into Arts.</Text>
-                </>}
-                removeClippedSubviews={false} 
-                data={databaseData.articles}
-                renderItem={({ item }) => <ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />}
-                keyExtractor={item => item.id}
-                />
+            <View>
+                <CoverPhoto />
+                <ProfilePhoto />
+            </View>
+            <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>Hiroyuki Nishimura</Text>
+            <Text style = {globalStyles.bioText}>A journalist enthusiastic about different perspectives. Looking to venture into Arts.</Text>
+                <ArticleCard/>
+                <ArticleCard1/>
+                <ArticleCard2/>
             <WriteButton onPress = {() => {navigation.navigate("Publish")}}/>
         </SafeAreaView>
     )
