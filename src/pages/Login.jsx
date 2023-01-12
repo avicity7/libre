@@ -3,9 +3,11 @@ import React, {useState, useEffect} from 'react';
 import globalStyles from "../styles/global";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DropShadow from 'react-native-drop-shadow';
+import { useFonts } from 'expo-font';
 
 
-const Login = () =>{
+const Login = () => {
+
     return(
       
 
@@ -27,10 +29,10 @@ const Login = () =>{
 
             <DropShadow style = {styles.shadowProp}>
 
-             <Pressable 
-              style = {styles.loginButton}>
-                 <Text style = {{fontSize: 20, color: "white"}}> Sign In </Text>
-            </Pressable>
+                <Pressable 
+                style = {styles.loginButton}>
+                    <Text style = {{fontSize: 20, color: "white"}}> Sign In </Text>
+                </Pressable>
             
             </DropShadow>
 
@@ -59,18 +61,21 @@ const styles = StyleSheet.create({
     textContainer:{
         backgroundColor: '#F9F9F9',
         borderRadius: 10,
-        width: Dimensions.get('window').width - 140,
+        width: Dimensions.get('window').width - 100,
         padding: 6,
         fontSize: 20,
         alignSelf: 'center',
         alignItems:"center",
+        fontFamily:"NotoSerifRegular"
         
     },
     textStyle:{
         fontSize: 30,
         paddingTop: 5,
         paddingBottom: 5,
-        left:66,
+        marginTop: 30,
+        left:46,
+        fontFamily: "NotoSerifRegular"
         
     },
     loginButton:{

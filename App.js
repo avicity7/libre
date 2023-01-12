@@ -78,13 +78,11 @@ const App = () => {
           },
           headerShown: false,
         })}
-        initialRouteName = "Credit"
+        initialRouteName = "Home"
         >
           <Tab.Screen name = "Library" component = {Library} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
           <Tab.Screen name = "Home" component = {Home} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
           <Tab.Screen name = "Account" component = {Account} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
-          <Tab.Screen name = "Login" component={Login}></Tab.Screen>
-          <Tab.Screen name = "Credit" component = {Credit}></Tab.Screen>
         </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
