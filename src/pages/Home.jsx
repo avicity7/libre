@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
+import { Pressable, StyleSheet, Text, View, ScrollView, FlatList , ImageBackground, Dimensions} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import globalStyles from "../styles/global";
 import { NavigationContainer } from "@react-navigation/native";
@@ -46,6 +46,9 @@ export const Article = ({route,navigation}) => {
     return (
         <SafeAreaView style = {globalStyles.articleContainer}>
             <ScrollView>
+             
+                <ImageBackground style = {{width: Dimensions.get('window').width, height: 220}} source ={{uri:article.image}}>
+                <View style = {{flex: 1, alignItems: 'center',backgroundColor: 'rgba(0, 0, 0, .5)',borderRadius: 14}}>
                 <View style = {{flexDirection:"row"}}>
                     <View style = {{flex:1}}>
                         <BackButton onPress={() => {navigation.navigate(onPress)}}/>
@@ -55,18 +58,24 @@ export const Article = ({route,navigation}) => {
                     </View>
                 </View>
                 <Text
-                    style={[globalStyles.articleTitle,{fontFamily: 'NotoSerifBold',marginTop:30,marginLeft:15,marginRight:15}]}
+                    style={{fontSize: 25, color:"white", textAlign: 'center', fontWeight: '500',backgroundColor: 'transparent',fontFamily: 'NotoSerifBold', top: 40}}
                 >
                     {article.title}
                 </Text>
-                
+                </View>
+                </ImageBackground>
                 <Text
-                    style={[globalStyles.articleDetails,{fontFamily: 'NotoSerifRegular',marginLeft:15,marginRight:15}]}
+                    style={{fontSize: 25, color:"black",fontWeight: '500',backgroundColor: 'transparent',fontFamily: 'NotoSerifBold',marginLeft: 15, marginRight: 15,marginTop: 15}}
+                >
+                    {article.title}
+                </Text>
+                <Text
+                    style={[globalStyles.articleDetails,{fontFamily: 'NotoSerifRegular',marginLeft: 15,marginRight:15, marginTop: 15,color:'#B0B0B0'}]}
                 >
                     Published by: {article.author}
                 </Text>
                 <Text
-                    style={[globalStyles.articleBody,{fontFamily: 'NotoSerifRegular',marginLeft:15,marginRight:15}]}
+                    style={[globalStyles.articleBody,{fontFamily: 'NotoSerifRegular'}]}
                 >
                     {article.body}
                 </Text>
