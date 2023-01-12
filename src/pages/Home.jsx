@@ -13,8 +13,6 @@ import BackButton from '../components/backbutton';
 import Svg, { Circle, Rect, Path } from 'react-native-svg';
 import DropShadow from "react-native-drop-shadow";
 import AuthorCard from '../components/authorCard';
-import ArticleCard1 from '../components/articlecard1'
-import ArticleCard2 from '../components/articlecard2'
 
 const ArticlesView = ({ navigation }) => {
     const [loaded] = useFonts({
@@ -48,10 +46,10 @@ const ArticlesView = ({ navigation }) => {
             </View>
                 
             <ArticleCarou/>
-            <ArticleCard/>
-            <ArticleCard1/>
-            <ArticleCard2/>
-
+            <ArticleCard title="Is Ukraine close to victory?" category="Politics" author="by Hiroyuki Nishimura"/>
+            <ArticleCard title="Are falling birthrates an issue?" category="Society" author="by Hiroyuki Nishimura"/>
+            <ArticleCard title="Beyond Atomic Habits" category="Self-Improvement" author="by Hiroyuki Nishimura"/>
+            
         </SafeAreaView>
     )
 }

@@ -8,8 +8,6 @@ import { Article } from './Home';
 const databaseData = require('../../api/database.json'); 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import ArticleCard1 from '../components/articlecard1'
-import ArticleCard2 from '../components/articlecard2'
 
 const LibraryView = ({route,navigation}) => {
     const {likedArticles,setLikedArticles} = route.params;
@@ -61,9 +59,9 @@ const LibraryView = ({route,navigation}) => {
                 </Pressable>
             </View>
 
-            <ArticleCard/>
-            <ArticleCard1/>
-            <ArticleCard2/>
+            <ArticleCard title="Is Ukraine close to victory?" category="Politics" author="by Hiroyuki Nishimura"/>
+            <ArticleCard title="Are falling birthrates an issue?" category="Society" author="by Hiroyuki Nishimura"/>
+            <ArticleCard title="Beyond Atomic Habits" category="Self-Improvement" author="by Hiroyuki Nishimura"/>
             
         </SafeAreaView>
     )

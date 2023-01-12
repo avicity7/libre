@@ -1,18 +1,18 @@
 import { Pressable, StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
 
-const ArticleCard = ({item,onPress}) => {
+const ArticleCard = ({title,category,author,onPress}) => {
     return(
         <View style = {style.container}>
             <Pressable
                 onPress = {onPress}
             >
-                <Text style = {[style.text,{fontFamily: 'NotoSerifRegular'}]}>Is Ukraine close to victory?</Text> 
+                <Text style = {[style.text,{fontFamily: 'NotoSerifRegular'}]}>{title}</Text> 
                 <View style={{flexDirection:"row",marginTop:15}}>
                     <View style = {{flex:1}}>
-                        <Text style = {[style.category,{fontFamily: 'NotoSerifBold',color:"#882A2A"}]}>Politics</Text>
+                        <Text style = {[style.category,{fontFamily: 'NotoSerifBold'},category=="Politics"?{color:"#882A2A"}:category=="Society"?{color:"#385733"}:{color:"#591B8A"}]}>{category}</Text>
                     </View>
                     <View style = {{flex:1}}>
-                        <Text style = {[style.author,{fontFamily: 'NotoSerifRegular'}]}>by Hiroyuki Nishimura</Text> 
+                        <Text style = {[style.author,{fontFamily: 'NotoSerifRegular'}]}>{author}</Text> 
                     </View>
                 </View>
             </Pressable>

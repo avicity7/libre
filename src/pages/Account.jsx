@@ -11,8 +11,6 @@ import CoverPhoto from '../components/coverPhoto';
 import ProfilePhoto from '../components/profilePhoto';
 const databaseData = require('../../api/database.json');
 import ArticleCard from '../components/articleCard';
-import ArticleCard1 from '../components/articlecard1';
-import ArticleCard2 from '../components/articlecard2';
 
 import { Article } from './Home';
 
@@ -25,9 +23,9 @@ const AccountView = ({navigation}) => {
             </View>
             <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>Hiroyuki Nishimura</Text>
             <Text style = {globalStyles.bioText}>A journalist enthusiastic about different perspectives. Looking to venture into Arts.</Text>
-                <ArticleCard/>
-                <ArticleCard1/>
-                <ArticleCard2/>
+            <ArticleCard title="Is Ukraine close to victory?" category="Politics" author="by Hiroyuki Nishimura"/>
+            <ArticleCard title="Are falling birthrates an issue?" category="Society" author="by Hiroyuki Nishimura"/>
+            <ArticleCard title="Beyond Atomic Habits" category="Self-Improvement" author="by Hiroyuki Nishimura"/>
             <WriteButton onPress = {() => {navigation.navigate("Publish")}}/>
         </SafeAreaView>
     )
