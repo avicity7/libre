@@ -63,8 +63,8 @@ export const Article = ({route,navigation}) => {
         <SafeAreaView style = {globalStyles.articleContainer}>
             <ScrollView>
              
-                <ImageBackground style = {{width: Dimensions.get('window').width, height: 220,borderRadius:14}} imageStyle= {{borderBottomEndRadius: 14,borderBottomLeftRadius: 14}} source ={{uri:article.image}}>
-                <View style = {{flex: 1, alignItems: 'center',backgroundColor: 'rgba(0, 0, 0, .5)',borderBottomEndRadius: 14,borderBottomLeftRadius: 14}}>
+                <ImageBackground style = {globalStyles.articleImage} imageStyle= {globalStyles.articleImageBorder} source ={{uri:article.image}}>
+                <View style = {globalStyles.articleImageDarken}>
                 <View style = {{flexDirection:"row"}}>
                     <View style = {{flex:1}}>
                         <BackButton onPress={() => {navigation.navigate(onPress)}}/>
@@ -74,19 +74,19 @@ export const Article = ({route,navigation}) => {
                     </View>
                 </View>
                 <Text
-                    style={{fontSize: 25, color:"white", textAlign: 'center', fontWeight: '500',backgroundColor: 'transparent',fontFamily: 'NotoSerifBold', top: 40}}
+                    style={globalStyles.imageTitle}
                 >
                     {article.title}
                 </Text>
                 </View>
                 </ImageBackground>
                 <Text
-                    style={{fontSize: 25, color:"black",fontWeight: '500',backgroundColor: 'transparent',fontFamily: 'NotoSerifBold',marginLeft: 15, marginRight: 15,marginTop: 15}}
+                    style={globalStyles.titleStyle}
                 >
                     {article.title}
                 </Text>
                 <Text
-                    style={[globalStyles.articleDetails,{fontFamily: 'NotoSerifRegular',marginLeft: 15,marginRight:15, marginTop: 15,color:'#B0B0B0'}]}
+                    style={[globalStyles.articleDetails,globalStyles.detailPos]}
                 >
                     Published by: {article.author}
                 </Text>
