@@ -8,8 +8,7 @@ import {useState, useEffect} from 'react';
 import Home from './src/pages/Home';
 import Library from './src/pages/Library';
 import Account from './src/pages/Account';
-import Login from './src/pages/Login';
-import Credit from './src/pages/Credit';
+
 //Import data 
 const databaseData = require('./api/database.json');
 
