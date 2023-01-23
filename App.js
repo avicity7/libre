@@ -14,6 +14,9 @@ import Login from './src/pages/Login';
 //Import data 
 const databaseData = require('./api/database.json');
 
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+const Stack = createNativeStackNavigator();
+
 
 //Ignoring passing setLikedArticles() into a navigation prop
 import { LogBox } from 'react-native';
@@ -25,9 +28,59 @@ LogBox.ignoreLogs([
 //Create bottom tab 
 const Tab = createBottomTabNavigator();
 
+const HomeTabs = () => {
+  const [likedArticles, setLikedArticles] = useState(databaseData.liked);
+  return(
+    <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ color, size }) => {
+              let iconName;
+
+              if (route.name === "Home") {
+                iconName = "book-open";
+              } 
+              else if (route.name === "Library") {
+                iconName = "bookshelf";
+              } 
+              else if (route.name === "Account") {
+                iconName = "account";
+              }
+
+              return (
+                <MaterialCommunityIcons
+                  name={iconName}
+                  size={30}
+                  color={color}
+                  style={{ height: 30 }}
+                />
+              );
+            },
+            headerTitleAlign: "center",
+            tabBarActiveTintColor: "#020202",
+            tabBarStyle: {
+              borderTopWidth: 0,
+              elevation: 0
+            },
+            tabBarLabelStyle: {
+              fontSize: 12,
+              fontFamily: "NotoSerifRegular",
+              padding: Platform.OS === 'ios' ? 0 : 10
+            },
+            headerTitleStyle: {
+            },
+            headerShown: false,
+          })}
+          initialRouteName = "Home"
+          >
+            <Tab.Screen name = "Library" component = {Library} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
+            <Tab.Screen name = "Home" component = {Home} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
+            <Tab.Screen name = "Account" component = {Account} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
+    </Tab.Navigator>
+  )
+}
+
 
 const App = () => {
-  const [likedArticles, setLikedArticles] = useState(databaseData.liked)
   const [loaded] = useFonts({
     NotoSerifRegular: require('./assets/fonts/NotoSerif-Regular.ttf'),
     NotoSerifBold: require('./assets/fonts/NotoSerif-Bold.ttf'),
@@ -39,53 +92,11 @@ const App = () => {
   return (
     //Provide safe area (notch etc.)
     <SafeAreaProvider>
-      <NavigationContainer>
-        <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ color, size }) => {
-            let iconName;
-
-            if (route.name === "Home") {
-              iconName = "book-open";
-            } 
-            else if (route.name === "Library") {
-              iconName = "bookshelf";
-            } 
-            else if (route.name === "Account") {
-              iconName = "account";
-            }
-
-            return (
-              <MaterialCommunityIcons
-                name={iconName}
-                size={30}
-                color={color}
-                style={{ height: 30 }}
-              />
-            );
-          },
-          headerTitleAlign: "center",
-          tabBarActiveTintColor: "#020202",
-          tabBarStyle: {
-            borderTopWidth: 0,
-            elevation: 0,
-            height:80
-          },
-          tabBarLabelStyle: {
-            fontSize: 12,
-            fontFamily: "NotoSerifRegular"
-          },
-          headerTitleStyle: {
-          },
-          headerShown: false,
-        })}
-        initialRouteName = "Login"
-        >
-          <Tab.Screen name = "Library" component = {Library} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
-          <Tab.Screen name = "Home" component = {Home} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
-          <Tab.Screen name = "Account" component = {Account} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
-          <Tab.Screen name = "Login" component = {Login}></Tab.Screen>
-        </Tab.Navigator>
+      <NavigationContainer independent={true}>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen name = "Login" component = {Login} options={{ headerShown: false }}></Stack.Screen>
+          <Stack.Screen name = "HomeTabs" component={HomeTabs} options={{ headerShown: false }}></Stack.Screen>
+        </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
   );
