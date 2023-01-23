@@ -4,10 +4,12 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useFonts } from 'expo-font';
 import {useState, useEffect} from 'react';
+
 //Import pages
 import Home from './src/pages/Home';
 import Library from './src/pages/Library';
 import Account from './src/pages/Account';
+import Login from './src/pages/Login';
 
 //Import data 
 const databaseData = require('./api/database.json');
@@ -77,11 +79,12 @@ const App = () => {
           },
           headerShown: false,
         })}
-        initialRouteName = "Home"
+        initialRouteName = "Login"
         >
           <Tab.Screen name = "Library" component = {Library} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
           <Tab.Screen name = "Home" component = {Home} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
           <Tab.Screen name = "Account" component = {Account} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
+          <Tab.Screen name = "Login" component = {Login}></Tab.Screen>
         </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
