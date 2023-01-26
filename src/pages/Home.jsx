@@ -11,7 +11,6 @@ const databaseData = require('../../api/database.json');
 import { useFonts } from 'expo-font';
 import BackButton from '../components/backbutton';
 import Svg, { Circle, Rect, Path } from 'react-native-svg';
-import DropShadow from "react-native-drop-shadow";
 import AuthorCard from '../components/authorCard';
 
 const ArticlesView = ({ navigation }) => {
@@ -32,9 +31,9 @@ const ArticlesView = ({ navigation }) => {
                 >
                     Articles
                 </Text>
-                <Pressable style = {{flex:1,flexDirection:"row",direction:"rtl"}} onPress = {()=>{navigation.navigate("Credit")}}>
-                    <Text style = {{textAlign:"right",marginLeft:15,marginRight:10,marginTop:20,fontFamily:"NotoSerifRegular",fontSize:25}}>0</Text>
-                    <Svg width="30" height="30" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style = {{alignSelf:"center"}}>
+                <Pressable style = {{flex:1,flexDirection:"row-reverse"}} onPress = {()=>{navigation.navigate("Credit")}}>
+                    <Text style = {{marginLeft:10,marginRight:10,marginTop:20,fontFamily:"NotoSerifRegular",fontSize:25}}>0</Text>
+                    <Svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style = {{alignSelf:"center"}}>
                         <Circle cx="20" cy="20" r="20" fill="#202020"/>
                         <Path d="M12.001 7.99994L18.6676 15.3333V24.6666L12.001 31.9999V7.99994Z" fill="#F5F5F5"/>
                         <Path d="M12.001 7.99994L18.6676 15.3333V24.6666L12.001 31.9999V7.99994Z" fill="#F5F5F5"/>
@@ -116,11 +115,9 @@ const Credit = ({navigation}) => {
                 </Svg>
                 
 
-                <DropShadow style = {styles.shadowProp}>
-                    <Pressable style = {styles.button} onPress = {()=>{navigation.navigate("Purchase Credits")}}>
-                        <Text style = {{fontFamily:"NotoSerifRegular", fontSize: 13}}>Purchase Credits</Text>
-                    </Pressable>
-                </DropShadow>
+                <Pressable style = {styles.button} onPress = {()=>{navigation.navigate("Purchase Credits")}}>
+                    <Text style = {{fontFamily:"NotoSerifRegular", fontSize: 13}}>Purchase Credits</Text>
+                </Pressable>
 
                 <Text style = {styles.subscriptionSubHeader}>My Subscriptions</Text>
             
