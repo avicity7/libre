@@ -21,15 +21,57 @@
             "author": "Taylor Quick",
             "category": "Self-Improvement",
             "body": "Atomic Habits is a great way to start forming better habits and creating positive change in our lives, but it is only the beginning. We can also look to other books, podcasts, and resources to help us continue to grow and develop. We can also look to our own experiences and those of others to find new ways to improve our lives. We can also look to our environment and the people around us to find new ideas and strategies to help us make lasting change. Finally, we can look to our own inner wisdom and intuition to help us make the best decisions for our lives."
+        },
+        {
+            "id": 4,
+            "title":"The Amazon Fire",
+            "text": "What really happened in the fight against the Fire.",
+            "image": "https://static.scientificamerican.com/sciam/cache/file/C1CBDCD7-0471-4C47-846607ADAF8585F4_source.jpg",
+            "body": ""
+        },
+        {
+            "id": 5,
+            "title":"A Hustler's View on Life",
+            "text": "What life means to someone who is striving for success",
+            "image": "https://images.unsplash.com/photo-1671725501835-afb7bd1f21ed?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80"
+        },
+        {
+            "id": 6,
+            "title":"China's Lack Of Work Life Balance",
+            "text": "And How today's generation is responding.",
+            "image": "https://images.unsplash.com/photo-1581252165015-9b5151a6930e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=766&q=80"
         }
     ],
-    "recommended_articles": [
-
+    "carousel_articles": [
+        {
+            "id": 4,
+            "title":"The Amazon Fire",
+            "text": "What really happened in the fight against the Fire.",
+            "image": "https://static.scientificamerican.com/sciam/cache/file/C1CBDCD7-0471-4C47-846607ADAF8585F4_source.jpg",
+            "body": ""
+        },
+        {
+            "id": 5,
+            "title":"A Hustler's View on Life",
+            "text": "What life means to someone who is striving for success",
+            "image": "https://images.unsplash.com/photo-1671725501835-afb7bd1f21ed?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80"
+        },
+        {
+            "id": 6,
+            "title":"China's Lack Of Work Life Balance",
+            "text": "And How today's generation is responding.",
+            "image": "https://images.unsplash.com/photo-1581252165015-9b5151a6930e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=766&q=80"
+        }
     ],
     "subscriptions": [
 
     ],
     "liked": [
         
-    ]
+    ],
+    "carouselItems":   [
+        
+      ]
+              
+  
 }
