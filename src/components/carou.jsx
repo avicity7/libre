@@ -11,7 +11,7 @@ export default class ArticleCarou extends React.Component {
         super(props);
         this.state = {
           activeIndex:0,
-          carouselItems: database.carouselItems,
+          carouselItems: database.carousel_articles,
         
       }
     }
