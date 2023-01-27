@@ -12,6 +12,8 @@ import { useFonts } from 'expo-font';
 import BackButton from '../components/backbutton';
 import Svg, { Circle, Rect, Path } from 'react-native-svg';
 import AuthorCard from '../components/authorCard';
+import { StripeProvider } from '@stripe/stripe-react-native';
+import PaymentScreen from '../components/payment';
 
 const ArticlesView = ({ navigation }) => {
     const [loaded] = useFonts({
@@ -100,7 +102,10 @@ export const Article = ({route,navigation}) => {
 }
 
 const Credit = ({navigation}) => {
+    const secret = "sk_test_51MUsQUEyXbc8egvPk6J4P1EhtCJUu6Au8zrrl19S8WSolx98nd1MOSqDSyTuf1cb2dqfKyRIutScxNJfxeGiMDdc00e1xEP0Wc"
     return(
+     
+
         <SafeAreaView style = {globalStyles.container}>
             <BackButton onPress={() => {navigation.navigate("Articles")}}/>
             <ScrollView>
@@ -133,6 +138,7 @@ const Credit = ({navigation}) => {
 
 
 
+
     )
 
 
@@ -157,8 +163,8 @@ const PurchaseCredit = ({navigation})=>{
                     <Text style = {[styles.cashNumber,{color:"#DDDDDD"}]}>$0.00USD</Text>
                 
 
-                    <DropShadow style = {styles.shadowProp}>
-                        <Pressable style = {styles.buyButton}>
+           
+                        <Pressable style = {styles.buyButton} onPress ={()=>{navigation.navigate("Purchase With Card")}}>
 
                             <Text style = {styles.buttonText}>Purchase with Card</Text>
                             <Svg style ={styles.buySvg} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -166,9 +172,8 @@ const PurchaseCredit = ({navigation})=>{
                             </Svg>
 
                         </Pressable>
-                    </DropShadow>
-                
-                    <DropShadow style = {styles.shadowProp}>
+        
+        
                         <Pressable style = {styles.buyButton}>
                             
                             <Text style = {styles.buttonText}>Purchase with BTC</Text>
@@ -182,8 +187,8 @@ const PurchaseCredit = ({navigation})=>{
                         
 
                         </Pressable>
-                    </DropShadow>
-                    <DropShadow style = {styles.shadowProp}>
+          
+       
                         <Pressable style = {styles.buyButton}>
                             <Text style = {styles.buttonText}>Purchase with ETH</Text>
                             <Svg style ={styles.buySvg}width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -191,13 +196,38 @@ const PurchaseCredit = ({navigation})=>{
                             </Svg>
 
                         </Pressable>
-                    </DropShadow>
+    
                 </View>    
             </ScrollView>
         </SafeAreaView>
     )
 
 }
+
+const CreditPayment = ({navigation}) =>{
+
+    return(
+        <SafeAreaView style = {globalStyles.container}>
+            <BackButton onPress={() => {navigation.navigate("Purchase Credits")}}/>
+            <StripeProvider
+            publishableKey='pk_test_51MUsQUEyXbc8egvPrbN3O7COG9dY0wy7SUEoXU8tntf9VUYe5NtUXL8S03OirDwdFLEeh0P9zP8ZBcdhBdGBsQCP00BP4klRT5'
+            >
+    
+                <PaymentScreen />
+    
+            </StripeProvider>
+
+        </SafeAreaView>
+        )
+
+
+
+}
+
+
+
+
+
 const Stack = createNativeStackNavigator();
 
 const Home = (props) => {
@@ -224,6 +254,11 @@ const Home = (props) => {
             name="Purchase Credits"
             component={PurchaseCredit}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name = "Purchase With Card"
+            component={CreditPayment}
+            options = {{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>
