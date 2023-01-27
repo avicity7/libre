@@ -1,40 +1,36 @@
 import { Pressable, StyleSheet, Text, TextInput, View, ScrollView, FlatList ,Dimensions} from 'react-native';
 import React, {useState, useEffect} from 'react';
-import globalStyles from "../styles/global";
 import { SafeAreaView } from "react-native-safe-area-context";
-import DropShadow from 'react-native-drop-shadow';
-import { useFonts } from 'expo-font';
 
 
-const Login = () => {
+const Login = ({navigation}) => {
 
     return(
       
 
         <SafeAreaView
-        style = {globalStyles.container}>
-            <Text style = {styles.Libre}>Libre</Text>
+        style = {styles.container}>
+            <Text style = {styles.title}>libre</Text>
             <Text style = {styles.textStyle}>Username</Text>
             <TextInput
             style = {styles.textContainer}
-            placeholder='Login Name'
+            placeholder='username'
             textContentType='username'
             />
             <Text style = {styles.textStyle}>Password</Text>
             <TextInput
             style = {styles.textContainer}
-            placeholder = 'Password'
+            placeholder = 'password'
             textContentType='password'
             />
 
-            <DropShadow style = {styles.shadowProp}>
-
-                <Pressable 
-                style = {styles.loginButton}>
-                    <Text style = {{fontSize: 20, color: "white"}}> Sign In </Text>
-                </Pressable>
+            <Pressable 
+            style = {styles.loginButton}
+            onPress = {()=>{navigation.navigate("HomeTabs")}}
+            >
+                <Text style = {{fontSize: 20, color: "white",fontFamily:"NotoSerifRegular"}}> Sign In </Text>
+            </Pressable>
             
-            </DropShadow>
 
 
         </SafeAreaView>
@@ -48,51 +44,47 @@ const Login = () => {
 
 const styles = StyleSheet.create({
     container:{
-        alignSelf:'center',
-        justifyContent:'center',
-        position: 'absolute',
-        top : 0,
-        bottom: 0,
-        
-        
-        
-        
+        flex: 1,
+        backgroundColor: 'white',
+        padding: 8,
+        margin: 'auto',
+        justifyContent:"center"
+
     },
     textContainer:{
         backgroundColor: '#F9F9F9',
         borderRadius: 10,
         width: Dimensions.get('window').width - 100,
         padding: 6,
-        fontSize: 20,
+        fontSize: 15,
         alignSelf: 'center',
         alignItems:"center",
         fontFamily:"NotoSerifRegular"
         
     },
     textStyle:{
-        fontSize: 30,
+        fontSize: 20,
         paddingTop: 5,
-        paddingBottom: 5,
+        paddingBottom: 15,
         marginTop: 30,
         left:46,
-        fontFamily: "NotoSerifRegular"
+        fontFamily: "NotoSerifBold"
         
     },
     loginButton:{
-        margin: 10,
-        backgroundColor: '#669cf2',
+        marginTop: 60,
+        backgroundColor: '#202020',
         borderRadius:16,
-        width: 100,
-        padding: 5,
+        width: 300,
+        padding: 'auto',
         alignSelf:'center',
         alignItems:"center",
     
     },
-    Libre:{
+    title:{
         fontFamily:'NotoSerifBold',
-        fontSize: 80,
+        fontSize: 40,
         alignSelf: 'center',
-        marginTop: 80
     },
     shadowProp: {
         shadowColor: '#75757560',
