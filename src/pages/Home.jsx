@@ -12,6 +12,8 @@ import { useFonts } from 'expo-font';
 import BackButton from '../components/backbutton';
 import Svg, { Circle, Rect, Path } from 'react-native-svg';
 import AuthorCard from '../components/authorCard';
+import { useCallback } from 'react';
+import { Linking } from 'react-native';
 
 const ArticlesView = ({ navigation }) => {
     const [loaded] = useFonts({
@@ -140,6 +142,16 @@ const Credit = ({navigation}) => {
 }
 
 const PurchaseCredit = ({navigation})=>{
+
+    const url = "https://buy.stripe.com/test_6oE9E2ayU4SHfeM5kl"
+
+    const handlePress = useCallback(async () => {
+
+        const openUrl = await Linking.openURL(url)
+
+
+    })
+
     return(
         <SafeAreaView style ={globalStyles.container}>
             <BackButton onPress={() => {navigation.navigate("Credit")}}/>
@@ -157,18 +169,28 @@ const PurchaseCredit = ({navigation})=>{
                     <Text style = {[styles.cashNumber,{color:"#DDDDDD"}]}>$0.00USD</Text>
                 
 
-                    <DropShadow style = {styles.shadowProp}>
-                        <Pressable style = {styles.buyButton}>
-
-                            <Text style = {styles.buttonText}>Purchase with Card</Text>
-                            <Svg style ={styles.buySvg} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <Path d="M16.6665 3.33331H3.33317C2.40817 3.33331 1.67484 4.07498 1.67484 4.99998L1.6665 15C1.6665 15.925 2.40817 16.6666 3.33317 16.6666H16.6665C17.5915 16.6666 18.3332 15.925 18.3332 15V4.99998C18.3332 4.07498 17.5915 3.33331 16.6665 3.33331ZM15.8332 15H4.1665C3.70817 15 3.33317 14.625 3.33317 14.1666V9.99998H16.6665V14.1666C16.6665 14.625 16.2915 15 15.8332 15ZM16.6665 6.66665H3.33317V4.99998H16.6665V6.66665Z" fill="black"/>
+           
+                    <Pressable
+                        style={styles.buyButton}
+                        onPress={handlePress}
+                    >
+                                <Text style={styles.buttonText}>Purchase with Card</Text>
+                            <Svg
+                                style={styles.buySvg}
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <Path
+                                d="M16.6665 3.33331H3.33317C2.40817 3.33331 1.67484 4.07498 1.67484 4.99998L1.6665 15C1.6665 15.925 2.40817 16.6666 3.33317 16.6666H16.6665C17.5915 16.6666 18.3332 15.925 18.3332 15V4.99998C18.3332 4.07498 17.5915 3.33331 16.6665 3.33331ZM15.8332 15H4.1665C3.70817 15 3.33317 14.625 3.33317 14.1666V9.99998H16.6665V14.1666C16.6665 14.625 16.2915 15 15.8332 15ZM16.6665 6.66665H3.33317V4.99998H16.6665V6.66665Z"
+                                fill="black"
+                                />
                             </Svg>
-
-                        </Pressable>
-                    </DropShadow>
-                
-                    <DropShadow style = {styles.shadowProp}>
+                     </Pressable>
+        
+        
                         <Pressable style = {styles.buyButton}>
                             
                             <Text style = {styles.buttonText}>Purchase with BTC</Text>
@@ -182,8 +204,8 @@ const PurchaseCredit = ({navigation})=>{
                         
 
                         </Pressable>
-                    </DropShadow>
-                    <DropShadow style = {styles.shadowProp}>
+          
+       
                         <Pressable style = {styles.buyButton}>
                             <Text style = {styles.buttonText}>Purchase with ETH</Text>
                             <Svg style ={styles.buySvg}width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -191,7 +213,7 @@ const PurchaseCredit = ({navigation})=>{
                             </Svg>
 
                         </Pressable>
-                    </DropShadow>
+    
                 </View>    
             </ScrollView>
         </SafeAreaView>
