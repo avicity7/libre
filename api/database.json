@@ -50,27 +50,7 @@
             "body":"China has long been known for its lack of work-life balance, with employees often working long hours and sacrificing their personal lives for the sake of their careers. This culture of overwork has been largely driven by the country's rapid economic growth and the pressure to compete on a global scale. However, in recent years, a growing number of Chinese millennials have begun to push back against this cultural norm. Many Chinese millennials, who have grown up in a rapidly changing and globalized society, are seeking a more balanced approach to work and life. They value their personal time and well-being and are more likely to prioritize their mental and physical health over their careers. They are also more likely to reject traditional career paths, such as working for a large state-owned company, in favor of more flexible and creative industries. In response to this shift in values, some companies have begun to offer more flexible work arrangements, such as remote work and unlimited vacation days, in an effort to attract and retain millennial talent. However, the overall culture of long working hours is still deeply ingrained in China's corporate culture, and it remains to be seen how effectively these changes will be implemented. Nevertheless, the growing number of Chinese millennials who are pushing for a better work-life balance is a sign that the country's attitude towards work is starting to change."
         }
     ],
-    "carousel_articles": [
-        {
-            "id": 4,
-            "title":"The Amazon Fire",
-            "text": "What really happened in the fight against the Fire.",
-            "image": "https://static.scientificamerican.com/sciam/cache/file/C1CBDCD7-0471-4C47-846607ADAF8585F4_source.jpg",
-            "body": ""
-        },
-        {
-            "id": 5,
-            "title":"A Hustler's View on Life",
-            "text": "What life means to someone who is striving for success",
-            "image": "https://images.unsplash.com/photo-1671725501835-afb7bd1f21ed?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=776&q=80"
-        },
-        {
-            "id": 6,
-            "title":"China's Lack Of Work Life Balance",
-            "text": "And How today's generation is responding.",
-            "image": "https://images.unsplash.com/photo-1581252165015-9b5151a6930e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=766&q=80"
-        }
-    ],
+
     "subscriptions": [
 
     ],
@@ -78,7 +58,9 @@
         
     ],
     "carouselItems":   [
-        
+        4,
+        5,
+        6
       ]
               
   
