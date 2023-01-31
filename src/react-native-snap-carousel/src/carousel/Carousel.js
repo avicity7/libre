@@ -100,7 +100,7 @@ export default class Carousel extends Component {
         shouldOptimizeUpdates: true,
         swipeThreshold: 20,
         useScrollView: !AnimatedFlatList,
-        vertical: false
+        vertical: false,
     }
 
     constructor (props) {
@@ -108,7 +108,8 @@ export default class Carousel extends Component {
 
         this.state = {
             hideCarousel: true,
-            interpolators: []
+            interpolators: [],
+            navigation: this.props.navigation
         };
 
         // The following values are not stored in the state because 'setState()' is asynchronous
@@ -1195,7 +1196,7 @@ export default class Carousel extends Component {
         }
     }
 
-    _renderItem ({ item, index }) {
+    _renderItem ({ item, index}) {
         const { interpolators } = this.state;
         const {
             hasParallaxImages,
@@ -1206,7 +1207,8 @@ export default class Carousel extends Component {
             sliderHeight,
             sliderWidth,
             slideStyle,
-            vertical
+            vertical,
+            navigation
         } = this.props;
 
         const animatedValue = interpolators && interpolators[index];
@@ -1236,7 +1238,7 @@ export default class Carousel extends Component {
 
         return (
             <Component style={[mainDimension, slideStyle, animatedStyle]} pointerEvents={'box-none'} {...specificProps}>
-                { renderItem({ item, index }, parallaxProps) }
+                { renderItem({ item, index, navigation }, parallaxProps) }
             </Component>
         );
     }
@@ -1344,7 +1346,6 @@ export default class Carousel extends Component {
 
     render () {
         const { data, renderItem, useScrollView } = this.props;
-
         if (!data || !renderItem) {
             return null;
         }
@@ -1361,7 +1362,7 @@ export default class Carousel extends Component {
             <ScrollViewComponent {...props}>
                 {
                     this._getCustomData().map((item, index) => {
-                        return this._renderItem({ item, index });
+                        return this._renderItem({ item, index});
                     })
                 }
             </ScrollViewComponent>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Text, View, SafeAreaView, Image, ImageBackground,Dimensions} from 'react-native';
+import {Text, View, SafeAreaView, Image, ImageBackground,Dimensions,Pressable} from 'react-native';
 
 import Carousel, {Pagination}from '../react-native-snap-carousel';
 const database = require('../../api/database.json')
@@ -22,20 +22,22 @@ export default class ArticleCarou extends React.Component {
         super(props);
         this.state = {
           activeIndex:0,
-          carouselItems: getArticles()
+          carouselItems: getArticles(),
         
       }
     }
 
-    _renderItem({item,index}){
+    _renderItem({item,index, navigation}){
         return (
         <SafeAreaView>
-            <ImageBackground source={{uri: item.image}} imageStyle= {{borderRadius: 14}}style = {{width: Dimensions.get('window').width - 16, height: 180}}>
-                <View style = {{flex: 1, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(0, 0, 0, .5)',borderRadius: 14}}>
-                  <Text style={{fontSize: 25, color:"white", textAlign: 'center', fontWeight: '500',backgroundColor: 'transparent',fontFamily: 'NotoSerifBold'}}>{item.title}</Text>
-                  <Text style = {{color:"white", textAlign: 'center', fontWeight: '300', backgroundColor:'transparent',fontFamily: 'NotoSerifRegular',fontSize: 15,margin:10}}>{item.text}</Text>
-                </View>
-            </ImageBackground>
+            <Pressable onPress = {()=>navigation.navigate("Article",{'article':item})}>
+                <ImageBackground source={{uri: item.image}} imageStyle= {{borderRadius: 14}}style = {{width: Dimensions.get('window').width - 16, height: 180}}>
+                    <View style = {{flex: 1, alignItems: 'center', justifyContent: 'center',backgroundColor: 'rgba(0, 0, 0, .5)',borderRadius: 14}}>
+                    <Text style={{fontSize: 25, color:"white", textAlign: 'center', fontWeight: '500',backgroundColor: 'transparent',fontFamily: 'NotoSerifBold'}}>{item.title}</Text>
+                    <Text style = {{color:"white", textAlign: 'center', fontWeight: '300', backgroundColor:'transparent',fontFamily: 'NotoSerifRegular',fontSize: 15,margin:10}}>{item.text}</Text>
+                    </View>
+                </ImageBackground>
+            </Pressable>
         </SafeAreaView>
 
 
@@ -83,7 +85,9 @@ export default class ArticleCarou extends React.Component {
                   sliderWidth={300}
                   itemWidth={380}
                   renderItem={this._renderItem}
-                  onSnapToItem = { index => this.setState({activeIndex:index}) } />
+                  onSnapToItem = { index => this.setState({activeIndex:index}) }
+                  navigation = {this.props.navigation}
+                  />
                   
             </View>
             {this.pagination}

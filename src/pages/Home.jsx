@@ -50,7 +50,7 @@ const ArticlesView = ({ navigation }) => {
                 
             <FlatList
                 removeClippedSubviews={false} 
-                ListHeaderComponent = {<ArticleCarou/>}
+                ListHeaderComponent = {<ArticleCarou navigation={navigation}/>}
                 data={databaseData.articles}
                 renderItem={({ item }) => <ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />}
                 keyExtractor={item => item.id}
