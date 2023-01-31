@@ -1362,7 +1362,7 @@ export default class Carousel extends Component {
             <ScrollViewComponent {...props}>
                 {
                     this._getCustomData().map((item, index) => {
-                        return this._renderItem({ item, index});
+                        return this._renderItem({ item, index });
                     })
                 }
             </ScrollViewComponent>
