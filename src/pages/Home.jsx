@@ -12,6 +12,8 @@ import { useFonts } from 'expo-font';
 import BackButton from '../components/backbutton';
 import Svg, { Circle, Rect, Path } from 'react-native-svg';
 import AuthorCard from '../components/authorCard';
+import { StripeProvider } from '@stripe/stripe-react-native';
+import PaymentScreen from '../components/payment';
 import { useCallback } from 'react';
 import { Linking } from 'react-native';
 
@@ -102,7 +104,10 @@ export const Article = ({route,navigation}) => {
 }
 
 const Credit = ({navigation}) => {
+    const secret = "sk_test_51MUsQUEyXbc8egvPk6J4P1EhtCJUu6Au8zrrl19S8WSolx98nd1MOSqDSyTuf1cb2dqfKyRIutScxNJfxeGiMDdc00e1xEP0Wc"
     return(
+     
+
         <SafeAreaView style = {globalStyles.container}>
             <BackButton onPress={() => {navigation.navigate("Articles")}}/>
             <ScrollView>
@@ -129,6 +134,7 @@ const Credit = ({navigation}) => {
             </ScrollView>
 
         </SafeAreaView>
+
 
 
 
@@ -167,9 +173,7 @@ const PurchaseCredit = ({navigation})=>{
                         <Path d="M27.999 7.99994L21.3324 15.3333V24.6666L27.999 31.9999V7.99994Z" fill="#F5F5F5"/>
                     </Svg>
                     <Text style = {[styles.cashNumber,{color:"#DDDDDD"}]}>$0.00USD</Text>
-                
-
-           
+               
                     <Pressable
                         style={styles.buyButton}
                         onPress={handlePress}
@@ -189,8 +193,7 @@ const PurchaseCredit = ({navigation})=>{
                                 />
                             </Svg>
                      </Pressable>
-        
-        
+            
                         <Pressable style = {styles.buyButton}>
                             
                             <Text style = {styles.buttonText}>Purchase with BTC</Text>
@@ -220,6 +223,31 @@ const PurchaseCredit = ({navigation})=>{
     )
 
 }
+
+const CreditPayment = ({navigation}) =>{
+
+    return(
+        <SafeAreaView style = {globalStyles.container}>
+            <BackButton onPress={() => {navigation.navigate("Purchase Credits")}}/>
+            <StripeProvider
+            publishableKey='pk_test_51MUsQUEyXbc8egvPrbN3O7COG9dY0wy7SUEoXU8tntf9VUYe5NtUXL8S03OirDwdFLEeh0P9zP8ZBcdhBdGBsQCP00BP4klRT5'
+            >
+    
+                <PaymentScreen />
+    
+            </StripeProvider>
+
+        </SafeAreaView>
+        )
+
+
+
+}
+
+
+
+
+
 const Stack = createNativeStackNavigator();
 
 const Home = (props) => {
@@ -246,6 +274,11 @@ const Home = (props) => {
             name="Purchase Credits"
             component={PurchaseCredit}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name = "Purchase With Card"
+            component={CreditPayment}
+            options = {{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>
