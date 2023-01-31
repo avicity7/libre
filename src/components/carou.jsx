@@ -4,14 +4,25 @@ import {Text, View, SafeAreaView, Image, ImageBackground,Dimensions} from 'react
 import Carousel, {Pagination}from '../react-native-snap-carousel';
 const database = require('../../api/database.json')
 
+function getArticles(){
+    let carouArticles = [];
+    for(var i = 0; i < database.articles.length; i++){
+        if(database.carouselItems.includes(database.articles[i].id)){
+            carouArticles.push(database.articles[i])
+        }
+    }
+    return carouArticles
+}
+
 export default class ArticleCarou extends React.Component {
 
- 
+
+
     constructor(props){
         super(props);
         this.state = {
           activeIndex:0,
-          carouselItems: database.carousel_articles,
+          carouselItems: getArticles()
         
       }
     }
