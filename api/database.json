@@ -51,17 +51,22 @@
         }
     ],
 
-    "subscriptions": [
+    "userSubscriptions": [
 
     ],
-    "liked": [
+    "userLiked": [
         
     ],
     "carouselItems":   [
         4,
         5,
         6
-      ]
+    ],
+
+    "userPublished": { 
+    },
+
+    "userCredits": 0
               
   
 }
