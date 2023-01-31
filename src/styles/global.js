@@ -1,26 +1,26 @@
-import { StyleSheet,Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from "react-native";
 
 const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 8,
-    margin: 'auto',
+    margin: "auto",
   },
   articleContainer: {
     flex: 1,
-    backgroundColor: 'white',
-    marginBottom:-30
+    backgroundColor: "white",
+    marginBottom: -30,
   },
   accountContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   deviceContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 8,
-    alignItems: 'center',
+    alignItems: "center",
   },
   containerUnpressed: {
     opacity: 1,
@@ -28,94 +28,93 @@ const globalStyles = StyleSheet.create({
   containerPressed: {
     opacity: 0.5,
   },
-  writeButtonPos:{
-    position: 'absolute',
-    left: '76%',
-    top: '95%',
+  writeButtonPos: {
+    position: "absolute",
+    left: "76%",
+    top: "95%",
   },
   imagePickerButton: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 15,
     marginLeft: 20,
     marginRight: 20,
   },
-  imagePickerButtonText:{
+  imagePickerButtonText: {
     fontSize: 16,
-    color: 'black',
-    alignSelf:'center',
+    color: "black",
+    alignSelf: "center",
     padding: 10,
-    fontFamily: 'NotoSerifRegular'
+    fontFamily: "NotoSerifRegular",
   },
-  publishButton:{
-    backgroundColor: 'black',
+  publishButton: {
+    backgroundColor: "black",
     borderRadius: 15,
     marginLeft: 20,
     marginRight: 20,
   },
-  publishButtonText:{
+  publishButtonText: {
     fontSize: 20,
-    color: 'white',
-    alignSelf:'center',
+    color: "white",
+    alignSelf: "center",
     padding: 10,
-    fontFamily: 'NotoSerifRegular'
+    fontFamily: "NotoSerifRegular",
   },
   header: {
     fontSize: 32,
     marginTop: 10,
     marginBottom: 20,
-    marginLeft: 10
+    marginLeft: 10,
   },
   publishSubHeader: {
     fontSize: 20,
     marginLeft: 20,
     margin: 15,
-    fontFamily: 'NotoSerifRegular'
+    fontFamily: "NotoSerifRegular",
   },
-  inputBoxArticleStyle:{
-    backgroundColor: '#F9F9F9',
+  inputBoxArticleStyle: {
+    backgroundColor: "#F9F9F9",
     borderRadius: 50,
     marginLeft: 20,
     marginRight: 20,
     padding: 8,
   },
-  inputBoxBodyStyle:{
-    backgroundColor: '#F9F9F9',
+  inputBoxBodyStyle: {
+    backgroundColor: "#F9F9F9",
     borderRadius: 20,
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 20,
     paddingTop: 10,
-    padding:10,
-    height:180,
+    padding: 10,
+    height: 180,
   },
-  articleDetails: { 
+  articleDetails: {
     fontSize: 12,
     marginLeft: 10,
-    marginBottom: 15
+    marginBottom: 15,
   },
-  articleTitle:{
+  articleTitle: {
     fontSize: 26,
     marginBottom: 20,
     marginLeft: 10,
-    color:"#B0B0B0"
+    color: "#B0B0B0",
   },
-  articleBody: { 
+  articleBody: {
     fontSize: 16,
     marginLeft: 15,
-    marginRight:15,
+    marginRight: 15,
     marginBottom: 50,
     lineHeight: 30,
-    width: Dimensions.get('window').width - 20
+    width: Dimensions.get("window").width - 20,
   },
   profileName: {
     marginTop: 10,
     marginLeft: 20,
     fontSize: 24,
-  
   },
   tabHeader: {
-    display: 'flex',
-    flexDirection: 'row'
+    display: "flex",
+    flexDirection: "row",
   },
   tabHeaderText: {
     fontSize: 12,
@@ -123,18 +122,60 @@ const globalStyles = StyleSheet.create({
     marginRight: 10,
   },
   shadowProp: {
-    shadowColor: '#75757560',
-    shadowOffset: {width: 0, height: 1},
+    shadowColor: "#75757560",
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.4,
     shadowRadius: 5,
   },
-  bioText:{
-    fontFamily:"NotoSerifRegular",
+  bioText: {
+    fontFamily: "NotoSerifRegular",
     marginLeft: 20,
     marginRight: 20,
     fontSize: 12,
     marginBottom: 30,
-    marginTop: 5
+    marginTop: 5,
+  },
+  articleImage: {
+    width: Dimensions.get("window").width,
+    height: 220,
+    borderRadius: 14,
+  },
+  articleImageBorder: {
+    borderBottomEndRadius: 14,
+    borderBottomLeftRadius: 14,
+  },
+  articleImageDarken: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, .5)",
+    borderBottomEndRadius: 14,
+    borderBottomLeftRadius: 14,
+  },
+  imageTitle: {
+    fontSize: 25,
+    color: "white",
+    textAlign: "center",
+    fontWeight: "500",
+    backgroundColor: "transparent",
+    fontFamily: "NotoSerifBold",
+    top: 40,
+  },
+  titleStyle: {
+    fontSize: 25,
+    color: "black",
+    fontWeight: "500",
+    backgroundColor: "transparent",
+    fontFamily: "NotoSerifBold",
+    marginLeft: 15,
+    marginRight: 15,
+    marginTop: 15,
+  },
+  detailPos:{
+    fontFamily: 'NotoSerifRegular',
+    marginLeft: 15,
+    marginRight:15,
+    marginTop: 15,
+    color:'#B0B0B0'
   }
 });
 

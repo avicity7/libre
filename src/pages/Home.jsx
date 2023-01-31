@@ -12,6 +12,10 @@ import { useFonts } from 'expo-font';
 import BackButton from '../components/backbutton';
 import Svg, { Circle, Rect, Path } from 'react-native-svg';
 import AuthorCard from '../components/authorCard';
+import { StripeProvider } from '@stripe/stripe-react-native';
+import PaymentScreen from '../components/payment';
+import { useCallback } from 'react';
+import { Linking } from 'react-native';
 
 const ArticlesView = ({ navigation }) => {
     const [loaded] = useFonts({
@@ -62,8 +66,8 @@ export const Article = ({route,navigation}) => {
         <SafeAreaView style = {globalStyles.articleContainer}>
             <ScrollView>
              
-                <ImageBackground style = {{width: Dimensions.get('window').width, height: 220,borderRadius:14}} imageStyle= {{borderBottomEndRadius: 14,borderBottomLeftRadius: 14}} source ={{uri:article.image}}>
-                <View style = {{flex: 1, alignItems: 'center',backgroundColor: 'rgba(0, 0, 0, .5)',borderBottomEndRadius: 14,borderBottomLeftRadius: 14}}>
+                <ImageBackground style = {globalStyles.articleImage} imageStyle= {globalStyles.articleImageBorder} source ={{uri:article.image}}>
+                <View style = {globalStyles.articleImageDarken}>
                 <View style = {{flexDirection:"row"}}>
                     <View style = {{flex:1}}>
                         <BackButton onPress={() => {navigation.navigate(onPress)}}/>
@@ -73,19 +77,19 @@ export const Article = ({route,navigation}) => {
                     </View>
                 </View>
                 <Text
-                    style={{fontSize: 25, color:"white", textAlign: 'center', fontWeight: '500',backgroundColor: 'transparent',fontFamily: 'NotoSerifBold', top: 40}}
+                    style={globalStyles.imageTitle}
                 >
                     {article.title}
                 </Text>
                 </View>
                 </ImageBackground>
                 <Text
-                    style={{fontSize: 25, color:"black",fontWeight: '500',backgroundColor: 'transparent',fontFamily: 'NotoSerifBold',marginLeft: 15, marginRight: 15,marginTop: 15}}
+                    style={globalStyles.titleStyle}
                 >
                     {article.title}
                 </Text>
                 <Text
-                    style={[globalStyles.articleDetails,{fontFamily: 'NotoSerifRegular',marginLeft: 15,marginRight:15, marginTop: 15,color:'#B0B0B0'}]}
+                    style={[globalStyles.articleDetails,globalStyles.detailPos]}
                 >
                     Published by: {article.author}
                 </Text>
@@ -100,7 +104,10 @@ export const Article = ({route,navigation}) => {
 }
 
 const Credit = ({navigation}) => {
+    const secret = "sk_test_51MUsQUEyXbc8egvPk6J4P1EhtCJUu6Au8zrrl19S8WSolx98nd1MOSqDSyTuf1cb2dqfKyRIutScxNJfxeGiMDdc00e1xEP0Wc"
     return(
+     
+
         <SafeAreaView style = {globalStyles.container}>
             <BackButton onPress={() => {navigation.navigate("Articles")}}/>
             <ScrollView>
@@ -133,6 +140,7 @@ const Credit = ({navigation}) => {
 
 
 
+
     )
 
 
@@ -140,6 +148,16 @@ const Credit = ({navigation}) => {
 }
 
 const PurchaseCredit = ({navigation})=>{
+
+    const url = "https://buy.stripe.com/test_6oE9E2ayU4SHfeM5kl"
+
+    const handlePress = useCallback(async () => {
+
+        const openUrl = await Linking.openURL(url)
+
+
+    })
+
     return(
         <SafeAreaView style ={globalStyles.container}>
             <BackButton onPress={() => {navigation.navigate("Credit")}}/>
@@ -155,20 +173,27 @@ const PurchaseCredit = ({navigation})=>{
                         <Path d="M27.999 7.99994L21.3324 15.3333V24.6666L27.999 31.9999V7.99994Z" fill="#F5F5F5"/>
                     </Svg>
                     <Text style = {[styles.cashNumber,{color:"#DDDDDD"}]}>$0.00USD</Text>
-                
-
-                    <DropShadow style = {styles.shadowProp}>
-                        <Pressable style = {styles.buyButton}>
-
-                            <Text style = {styles.buttonText}>Purchase with Card</Text>
-                            <Svg style ={styles.buySvg} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <Path d="M16.6665 3.33331H3.33317C2.40817 3.33331 1.67484 4.07498 1.67484 4.99998L1.6665 15C1.6665 15.925 2.40817 16.6666 3.33317 16.6666H16.6665C17.5915 16.6666 18.3332 15.925 18.3332 15V4.99998C18.3332 4.07498 17.5915 3.33331 16.6665 3.33331ZM15.8332 15H4.1665C3.70817 15 3.33317 14.625 3.33317 14.1666V9.99998H16.6665V14.1666C16.6665 14.625 16.2915 15 15.8332 15ZM16.6665 6.66665H3.33317V4.99998H16.6665V6.66665Z" fill="black"/>
+               
+                    <Pressable
+                        style={styles.buyButton}
+                        onPress={handlePress}
+                    >
+                                <Text style={styles.buttonText}>Purchase with Card</Text>
+                            <Svg
+                                style={styles.buySvg}
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <Path
+                                d="M16.6665 3.33331H3.33317C2.40817 3.33331 1.67484 4.07498 1.67484 4.99998L1.6665 15C1.6665 15.925 2.40817 16.6666 3.33317 16.6666H16.6665C17.5915 16.6666 18.3332 15.925 18.3332 15V4.99998C18.3332 4.07498 17.5915 3.33331 16.6665 3.33331ZM15.8332 15H4.1665C3.70817 15 3.33317 14.625 3.33317 14.1666V9.99998H16.6665V14.1666C16.6665 14.625 16.2915 15 15.8332 15ZM16.6665 6.66665H3.33317V4.99998H16.6665V6.66665Z"
+                                fill="black"
+                                />
                             </Svg>
-
-                        </Pressable>
-                    </DropShadow>
-                
-                    <DropShadow style = {styles.shadowProp}>
+                     </Pressable>
+            
                         <Pressable style = {styles.buyButton}>
                             
                             <Text style = {styles.buttonText}>Purchase with BTC</Text>
@@ -182,8 +207,8 @@ const PurchaseCredit = ({navigation})=>{
                         
 
                         </Pressable>
-                    </DropShadow>
-                    <DropShadow style = {styles.shadowProp}>
+          
+       
                         <Pressable style = {styles.buyButton}>
                             <Text style = {styles.buttonText}>Purchase with ETH</Text>
                             <Svg style ={styles.buySvg}width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -191,13 +216,38 @@ const PurchaseCredit = ({navigation})=>{
                             </Svg>
 
                         </Pressable>
-                    </DropShadow>
+    
                 </View>    
             </ScrollView>
         </SafeAreaView>
     )
 
 }
+
+const CreditPayment = ({navigation}) =>{
+
+    return(
+        <SafeAreaView style = {globalStyles.container}>
+            <BackButton onPress={() => {navigation.navigate("Purchase Credits")}}/>
+            <StripeProvider
+            publishableKey='pk_test_51MUsQUEyXbc8egvPrbN3O7COG9dY0wy7SUEoXU8tntf9VUYe5NtUXL8S03OirDwdFLEeh0P9zP8ZBcdhBdGBsQCP00BP4klRT5'
+            >
+    
+                <PaymentScreen />
+    
+            </StripeProvider>
+
+        </SafeAreaView>
+        )
+
+
+
+}
+
+
+
+
+
 const Stack = createNativeStackNavigator();
 
 const Home = (props) => {
@@ -224,6 +274,11 @@ const Home = (props) => {
             name="Purchase Credits"
             component={PurchaseCredit}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name = "Purchase With Card"
+            component={CreditPayment}
+            options = {{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>
