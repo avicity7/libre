@@ -16,7 +16,6 @@ import PaymentScreen from '../components/payment';
 import { useCallback } from 'react';
 import { Linking } from 'react-native';
 const db = require('../../api/firebaseConfig.js');
-import {collection, getDocs, query, where} from "firebase/firestore";
 import { Shadow } from 'react-native-shadow-2';
 import {collection, getDocs, getDoc, doc} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
