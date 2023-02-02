@@ -12,7 +12,8 @@ import ProfilePhoto from '../components/profilePhoto';
 import ArticleCard from '../components/articleCard';
 import { Article } from './Home';
 const db = require('../../api/firebaseConfig.js');
-import {collection, getDocs, getDoc, doc} from "firebase/firestore";
+import {collection, getDocs, getDoc, doc, onSnapshot} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 
 const getLikes = async() => {
@@ -37,11 +38,18 @@ const getArticles = async() => {
 }
 
 const AccountView = ({route,navigation}) => {
-    const {likedArticles, addLikedArticle,removeLikedArticle} = route.params;
+    const auth = getAuth();
 
+    const {likedArticles, addLikedArticle} = route.params;
+    const [localPublishedArticles, setLocalPublishedArticles] = useState([]);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [bio, setBio] = useState('');
     const [articles,setArticles] = useState();
 
     useEffect(()=>{
+        let documentID = auth.currentUser.email;
+
         const getArticlesFunction = async () => {
             let fetchedArticles = await getArticles();
             setArticles(fetchedArticles);
@@ -49,15 +57,24 @@ const AccountView = ({route,navigation}) => {
 
         getArticlesFunction();
         
-        const fetchLikedArticles = async () => { 
-            let fetchedLikedArticles = await getLikes();
-            for (let i = 0; i < fetchedLikedArticles.length; i++){
-                !likedArticles.includes(fetchedLikedArticles[i])? addLikedArticle(fetchedLikedArticles[i]): null
-            } 
-        }
-        fetchLikedArticles();
+        const fetchAccount = onSnapshot(doc(db,"users",documentID),(docSnap) => {
+            let likes = [];
+            for (let i = 0; i < docSnap.data().likes.length; i++){
+                likes.push(docSnap.data().published[i])
+            }
+            let firstName = docSnap.data().firstName;
+            let lastName = docSnap.data().lastName;
+            let bio = docSnap.data().bio;
+            setLocalPublishedArticles(likes);
+            setFirstName(firstName);
+            setLastName(lastName);
+            setBio(bio);
+        })
 
-    },[])
+        
+        return () => fetchAccount();
+
+    },[localPublishedArticles])
 
     return ( 
         <SafeAreaView style={globalStyles.accountContainer}>
@@ -67,13 +84,13 @@ const AccountView = ({route,navigation}) => {
                     <CoverPhoto />
                     <ProfilePhoto />
                     </View>
-                    <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>Hiroyuki Nishimura</Text>
-                    <Text style = {globalStyles.bioText}>A journalist enthusiastic about different perspectives. Looking to venture into Arts.</Text>
+                    <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>{firstName} {lastName}</Text>
+                    <Text style = {globalStyles.bioText}>{bio}</Text>
                 </>}
                 extraData={articles}
                 removeClippedSubviews={false} 
                 data={articles}
-                renderItem={({ item }) => item.authorUsername == "hiroyuki"?<ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />:null}
+                renderItem={({ item }) => localPublishedArticles.includes(item.id)?<ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />:null}
                 keyExtractor={item => item.id}
                 />
             <WriteButton onPress = {() => {navigation.navigate("Publish")}}/>

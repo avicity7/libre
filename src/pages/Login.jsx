@@ -1,32 +1,51 @@
 import { Pressable, StyleSheet, Text, TextInput, View, ScrollView, FlatList ,Dimensions} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import { SafeAreaView } from "react-native-safe-area-context";
+import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
 
+const auth = getAuth();
 
 const Login = ({navigation}) => {
-
+    const auth = getAuth();
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
     return(
-      
+        
 
         <SafeAreaView
         style = {styles.container}>
             <Text style = {styles.title}>libre</Text>
             <Text style = {styles.textStyle}>Username</Text>
             <TextInput
-            style = {styles.textContainer}
-            placeholder='username'
-            textContentType='username'
+                style = {styles.textContainer}
+                placeholder='username'
+                textContentType='username'
+                onChangeText={newText => setEmail(newText)}
             />
             <Text style = {styles.textStyle}>Password</Text>
             <TextInput
-            style = {styles.textContainer}
-            placeholder = 'password'
-            textContentType='password'
+                style = {styles.textContainer}
+                placeholder = 'password'
+                textContentType='password'
+                onChangeText={newText => setPassword(newText)}
             />
 
             <Pressable 
             style = {styles.loginButton}
-            onPress = {()=>{navigation.navigate("HomeTabs")}}
+            onPress = {()=>{
+                signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    console.log(user);
+                    navigation.navigate("HomeTabs")
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                });
+            }}
             >
                 <Text style = {{fontSize: 20, color: "white",fontFamily:"NotoSerifRegular"}}> Sign In </Text>
             </Pressable>

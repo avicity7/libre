@@ -17,10 +17,12 @@ import { useCallback } from 'react';
 import { Linking } from 'react-native';
 const db = require('../../api/firebaseConfig.js');
 import {collection, getDocs, getDoc, doc} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
-const getLikes = async() => {
+
+const getLikes = async(username) => {
     var likedArray = []
-    const docRef = doc(db, "users", "hiroyuki");
+    const docRef = doc(db, "users", username);
     const docSnap = await getDoc(docRef);
     likedArray = docSnap.data().likes
     return likedArray
@@ -45,6 +47,7 @@ const getCarousel = async() => {
 }
 
 const ArticlesView = ({ route, navigation }) => {
+    const auth = getAuth();
     const {likedArticles, addLikedArticle,removeLikedArticle} = route.params;
     const [articles,setArticles] = useState();
     const [carouselArray, setCarouselArray] = useState([]);
@@ -63,7 +66,7 @@ const ArticlesView = ({ route, navigation }) => {
         getArticlesFunction();
         
         const fetchLikedArticles = async () => { 
-            let fetchedLikedArticles = await getLikes();
+            let fetchedLikedArticles = await getLikes(auth.currentUser.email);
             for (let i = 0; i < fetchedLikedArticles.length; i++){
                 !likedArticles.includes(fetchedLikedArticles[i])? addLikedArticle(fetchedLikedArticles[i]): null
             } 
@@ -130,7 +133,7 @@ export const Article = ({route,navigation}) => {
                     }}>
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Saving</Text>
+                            <Text style={styles.modalText}>Saving...</Text>
                         </View>
                     </View>
                 </Modal>

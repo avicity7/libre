@@ -25,12 +25,13 @@ LogBox.ignoreLogs([
 //Import firebase stuff 
 const db = require('./api/firebaseConfig');
 import { updateDoc, doc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 //Create bottom tab 
 const Tab = createBottomTabNavigator();
 
-const updateLikes = async(likesArray) => {
-  const docRef = doc(db, "users", "hiroyuki");
+const updateLikes = async(likesArray,username) => {
+  const docRef = doc(db, "users", username);
 
   const data = {
     likes: likesArray
@@ -46,16 +47,17 @@ const updateLikes = async(likesArray) => {
 }
 
 const HomeTabs = () => {
+  const auth = getAuth();
   const [likedArticles, setLikedArticles] = useState([]);
-  const [loading,setLoading] = useState(true)
+  
   const addLikedArticle = (article) => {
     setLikedArticles(likedArticles.push(article));
-    updateLikes(likedArticles);
+    updateLikes(likedArticles,auth.currentUser.email);
     console.log(likedArticles)
   }
   const removeLikedArticle = (article) => { 
     setLikedArticles(likedArticles.splice(likedArticles.indexOf(article), 1));
-    updateLikes(likedArticles);
+    updateLikes(likedArticles,auth.currentUser.email);
     console.log(likedArticles)
   }
   return(
@@ -97,7 +99,7 @@ const HomeTabs = () => {
           })}
           initialRouteName = "Home"
           >
-            <Tab.Screen name = "Library" component = {Library} initialParams = {{likedArticles: likedArticles,addLikedArticle:addLikedArticle,removeLikedArticle:removeLikedArticle}} ></Tab.Screen>
+            <Tab.Screen name = "Library" component = {Library} initialParams = {{likedArticles: likedArticles,addLikedArticle:addLikedArticle,removeLikedArticle:removeLikedArticle,setLikedArticles:setLikedArticles}} ></Tab.Screen>
             <Tab.Screen name = "Home" component = {Home} initialParams = {{likedArticles: likedArticles,addLikedArticle:addLikedArticle,removeLikedArticle:removeLikedArticle}}></Tab.Screen>
             <Tab.Screen name = "Account" component = {Account} initialParams = {{likedArticles: likedArticles,addLikedArticle:addLikedArticle,removeLikedArticle:removeLikedArticle}}></Tab.Screen>
     </Tab.Navigator>

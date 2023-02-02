@@ -9,19 +9,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const db = require('../../api/firebaseConfig.js');
-import {collection, getDocs, getDoc, doc} from "firebase/firestore";
-
-const getLikes = async() => {
-    var likedArray = []
-    const docRef = doc(db, "users", "hiroyuki");
-    const docSnap = await getDoc(docRef);
-    likedArray = docSnap.data().likes
-    // const user = await getDocs(query(collection(db, "users"), where("username", "==", "hiroyuki")))
-    // user.forEach(doc => {
-    //   likedArray = doc.data().likes
-    // });
-    return likedArray
-}
+import {collection, getDocs, getDoc, doc, onSnapshot, query} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const getArticles = async() => {
     var articlesArray = []
@@ -33,29 +22,33 @@ const getArticles = async() => {
 }
 
 const LibraryView = ({route,navigation}) => {
-    const {likedArticles, addLikedArticle, removeLikedArticle} = route.params;
-    const [localLikedArticles,setLocalLikedArticles] = useState(likedArticles);
+    const auth = getAuth();
+    const {likedArticles} = route.params;
+    const [localLikedArticles,setLocalLikedArticles] = useState();
     const [displayCategory, setDisplayCategory] = useState("subscriptions");
     const [articles,setArticles] = useState();
 
-    useEffect(()=>{
+    useEffect(() => {
+        let documentID = auth.currentUser.email;
+        console.log(documentID)
         const getArticlesFunction = async () => {
             let fetchedArticles = await getArticles();
             setArticles(fetchedArticles);
         }
 
         getArticlesFunction();
-        
-        const fetchLikedArticles = async () => { 
-            let fetchedLikedArticles = await getLikes();
-            for (let i = 0; i < fetchedLikedArticles.length; i++){
-                !likedArticles.includes(fetchedLikedArticles[i])? addLikedArticle(fetchedLikedArticles[i]): null
-            } 
-            setLocalLikedArticles(fetchedLikedArticles)
-        }
-        fetchLikedArticles();
 
-    },[localLikedArticles])
+        const fetchLikedArticles = onSnapshot(doc(db,"users",documentID),(docSnap) => {
+            let likes = [];
+            for (let i = 0; i < docSnap.data().likes.length; i++){
+                likes.push(docSnap.data().likes[i])
+            }
+            setLocalLikedArticles(likes)
+        })
+        
+        return () => fetchLikedArticles();
+
+    },[likedArticles])
 
     return ( 
         <SafeAreaView style={globalStyles.container}>
@@ -116,7 +109,7 @@ const Library = (props) => {
             name="Library"
             component={LibraryView}
             options={{ headerShown: false }}
-            initialParams={{likedArticles:props.route.params.likedArticles,addLikedArticle:props.route.params.addLikedArticle,removeLikedArticle:props.route.params.removeLikedArticle,updateDisplayCategory:props.route.params.updateDisplayCategory}}
+            initialParams={{likedArticles:props.route.params.likedArticles,addLikedArticle:props.route.params.addLikedArticle,removeLikedArticle:props.route.params.removeLikedArticle,setLikedArticles:props.route.params.setLikedArticles}}
           />
           <Stack.Screen
             name="Article"
