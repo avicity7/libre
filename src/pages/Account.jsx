@@ -9,13 +9,75 @@ import ImagePickerExample from '../components/imagePicker';
 import { SafeAreaView } from "react-native-safe-area-context";
 import CoverPhoto from '../components/coverPhoto';
 import ProfilePhoto from '../components/profilePhoto';
-const databaseData = require('../../api/database.json');
 import ArticleCard from '../components/articleCard';
 import { Article } from './Home';
 import SubscribeButton from '../components/subscribe';
 import { Shadow } from 'react-native-shadow-2';
+const db = require('../../api/firebaseConfig.js');
+import {collection, getDocs, getDoc, doc, onSnapshot} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+
+
+const getLikes = async() => {
+    var likedArray = []
+    const docRef = doc(db, "users", "hiroyuki");
+    const docSnap = await getDoc(docRef);
+    likedArray = docSnap.data().likes
+    // const user = await getDocs(query(collection(db, "users"), where("username", "==", "hiroyuki")))
+    // user.forEach(doc => {
+    //   likedArray = doc.data().likes
+    // });
+    return likedArray
+}
+
+const getArticles = async() => {
+    var articlesArray = []
+    const articles = await getDocs(collection(db,"articles"));
+    articles.forEach(doc => {
+      articlesArray.push(doc.data());
+    });
+    return articlesArray
+}
+
 const AccountView = ({route,navigation}) => {
-    const {likedArticles, addLikedArticle,removeLikedArticle} = route.params;
+    const auth = getAuth();
+
+    const {likedArticles, addLikedArticle} = route.params;
+    const [localPublishedArticles, setLocalPublishedArticles] = useState([]);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [bio, setBio] = useState('');
+    const [articles,setArticles] = useState();
+
+    useEffect(()=>{
+        let documentID = auth.currentUser.email;
+
+        const getArticlesFunction = async () => {
+            let fetchedArticles = await getArticles();
+            setArticles(fetchedArticles);
+        }
+
+        getArticlesFunction();
+        
+        const fetchAccount = onSnapshot(doc(db,"users",documentID),(docSnap) => {
+            let likes = [];
+            for (let i = 0; i < docSnap.data().likes.length; i++){
+                likes.push(docSnap.data().published[i])
+            }
+            let firstName = docSnap.data().firstName;
+            let lastName = docSnap.data().lastName;
+            let bio = docSnap.data().bio;
+            setLocalPublishedArticles(likes);
+            setFirstName(firstName);
+            setLastName(lastName);
+            setBio(bio);
+        })
+
+        
+        return () => fetchAccount();
+
+    },[localPublishedArticles])
+
     return ( 
         <SafeAreaView style={globalStyles.accountContainer}>
                 <FlatList
@@ -24,12 +86,13 @@ const AccountView = ({route,navigation}) => {
                     <CoverPhoto />
                     <ProfilePhoto />
                     </View>
-                    <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>Hiroyuki Nishimura</Text>
-                    <Text style = {globalStyles.bioText}>A journalist enthusiastic about different perspectives. Looking to venture into Arts.</Text>
+                    <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>{firstName} {lastName}</Text>
+                    <Text style = {globalStyles.bioText}>{bio}</Text>
                 </>}
+                extraData={articles}
                 removeClippedSubviews={false} 
-                data={databaseData.articles}
-                renderItem={({ item }) => <ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />}
+                data={articles}
+                renderItem={({ item }) => localPublishedArticles.includes(item.id)?<ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />:null}
                 keyExtractor={item => item.id}
                 />
             <WriteButton onPress = {() => {navigation.navigate("Publish")}}/>

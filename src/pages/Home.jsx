@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, ScrollView, FlatList , ImageBackground, Dimensions} from 'react-native';
+import { Modal, Pressable, StyleSheet, Text, View, ScrollView, FlatList , ImageBackground, Dimensions} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import globalStyles from "../styles/global";
 import { NavigationContainer } from "@react-navigation/native";
@@ -7,7 +7,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ArticleCarou from '../components/carou';
 import LikeButton from '../components/heartbutton';
 import ArticleCard from '../components/articleCard';
-const databaseData = require('../../api/database.json');
 import { useFonts } from 'expo-font';
 import BackButton from '../components/backbutton';
 import Svg, { Circle, Rect, Path } from 'react-native-svg';
@@ -19,45 +18,63 @@ import { Linking } from 'react-native';
 const db = require('../../api/firebaseConfig.js');
 import {collection, getDocs, query, where} from "firebase/firestore";
 import { Shadow } from 'react-native-shadow-2';
+import {collection, getDocs, getDoc, doc} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
-const getLikes = async() => {
+
+const getLikes = async(username) => {
     var likedArray = []
-    const user = await getDocs(query(collection(db, "users"), where("username", "==", "hiroyuki")))
-    user.forEach(doc => {
-      likedArray = doc.data().likes
-    });
+    const docRef = doc(db, "users", username);
+    const docSnap = await getDoc(docRef);
+    likedArray = docSnap.data().likes
     return likedArray
 }
 
-
 const getArticles = async() => {
     var articlesArray = []
-    const articles = await getDocs(collection(db,"articles"))
-    var obj = {}
+    const articles = await getDocs(collection(db,"articles"));
     articles.forEach(doc => {
       articlesArray.push(doc.data());
     });
     return articlesArray
 }
 
+const getCarousel = async() => {
+    let carouselArray = [];
+    const articles = await getDocs(collection(db,"featured"))
+    articles.forEach(doc => {
+      carouselArray = doc.data().articles
+    }); 
+    return carouselArray
+}
+
 const ArticlesView = ({ route, navigation }) => {
+    const auth = getAuth();
     const {likedArticles, addLikedArticle,removeLikedArticle} = route.params;
-    const [articles,setArticles] = useState()
+    const [articles,setArticles] = useState();
+    const [carouselArray, setCarouselArray] = useState([]);
     useEffect(()=>{
         const getArticlesFunction = async () => {
             let fetchedArticles = await getArticles();
+            let featuredArticles = carouselArray.slice();
+            let fetchedFeaturedArticles = await getCarousel();
+            for (let i = 0; i < fetchedFeaturedArticles.length; i++){
+                !featuredArticles.includes(fetchedFeaturedArticles[i])? featuredArticles.push(fetchedArticles[fetchedFeaturedArticles[i]-1]): null
+            }
+            setCarouselArray(featuredArticles);
             setArticles(fetchedArticles);
         }
 
         getArticlesFunction();
-
+        
         const fetchLikedArticles = async () => { 
-            let fetchedLikedArticles = await getLikes();
+            let fetchedLikedArticles = await getLikes(auth.currentUser.email);
             for (let i = 0; i < fetchedLikedArticles.length; i++){
-                !likedArticles.includes(fetchedLikedArticles[i])? addLikedArticle(fetchedLikedArticles[i]):null
+                !likedArticles.includes(fetchedLikedArticles[i])? addLikedArticle(fetchedLikedArticles[i]): null
             } 
         }
         fetchLikedArticles();
+
     },[])
 
     const [loaded] = useFonts({
@@ -91,8 +108,9 @@ const ArticlesView = ({ route, navigation }) => {
             </SafeAreaView>
                 
             <FlatList
+                extradata={articles}
                 removeClippedSubviews={false} 
-                ListHeaderComponent = {<ArticleCarou navigation={navigation}/>}
+                ListHeaderComponent = {<ArticleCarou key={carouselArray} navigation={navigation} carouselArray={carouselArray}/>}
                 data={articles}
                 renderItem={({ item }) => <ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />}
             />
@@ -103,10 +121,24 @@ const ArticlesView = ({ route, navigation }) => {
 
 export const Article = ({route,navigation}) => {
     const {article,likedArticles,addLikedArticle,removeLikedArticle,onPress} = route.params;
+    const [modalVisible, setModalVisible] = useState(false);
     return (
         <SafeAreaView style = {globalStyles.articleContainer}>
             <ScrollView>
-             
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        Alert.alert('Modal has been closed.');
+                        setModalVisible(!modalVisible);
+                    }}>
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text style={styles.modalText}>Saving...</Text>
+                        </View>
+                    </View>
+                </Modal>
                 <ImageBackground style = {globalStyles.articleImage} imageStyle= {globalStyles.articleImageBorder} source ={{uri:article.image}}>
                 <View style = {globalStyles.articleImageDarken}>
                 <View style = {{flexDirection:"row"}}>
@@ -114,7 +146,7 @@ export const Article = ({route,navigation}) => {
                         <BackButton onPress={() => {navigation.navigate(onPress)}}/>
                     </View>
                     <View style = {{flex:1}}>
-                        <LikeButton id={article.id} likedArticles={likedArticles} addLikedArticle={addLikedArticle} removeLikedArticle={removeLikedArticle}/>
+                        <LikeButton id={article.id} likedArticles={likedArticles} addLikedArticle={addLikedArticle} removeLikedArticle={removeLikedArticle} setModalVisible={setModalVisible} modalVisible={modalVisible}/>
                     </View>
                 </View>
                 <Text
@@ -129,11 +161,9 @@ export const Article = ({route,navigation}) => {
                 >
                     {article.title}
                 </Text>
-                <Text
-                    style={[globalStyles.articleDetails,globalStyles.detailPos]}
-                >
-                    Published by: {article.author}
-                </Text>
+                <Pressable onPress={()=>{
+                    
+                }}><Text style={[globalStyles.articleDetails,globalStyles.detailPos]}>Published by {article.author}</Text></Pressable>
                 <Text
                     style={[globalStyles.articleBody,{fontFamily: 'NotoSerifRegular'}]}
                 >
@@ -400,6 +430,49 @@ const styles = StyleSheet.create({
         
     
     },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+      },
+      button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+      },
+      buttonOpen: {
+        backgroundColor: '#F194FF',
+      },
+      buttonClose: {
+        backgroundColor: '#2196F3',
+      },
+      textStyle: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+      },
+      modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
+        fontFamily: "NotoSerifRegular",
+        fontSize: 16,
+      },
+      centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+      },
 
 
 

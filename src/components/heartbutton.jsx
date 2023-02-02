@@ -3,17 +3,20 @@ import { View } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React, {useState} from 'react'
 
-
-
-const LikeButton = ({id,likedArticles,addLikedArticle,removeLikedArticle}) => {
+const LikeButton = ({id,likedArticles,addLikedArticle,removeLikedArticle,setModalVisible,modalVisible}) => {
     
     const [notLiked,setColor] = useState(likedArticles.includes(id));
     const changeState = () => {
         setColor(!notLiked)
-        
-        if (!notLiked){addLikedArticle(id)}
+        if (!notLiked){
+            addLikedArticle(id);
+            setModalVisible(true);
+            setTimeout(()=>{setModalVisible(false)},1000);
+        }
         else { 
-            removeLikedArticle(id)
+            removeLikedArticle(id);
+            setModalVisible(true);
+            setTimeout(()=>{setModalVisible(false)},1000);
         }
     };
     return(
