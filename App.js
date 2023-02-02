@@ -25,7 +25,7 @@ LogBox.ignoreLogs([
 
 //Import firebase stuff 
 const db = require('./api/firebaseConfig');
-import { updateDoc, doc } from "firebase/firestore";
+import { updateDoc, doc, setDoc } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
 
 //Create bottom tab 
