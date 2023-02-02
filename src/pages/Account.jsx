@@ -9,12 +9,53 @@ import ImagePickerExample from '../components/imagePicker';
 import { SafeAreaView } from "react-native-safe-area-context";
 import CoverPhoto from '../components/coverPhoto';
 import ProfilePhoto from '../components/profilePhoto';
-const databaseData = require('../../api/database.json');
 import ArticleCard from '../components/articleCard';
 import { Article } from './Home';
+const db = require('../../api/firebaseConfig.js');
+import {collection, getDocs, query, where} from "firebase/firestore";
+
+
+const getLikes = async() => {
+    var likedArray = []
+    const user = await getDocs(query(collection(db, "users"), where("username", "==", "hiroyuki")))
+    user.forEach(doc => {
+      likedArray = doc.data().likes
+    });
+    return likedArray
+}
+
+const getArticles = async() => {
+    var articlesArray = []
+    const articles = await getDocs(collection(db,"articles"));
+    articles.forEach(doc => {
+      articlesArray.push(doc.data());
+    });
+    return articlesArray
+}
 
 const AccountView = ({route,navigation}) => {
     const {likedArticles, addLikedArticle,removeLikedArticle} = route.params;
+
+    const [articles,setArticles] = useState();
+
+    useEffect(()=>{
+        const getArticlesFunction = async () => {
+            let fetchedArticles = await getArticles();
+            setArticles(fetchedArticles);
+        }
+
+        getArticlesFunction();
+        
+        const fetchLikedArticles = async () => { 
+            let fetchedLikedArticles = await getLikes();
+            for (let i = 0; i < fetchedLikedArticles.length; i++){
+                !likedArticles.includes(fetchedLikedArticles[i])? addLikedArticle(fetchedLikedArticles[i]): null
+            } 
+        }
+        fetchLikedArticles();
+
+    },[])
+
     return ( 
         <SafeAreaView style={globalStyles.accountContainer}>
                 <FlatList
@@ -27,8 +68,8 @@ const AccountView = ({route,navigation}) => {
                     <Text style = {globalStyles.bioText}>A journalist enthusiastic about different perspectives. Looking to venture into Arts.</Text>
                 </>}
                 removeClippedSubviews={false} 
-                data={databaseData.articles}
-                renderItem={({ item }) => <ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />}
+                data={articles}
+                renderItem={({ item }) => item.authorUsername == "hiroyuki"?<ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />:null}
                 keyExtractor={item => item.id}
                 />
             <WriteButton onPress = {() => {navigation.navigate("Publish")}}/>

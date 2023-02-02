@@ -109,7 +109,8 @@ export default class Carousel extends Component {
         this.state = {
             hideCarousel: true,
             interpolators: [],
-            navigation: this.props.navigation
+            navigation: this.props.navigation,
+            carouselArray: this.props.carouselArray
         };
 
         // The following values are not stored in the state because 'setState()' is asynchronous
@@ -1208,7 +1209,8 @@ export default class Carousel extends Component {
             sliderWidth,
             slideStyle,
             vertical,
-            navigation
+            navigation,
+            carouselArray
         } = this.props;
 
         const animatedValue = interpolators && interpolators[index];
@@ -1238,7 +1240,7 @@ export default class Carousel extends Component {
 
         return (
             <Component style={[mainDimension, slideStyle, animatedStyle]} pointerEvents={'box-none'} {...specificProps}>
-                { renderItem({ item, index, navigation }, parallaxProps) }
+                { renderItem({ item, index, navigation, carouselArray }, parallaxProps) }
             </Component>
         );
     }

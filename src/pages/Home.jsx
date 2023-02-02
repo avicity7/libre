@@ -7,7 +7,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ArticleCarou from '../components/carou';
 import LikeButton from '../components/heartbutton';
 import ArticleCard from '../components/articleCard';
-const databaseData = require('../../api/database.json');
 import { useFonts } from 'expo-font';
 import BackButton from '../components/backbutton';
 import Svg, { Circle, Rect, Path } from 'react-native-svg';
@@ -28,35 +27,52 @@ const getLikes = async() => {
     return likedArray
 }
 
-
 const getArticles = async() => {
     var articlesArray = []
-    const articles = await getDocs(collection(db,"articles"))
-    var obj = {}
+    const articles = await getDocs(collection(db,"articles"));
     articles.forEach(doc => {
       articlesArray.push(doc.data());
     });
     return articlesArray
 }
 
+const getCarousel = async() => {
+    let carouselArray = [];
+    const articles = await getDocs(collection(db,"featured"))
+    articles.forEach(doc => {
+      carouselArray = doc.data().articles
+    }); 
+    return carouselArray
+}
+
 const ArticlesView = ({ route, navigation }) => {
     const {likedArticles, addLikedArticle,removeLikedArticle} = route.params;
-    const [articles,setArticles] = useState()
+    const [articles,setArticles] = useState();
+    const [carouselArray, setCarouselArray] = useState([]);
     useEffect(()=>{
+        console.log("getting stuff")
         const getArticlesFunction = async () => {
             let fetchedArticles = await getArticles();
+            let featuredArticles = carouselArray.slice();
+            let fetchedFeaturedArticles = await getCarousel();
+            console.log(fetchedFeaturedArticles)
+            for (let i = 0; i < fetchedFeaturedArticles.length; i++){
+                !featuredArticles.includes(fetchedFeaturedArticles[i])? featuredArticles.push(fetchedArticles[fetchedFeaturedArticles[i]-1]): null
+            }
+            setCarouselArray(featuredArticles);
             setArticles(fetchedArticles);
         }
 
         getArticlesFunction();
-
+        
         const fetchLikedArticles = async () => { 
             let fetchedLikedArticles = await getLikes();
             for (let i = 0; i < fetchedLikedArticles.length; i++){
-                !likedArticles.includes(fetchedLikedArticles[i])? addLikedArticle(fetchedLikedArticles[i]):null
+                !likedArticles.includes(fetchedLikedArticles[i])? addLikedArticle(fetchedLikedArticles[i]): null
             } 
         }
         fetchLikedArticles();
+
     },[])
 
     const [loaded] = useFonts({
@@ -91,7 +107,7 @@ const ArticlesView = ({ route, navigation }) => {
                 
             <FlatList
                 removeClippedSubviews={false} 
-                ListHeaderComponent = {<ArticleCarou navigation={navigation}/>}
+                ListHeaderComponent = {<ArticleCarou key={carouselArray} navigation={navigation} carouselArray={carouselArray}/>}
                 data={articles}
                 renderItem={({ item }) => <ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />}
             />
