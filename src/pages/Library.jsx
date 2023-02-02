@@ -1,5 +1,5 @@
 import { Pressable, ScrollView, StyleSheet, Text, View, FlatList } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useReducer} from 'react';
 import globalStyles from '../styles/global';
 import { SafeAreaView } from "react-native-safe-area-context";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -9,19 +9,11 @@ const databaseData = require('../../api/database.json');
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-
 const LibraryView = ({route,navigation}) => {
-    const {likedArticles,setLikedArticles} = route.params;
-    const [displayCategory, setDisplayCategory] = useState(true);
-    const [refreshed, setRefreshed] = useState(false);
+    const {likedArticles, addLikedArticle, removeLikedArticle, updateDisplayCategory, displayCategory} = route.params;
     useEffect(()=>{
-        if (refreshed != true){
-            console.log("refreshing")
-            setDisplayCategory(!displayCategory);
-            setDisplayCategory(!displayCategory);
-            setRefreshed(true);
-        }
-    })
+        console.log("refreshing")
+    },[likedArticles])
     return ( 
         <SafeAreaView style={globalStyles.container}>
             <Text
@@ -31,7 +23,7 @@ const LibraryView = ({route,navigation}) => {
             </Text>
 
             <View style={globalStyles.tabHeader}>
-                <Pressable onPress = {() => {setDisplayCategory(true)}}>
+                <Pressable onPress = {() => {updateDisplayCategory()}}>
                     <View style = {[{'borderBottomColor': displayCategory == true?"black":'#99999970','borderBottomWidth': 1.5,padding:10}]}>
                         <MaterialCommunityIcons
                             name={"account-star"}
@@ -44,7 +36,7 @@ const LibraryView = ({route,navigation}) => {
                         </Text>
                     </View>
                 </Pressable>
-                <Pressable onPress = {() => {setDisplayCategory(false)}}>
+                <Pressable onPress = {() => {updateDisplayCategory()}}>
                     <View style = {[{'borderBottomColor': displayCategory == false?"black":'#99999970','borderBottomWidth': 1.5,padding:10,marginLeft:10}]}>
                         <MaterialCommunityIcons
                             name={"star"}
@@ -81,13 +73,13 @@ const Library = (props) => {
             name="Library"
             component={LibraryView}
             options={{ headerShown: false }}
-            initialParams={{likedArticles:props.route.params.likedArticles,setLikedArticles:props.route.params.setLikedArticles}}
+            initialParams={{likedArticles:props.route.params.likedArticles,addLikedArticle:props.route.params.addLikedArticle,removeLikedArticle:props.route.params.removeLikedArticle,updateDisplayCategory:props.route.params.updateDisplayCategory,displayCategory:props.route.params.displayCategory}}
           />
           <Stack.Screen
             name="Article"
             component={Article}
             options={{ headerShown: false }}
-            initialParams={{likedArticles:props.route.params.likedArticles,setLikedArticles:props.route.params.setLikedArticles,onPress:"Library"}}
+            initialParams={{likedArticles:props.route.params.likedArticles,addLikedArticle:props.route.params.addLikedArticle,removeLikedArticle:props.route.params.removeLikedArticle,onPress:"Library"}}
           />
         </Stack.Navigator>
       </NavigationContainer>

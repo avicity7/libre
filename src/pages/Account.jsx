@@ -13,7 +13,8 @@ const databaseData = require('../../api/database.json');
 import ArticleCard from '../components/articleCard';
 import { Article } from './Home';
 
-const AccountView = ({navigation}) => {
+const AccountView = ({route,navigation}) => {
+    const {likedArticles, addLikedArticle,removeLikedArticle} = route.params;
     return ( 
         <SafeAreaView style={globalStyles.accountContainer}>
                 <FlatList
@@ -62,6 +63,7 @@ const Account = (props) => {
                     name="AccountView"
                     component={AccountView}
                     options={{ headerShown: false }}
+                    initialParams={{likedArticles:props.route.params.likedArticles,addLikedArticle:props.route.params.addLikedArticle,removeLikedArticle:props.route.params.removeLikedArticle,onPress:"AccountView"}}
                 />
                 <Stack.Screen
                     name="Publish"
@@ -75,10 +77,10 @@ const Account = (props) => {
                     }}
                 />
                 <Stack.Screen
-                name="Article"
-                component={Article}
-                options={{ headerShown: false }}
-                initialParams={{likedArticles:props.route.params.likedArticles,setLikedArticles:props.route.params.setLikedArticles,onPress:"AccountView"}}
+                    name="Article"
+                    component={Article}
+                    options={{ headerShown: false }}                                                                        
+                    initialParams={{likedArticles:props.route.params.likedArticles,addLikedArticle:props.route.params.addLikedArticle,removeLikedArticle:props.route.params.removeLikedArticle,onPress:"AccountView"}}
                 />
             </Stack.Navigator>
         </NavigationContainer>

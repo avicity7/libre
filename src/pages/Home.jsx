@@ -16,8 +16,49 @@ import { StripeProvider } from '@stripe/stripe-react-native';
 import PaymentScreen from '../components/payment';
 import { useCallback } from 'react';
 import { Linking } from 'react-native';
+const db = require('../../api/firebaseConfig.js');
+import {collection, getDocs, query, where} from "firebase/firestore";
 
-const ArticlesView = ({ navigation }) => {
+const getLikes = async() => {
+    var likedArray = []
+    const user = await getDocs(query(collection(db, "users"), where("username", "==", "hiroyuki")))
+    user.forEach(doc => {
+      likedArray = doc.data().likes
+    });
+    return likedArray
+}
+
+
+const getArticles = async() => {
+    var articlesArray = []
+    const articles = await getDocs(collection(db,"articles"))
+    var obj = {}
+    articles.forEach(doc => {
+      articlesArray.push(doc.data());
+    });
+    return articlesArray
+}
+
+const ArticlesView = ({ route, navigation }) => {
+    const {likedArticles, addLikedArticle,removeLikedArticle} = route.params;
+    const [articles,setArticles] = useState()
+    useEffect(()=>{
+        const getArticlesFunction = async () => {
+            let fetchedArticles = await getArticles();
+            setArticles(fetchedArticles);
+        }
+
+        getArticlesFunction();
+
+        const fetchLikedArticles = async () => { 
+            let fetchedLikedArticles = await getLikes();
+            for (let i = 0; i < fetchedLikedArticles.length; i++){
+                !likedArticles.includes(fetchedLikedArticles[i])? addLikedArticle(fetchedLikedArticles[i]):null
+            } 
+        }
+        fetchLikedArticles();
+    },[])
+
     const [loaded] = useFonts({
         NotoSerifRegular: require('../../assets/fonts/NotoSerif-Regular.ttf'),
         NotoSerifBold: require('../../assets/fonts/NotoSerif-Bold.ttf')
@@ -28,8 +69,8 @@ const ArticlesView = ({ navigation }) => {
     }
     
     return ( 
-        <SafeAreaView style={globalStyles.container}>
-            <View style = {{flexDirection:"row"}}>
+        <View style={globalStyles.container}>
+            <SafeAreaView style = {{flexDirection:"row"}}>
                 <Text
                     style={[globalStyles.header,{fontFamily: 'NotoSerifBold'}]}
                 >
@@ -46,22 +87,21 @@ const ArticlesView = ({ navigation }) => {
                     </Svg>
                     
                 </Pressable>
-            </View>
+            </SafeAreaView>
                 
             <FlatList
                 removeClippedSubviews={false} 
                 ListHeaderComponent = {<ArticleCarou navigation={navigation}/>}
-                data={databaseData.articles}
+                data={articles}
                 renderItem={({ item }) => <ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />}
-                keyExtractor={item => item.id}
             />
         
-        </SafeAreaView>
+        </View>
     )
 }
 
-export const Article = ({route,navigation}) => { 
-    const {article,likedArticles,setLikedArticles,onPress} = route.params;
+export const Article = ({route,navigation}) => {
+    const {article,likedArticles,addLikedArticle,removeLikedArticle,onPress} = route.params;
     return (
         <SafeAreaView style = {globalStyles.articleContainer}>
             <ScrollView>
@@ -73,7 +113,7 @@ export const Article = ({route,navigation}) => {
                         <BackButton onPress={() => {navigation.navigate(onPress)}}/>
                     </View>
                     <View style = {{flex:1}}>
-                        <LikeButton id={article.id} likedArticles={likedArticles} setLikedArticles={setLikedArticles}/>
+                        <LikeButton id={article.id} likedArticles={likedArticles} addLikedArticle={addLikedArticle} removeLikedArticle={removeLikedArticle}/>
                     </View>
                 </View>
                 <Text
@@ -258,12 +298,13 @@ const Home = (props) => {
             name="Articles"
             component={ArticlesView}
             options={{ headerShown: false }}
+            initialParams={{likedArticles:props.route.params.likedArticles,addLikedArticle:props.route.params.addLikedArticle,removeLikedArticle:props.route.params.removeLikedArticle}}
           />
           <Stack.Screen
             name="Article"
             component={Article}
             options={{ headerShown: false }}
-            initialParams={{likedArticles:props.route.params.likedArticles,setLikedArticles:props.route.params.setLikedArticles,onPress:"Articles"}}
+            initialParams={{likedArticles:props.route.params.likedArticles,addLikedArticle:props.route.params.addLikedArticle,removeLikedArticle:props.route.params.removeLikedArticle,onPress:"Articles"}}
           />
           <Stack.Screen
             name="Credit"

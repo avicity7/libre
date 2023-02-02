@@ -10,11 +10,13 @@ const globalStyles = StyleSheet.create({
   articleContainer: {
     flex: 1,
     backgroundColor: "white",
-    marginBottom: -30,
+    paddingBottom: 8,
+    margin: "auto",
   },
   accountContainer: {
     flex: 1,
     backgroundColor: "white",
+    paddingBottom:8
   },
   deviceContainer: {
     flex: 1,
@@ -102,10 +104,9 @@ const globalStyles = StyleSheet.create({
   articleBody: {
     fontSize: 16,
     marginLeft: 15,
-    marginRight: 15,
     marginBottom: 50,
     lineHeight: 30,
-    width: Dimensions.get("window").width - 20,
+    width: Dimensions.get("window").width - 30,
   },
   profileName: {
     marginTop: 10,

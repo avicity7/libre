@@ -29,7 +29,20 @@ LogBox.ignoreLogs([
 const Tab = createBottomTabNavigator();
 
 const HomeTabs = () => {
-  const [likedArticles, setLikedArticles] = useState(databaseData.liked);
+  const [likedArticles, setLikedArticles] = useState([]);
+  const [displayCategory, setDisplayCategory] = useState(0);
+  const addLikedArticle = (article) => {
+    setLikedArticles(likedArticles.push(article));
+    console.log(likedArticles)
+  }
+  const removeLikedArticle = (article) => { 
+    setLikedArticles(likedArticles.splice(likedArticles.indexOf(article), 1));
+    console.log(likedArticles)
+  }
+  const updateDisplayCategory = () => { 
+    setDisplayCategory(!displayCategory);
+    console.log(displayCategory)
+  }
   return(
     <Tab.Navigator
           screenOptions={({ route }) => ({
@@ -55,7 +68,6 @@ const HomeTabs = () => {
                 />
               );
             },
-            headerTitleAlign: "center",
             tabBarActiveTintColor: "#020202",
             tabBarStyle: {
               borderTopWidth: 0,
@@ -66,15 +78,13 @@ const HomeTabs = () => {
               fontFamily: "NotoSerifRegular",
               padding: Platform.OS === 'ios' ? 0 : 10
             },
-            headerTitleStyle: {
-            },
             headerShown: false,
           })}
           initialRouteName = "Home"
           >
-            <Tab.Screen name = "Library" component = {Library} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
-            <Tab.Screen name = "Home" component = {Home} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
-            <Tab.Screen name = "Account" component = {Account} initialParams = {{likedArticles: likedArticles,setLikedArticles: setLikedArticles}}></Tab.Screen>
+            <Tab.Screen name = "Library" component = {Library} initialParams = {{likedArticles: likedArticles,addLikedArticle:addLikedArticle,removeLikedArticle:removeLikedArticle,updateDisplayCategory:updateDisplayCategory,displayCategory:displayCategory}} ></Tab.Screen>
+            <Tab.Screen name = "Home" component = {Home} initialParams = {{likedArticles: likedArticles,addLikedArticle:addLikedArticle,removeLikedArticle:removeLikedArticle}}></Tab.Screen>
+            <Tab.Screen name = "Account" component = {Account} initialParams = {{likedArticles: likedArticles,addLikedArticle:addLikedArticle,removeLikedArticle:removeLikedArticle}}></Tab.Screen>
     </Tab.Navigator>
   )
 }
