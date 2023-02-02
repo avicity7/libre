@@ -4,7 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import { getFirestore, collection, setDoc, doc } from "firebase/firestore";
+const db = require('../../api/firebaseConfig.js');
 const auth = getAuth();
 
 const Login = ({navigation}) => {
@@ -17,11 +18,11 @@ const Login = ({navigation}) => {
         <SafeAreaView
         style = {styles.container}>
             <Text style = {styles.title}>libre</Text>
-            <Text style = {styles.textStyle}>Username</Text>
+            <Text style = {styles.textStyle}>Email</Text>
             <TextInput
                 style = {styles.textContainer}
-                placeholder='username'
-                textContentType='username'
+                placeholder='email'
+                textContentType='email'
                 onChangeText={newText => setEmail(newText)}
             />
             <Text style = {styles.textStyle}>Password</Text>
@@ -82,11 +83,11 @@ const Signup = ({navigation}) => {
         style = {styles.container}>
             <Text style = {styles.title}>libre</Text>
             <Text style = {{fontSize: 20, color: "black",fontFamily:"NotoSerifRegular",alignSelf:"center",marginTop:60}}>Account Setup</Text>
-            <Text style = {styles.textStyle}>Username</Text>
+            <Text style = {styles.textStyle}>Email</Text>
             <TextInput
                 style = {styles.textContainer}
-                placeholder='username'
-                textContentType='username'
+                placeholder='email'
+                textContentType='email'
                 onChangeText={newText => setEmail(newText)}
             />
             <Text style = {styles.textStyle}>Password</Text>
@@ -104,17 +105,19 @@ const Signup = ({navigation}) => {
                 .then((userCredential) => {
                     // Signed in 
                     const user = userCredential.user;
-                    
+                    console.log(user);
+                    navigation.navigate("CreateAccount")
                     // ...
                 })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
+                    console.log(errorMessage)
                     // ..
                 });
             }}
             >
-                <Text style = {{fontSize: 16, color: "white",fontFamily:"NotoSerifBold"}}> Create Account </Text>
+                <Text style = {{fontSize: 16, color: "white",fontFamily:"NotoSerifBold"}}> Set up account </Text>
             </Pressable>
 
             <Text style = {{fontSize: 20, color: "black",fontFamily:"NotoSerifRegular",alignSelf:"center",marginTop:60}}>Already have an account?</Text>
@@ -137,21 +140,62 @@ const Signup = ({navigation}) => {
 }
 
 const CreateAccount = ({navigation}) => {
+    const auth = getAuth();
+    const [username, setUsername] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    
+    const [bio, setBio] = useState('');
+
     return(
         <SafeAreaView style={styles.container}>
+            <Text style = {{fontSize: 26, color: "black",fontFamily:"NotoSerifRegular",alignSelf:"center",marginBottom:30}}>Account Setup</Text>
+            <Text style = {styles.textStyle}>Username</Text>
+            <TextInput
+                style = {styles.textContainer}
+                onChangeText={newText => setUsername(newText)}
+            />
             <Text style = {styles.textStyle}>First Name</Text>
             <TextInput
                 style = {styles.textContainer}
-                onChangeText={newText => setEmail(newText)}
+                onChangeText={newText => setFirstName(newText)}
             />
             <Text style = {styles.textStyle}>Last Name</Text>
             <TextInput
                 style = {styles.textContainer}
-                onChangeText={newText => setPassword(newText)}
+                onChangeText={newText => setLastName(newText)}
             />
+            <Text style = {styles.textStyle}>Bio</Text>
+            <TextInput
+                style = {styles.textContainer}
+                onChangeText={newText => setBio(newText)}
+            />
+            <Pressable 
+            style = {styles.signupButton}
+            onPress = {()=>{
+                const docRef = doc(db, "users", auth.currentUser.email);
+
+                const data = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    bio: bio, 
+                    likes: [],
+                    published: [],
+                    subscriptions: [],
+                    username: username
+                };
+
+                setDoc(docRef, data)
+                .then(() => {
+                    console.log("Document has been added successfully");
+                    navigation.goBack();
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            }}
+            >
+                <Text style = {{fontSize: 16, color: "white",fontFamily:"NotoSerifBold"}}> Create Account </Text>
+            </Pressable>
         </SafeAreaView>
     )
 }
