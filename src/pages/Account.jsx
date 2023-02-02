@@ -39,6 +39,7 @@ const getArticles = async() => {
     return articlesArray
 }
 
+import EditProfile from '../components/editProfile';
 const AccountView = ({route,navigation}) => {
     const auth = getAuth();
 
@@ -88,6 +89,7 @@ const AccountView = ({route,navigation}) => {
                     </View>
                     <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>{firstName} {lastName}</Text>
                     <Text style = {globalStyles.bioText}>{bio}</Text>
+                    <EditProfile onPress={()=>navigation.navigate("Edit Account")}/>
                 </>}
                 extraData={articles}
                 removeClippedSubviews={false} 
@@ -122,21 +124,38 @@ const AccountViewUser = ({route,navigation}) => {
     )
 }
 
+const EditAccount = ({route}) => {
+    return(
+
+        <ScrollView style = {globalStyles.container}>
+            <Text style = {globalStyles.publishSubHeader}>Username:</Text>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
+            <Text style = {globalStyles.publishSubHeader}>Enter Profile Image Url:</Text>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
+            <Text style = {globalStyles.publishSubHeader}>Enter Banner Image Url:</Text>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
+            <Text style = {globalStyles.publishSubHeader}>Bio:</Text>
+            <TextInput style  = {globalStyles.inputBoxBodyStyle} multiline = {true}></TextInput>
+            <PublishButton text = "Update Profile"/>
+        </ScrollView>
+    
+    )
+
+}
+
 const Publish = ({route}) => {
     return(
 
         <ScrollView style = {globalStyles.container}>
             <Text style = {globalStyles.publishSubHeader}>Article Name</Text>
             <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
-            <Text style = {globalStyles.publishSubHeader}>Header Picture</Text>
-            <View style = {{marginLeft: 30, marginRight: 30}}>
-            <Shadow style={{alignItems: 'center',justifyContent:"center",borderRadius: 15,}} distance={3}>
-            <ImagePickerExample/>
-            </Shadow>
-            </View>
+            <Text style = {globalStyles.publishSubHeader}>Enter Article Image Url:</Text>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
+            <Text style = {globalStyles.publishSubHeader}>Synopsis:</Text>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
             <Text style = {globalStyles.publishSubHeader}>Article Body</Text>
             <TextInput style  = {globalStyles.inputBoxBodyStyle} multiline = {true}></TextInput>
-            <PublishButton />
+            <PublishButton text = "Publish Article"/>
         </ScrollView>
     
     )
@@ -149,6 +168,17 @@ const Account = (props) => {
     return(
         <NavigationContainer independent={true}>
             <Stack.Navigator initialRouteName="AccountView">
+                <Stack.Screen
+                name = "Edit Account"
+                component={EditAccount}
+                options={{
+                    headerBackTitle: "",
+                    headerTintColor: "black",
+                    headerTitleStyle: {
+                        color: "black",
+                    }
+                    }}
+                />
                 <Stack.Screen
                     name="AccountView"
                     component={AccountView}

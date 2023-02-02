@@ -33,7 +33,7 @@ const globalStyles = StyleSheet.create({
   writeButtonPos: {
     position: "absolute",
     left: "76%",
-    top: "95%",
+    top: "90%",
   },
   imagePickerButton: {
     backgroundColor: "white",
