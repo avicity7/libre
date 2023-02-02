@@ -24,37 +24,39 @@ LogBox.ignoreLogs([
 
 //Import firebase stuff 
 const db = require('./api/firebaseConfig');
-import {collection, getDocs, query, where} from "firebase/firestore";
+import { updateDoc, doc } from "firebase/firestore";
 
 //Create bottom tab 
 const Tab = createBottomTabNavigator();
 
-const getLikes = async() => {
-  var likedArray = []
-  const user = await getDocs(query(collection(db, "users"), where("username", "==", "hiroyuki")))
-  user.forEach(doc => {
-    likedArray = doc.data()
-    console.log(likedArray)
-  });
-  return likedArray
+const updateLikes = async(likesArray) => {
+  const docRef = doc(db, "users", "hiroyuki");
+
+  const data = {
+    likes: likesArray
+  };
+
+  updateDoc(docRef, data)
+  .then(docRef => {
+      console.log("Likes updated to "+likesArray);
+  })
+  .catch(error => {
+      console.log(error);
+  })
 }
 
 const HomeTabs = () => {
   const [likedArticles, setLikedArticles] = useState([]);
-  const [refreshFlatList, setRefreshFlatList] = useState(false);
+  const [loading,setLoading] = useState(true)
   const addLikedArticle = (article) => {
     setLikedArticles(likedArticles.push(article));
-    setRefreshFlatList(!refreshFlatList);
+    updateLikes(likedArticles);
     console.log(likedArticles)
   }
   const removeLikedArticle = (article) => { 
     setLikedArticles(likedArticles.splice(likedArticles.indexOf(article), 1));
-    setRefreshFlatList(!refreshFlatList);
+    updateLikes(likedArticles);
     console.log(likedArticles)
-  }
-  const updateDisplayCategory = () => { 
-    setDisplayCategory(!displayCategory);
-    console.log(displayCategory)
   }
   return(
     <Tab.Navigator
@@ -95,7 +97,7 @@ const HomeTabs = () => {
           })}
           initialRouteName = "Home"
           >
-            <Tab.Screen name = "Library" component = {Library} initialParams = {{likedArticles: likedArticles,addLikedArticle:addLikedArticle,removeLikedArticle:removeLikedArticle,refreshFlatList:refreshFlatList}} ></Tab.Screen>
+            <Tab.Screen name = "Library" component = {Library} initialParams = {{likedArticles: likedArticles,addLikedArticle:addLikedArticle,removeLikedArticle:removeLikedArticle}} ></Tab.Screen>
             <Tab.Screen name = "Home" component = {Home} initialParams = {{likedArticles: likedArticles,addLikedArticle:addLikedArticle,removeLikedArticle:removeLikedArticle}}></Tab.Screen>
             <Tab.Screen name = "Account" component = {Account} initialParams = {{likedArticles: likedArticles,addLikedArticle:addLikedArticle,removeLikedArticle:removeLikedArticle}}></Tab.Screen>
     </Tab.Navigator>

@@ -9,14 +9,17 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const db = require('../../api/firebaseConfig.js');
-import {collection, getDocs, query, where} from "firebase/firestore";
+import {collection, getDocs, getDoc, doc} from "firebase/firestore";
 
 const getLikes = async() => {
     var likedArray = []
-    const user = await getDocs(query(collection(db, "users"), where("username", "==", "hiroyuki")))
-    user.forEach(doc => {
-      likedArray = doc.data().likes
-    });
+    const docRef = doc(db, "users", "hiroyuki");
+    const docSnap = await getDoc(docRef);
+    likedArray = docSnap.data().likes
+    // const user = await getDocs(query(collection(db, "users"), where("username", "==", "hiroyuki")))
+    // user.forEach(doc => {
+    //   likedArray = doc.data().likes
+    // });
     return likedArray
 }
 
@@ -30,7 +33,8 @@ const getArticles = async() => {
 }
 
 const LibraryView = ({route,navigation}) => {
-    const {likedArticles, addLikedArticle, removeLikedArticle, refreshFlatList} = route.params;
+    const {likedArticles, addLikedArticle, removeLikedArticle} = route.params;
+    const [localLikedArticles,setLocalLikedArticles] = useState(likedArticles);
     const [displayCategory, setDisplayCategory] = useState("subscriptions");
     const [articles,setArticles] = useState();
 
@@ -47,10 +51,11 @@ const LibraryView = ({route,navigation}) => {
             for (let i = 0; i < fetchedLikedArticles.length; i++){
                 !likedArticles.includes(fetchedLikedArticles[i])? addLikedArticle(fetchedLikedArticles[i]): null
             } 
+            setLocalLikedArticles(fetchedLikedArticles)
         }
         fetchLikedArticles();
 
-    },[])
+    },[localLikedArticles])
 
     return ( 
         <SafeAreaView style={globalStyles.container}>
@@ -90,7 +95,7 @@ const LibraryView = ({route,navigation}) => {
             </View>
 
             <FlatList
-                extraData={likedArticles}
+                extraData={localLikedArticles}
                 style = {[displayCategory == "liked"?{opacity:100}:{opacity:0},{marginTop:10}]}
                 data={articles}
                 renderItem={({ item }) => likedArticles.includes(item.id) && displayCategory == "liked"?<ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />:null}
@@ -111,7 +116,7 @@ const Library = (props) => {
             name="Library"
             component={LibraryView}
             options={{ headerShown: false }}
-            initialParams={{likedArticles:props.route.params.likedArticles,addLikedArticle:props.route.params.addLikedArticle,removeLikedArticle:props.route.params.removeLikedArticle,updateDisplayCategory:props.route.params.updateDisplayCategory,refreshFlatList:props.route.params.refreshFlatList}}
+            initialParams={{likedArticles:props.route.params.likedArticles,addLikedArticle:props.route.params.addLikedArticle,removeLikedArticle:props.route.params.removeLikedArticle,updateDisplayCategory:props.route.params.updateDisplayCategory}}
           />
           <Stack.Screen
             name="Article"

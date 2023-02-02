@@ -12,15 +12,18 @@ import ProfilePhoto from '../components/profilePhoto';
 import ArticleCard from '../components/articleCard';
 import { Article } from './Home';
 const db = require('../../api/firebaseConfig.js');
-import {collection, getDocs, query, where} from "firebase/firestore";
+import {collection, getDocs, getDoc, doc} from "firebase/firestore";
 
 
 const getLikes = async() => {
     var likedArray = []
-    const user = await getDocs(query(collection(db, "users"), where("username", "==", "hiroyuki")))
-    user.forEach(doc => {
-      likedArray = doc.data().likes
-    });
+    const docRef = doc(db, "users", "hiroyuki");
+    const docSnap = await getDoc(docRef);
+    likedArray = docSnap.data().likes
+    // const user = await getDocs(query(collection(db, "users"), where("username", "==", "hiroyuki")))
+    // user.forEach(doc => {
+    //   likedArray = doc.data().likes
+    // });
     return likedArray
 }
 
@@ -67,6 +70,7 @@ const AccountView = ({route,navigation}) => {
                     <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>Hiroyuki Nishimura</Text>
                     <Text style = {globalStyles.bioText}>A journalist enthusiastic about different perspectives. Looking to venture into Arts.</Text>
                 </>}
+                extraData={articles}
                 removeClippedSubviews={false} 
                 data={articles}
                 renderItem={({ item }) => item.authorUsername == "hiroyuki"?<ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />:null}
