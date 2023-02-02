@@ -177,7 +177,32 @@ const globalStyles = StyleSheet.create({
     marginRight:15,
     marginTop: 15,
     color:'#B0B0B0'
-  }
+  },
+  SubscribeButtonPos:{
+   marginLeft:20,
+   marginBottom: 15,
+   marginTop: -20,
+   
+  },
+  SubscribeButton:{
+    width: Dimensions.get('window').width - 300,
+   
+   
+
+    
+  },
+  SubscribeText:{
+    fontSize: 12,
+    textAlign: "center",
+    fontFamily: "NotoSerifRegular",
+    borderRadius: 30
+  },
+  shadowProp: {  
+    shadowOffset: {width: 0, height: 0},  
+    shadowColor: '#575757',  
+    shadowOpacity: 0.2,  
+    shadowRadius: 3,  
+  },  
 });
 
 export default globalStyles;

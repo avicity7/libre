@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {Image, View, Platform } from 'react-native';
+import {Image, View, Platform, Dimensions } from 'react-native';
 import Button from './button';
 import * as ImagePicker from 'expo-image-picker';
+import globalStyles from '../styles/global';
 
 export default function ImagePickerExample() {
   
@@ -24,7 +25,7 @@ export default function ImagePickerExample() {
   };
 
   return (
-    <View style={{alignItems: 'center', justifyContent: 'center', borderRadius: 15, marginLeft: 20, marginRight: 20, }}>
+    <View style = {[{textAlign:'center'},globalStyles.shadowProp]}>
       <Button title="Pick an image from camera roll" color = "black" onPress={pickImage}/>
       {image && <Image source={{ uri: image }} style={{ width: 200, height: 200}} />}
     </View>

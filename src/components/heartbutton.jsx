@@ -10,6 +10,7 @@ const LikeButton = ({id,likedArticles,addLikedArticle,removeLikedArticle}) => {
     const [notLiked,setColor] = useState(likedArticles.includes(id));
     const changeState = () => {
         setColor(!notLiked)
+        
         if (!notLiked){addLikedArticle(id)}
         else { 
             removeLikedArticle(id)
