@@ -1,4 +1,4 @@
-import { Modal, Pressable, StyleSheet, Text, View, ScrollView, FlatList , ImageBackground, Dimensions} from 'react-native';
+import { Modal, Pressable, StyleSheet, Text,TextInput, View, ScrollView, FlatList , ImageBackground, Dimensions} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import globalStyles from "../styles/global";
 import { NavigationContainer } from "@react-navigation/native";
@@ -21,6 +21,8 @@ import { Shadow } from 'react-native-shadow-2';
 import {collection, getDocs, getDoc, doc} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
+import EditButton from '../components/editButton';
+import PublishButton from '../components/publishButton';
 
 const getLikes = async(username) => {
     var likedArray = []
@@ -145,10 +147,17 @@ export const Article = ({route,navigation}) => {
                     <View style = {{flex:1}}>
                         <BackButton onPress={() => {navigation.navigate(onPress)}}/>
                     </View>
+                    <View style = {{flex:1}}> 
+                    <EditButton onPress={()=>{navigation.navigate("Edit Article")}}/>
+                    {/* Edit article when user is viewing their own account */}
+                    </View>
+                        
                     <View style = {{flex:1}}>
                         <LikeButton id={article.id} likedArticles={likedArticles} addLikedArticle={addLikedArticle} removeLikedArticle={removeLikedArticle} setModalVisible={setModalVisible} modalVisible={modalVisible}/>
                     </View>
+                    
                 </View>
+              
                 <Text
                     style={globalStyles.imageTitle}
                 >
@@ -172,6 +181,25 @@ export const Article = ({route,navigation}) => {
             </ScrollView>
         </SafeAreaView>
     )
+}
+
+const EditArticle = ({navigation}) => {
+    return(
+
+        <ScrollView style = {globalStyles.container}>
+            <Text style = {globalStyles.publishSubHeader}>Article Name</Text>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
+            <Text style = {globalStyles.publishSubHeader}>Enter Article Image Url:</Text>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
+            <Text style = {globalStyles.publishSubHeader}>Synopsis:</Text>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
+            <Text style = {globalStyles.publishSubHeader}>Article Body</Text>
+            <TextInput style  = {globalStyles.inputBoxBodyStyle} multiline = {true}></TextInput>
+            <PublishButton text = "Update Article"/>
+        </ScrollView>
+    
+    )
+
 }
 
 const Credit = ({navigation}) => {
@@ -223,7 +251,7 @@ const Credit = ({navigation}) => {
 
 const PurchaseCredit = ({navigation})=>{
 
-    const url = "https://buy.stripe.com/test_6oE9E2ayU4SHfeM5kl"
+    const url = "https://buy.stripe.com/test_cN2g2q6iE98XfeMdQU"
 
     const handlePress = useCallback(async () => {
 
@@ -356,6 +384,17 @@ const Home = (props) => {
             name = "Purchase With Card"
             component={CreditPayment}
             options = {{ headerShown: false }}
+          />
+         <Stack.Screen
+            name="Edit Article"
+            component={EditArticle}
+            options={{
+            headerBackTitle: "",
+            headerTintColor: "black",
+            headerTitleStyle: {
+                color: "black",
+            }
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
