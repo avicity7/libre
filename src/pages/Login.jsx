@@ -2,6 +2,8 @@ import { Pressable, StyleSheet, Text, TextInput, View, ScrollView, FlatList ,Dim
 import React, {useState, useEffect} from 'react';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const auth = getAuth();
 
@@ -47,7 +49,17 @@ const Login = ({navigation}) => {
                 });
             }}
             >
-                <Text style = {{fontSize: 20, color: "white",fontFamily:"NotoSerifRegular"}}> Sign In </Text>
+                <Text style = {{fontSize: 16, color: "white",fontFamily:"NotoSerifBold"}}> Sign In </Text>
+            </Pressable>
+
+            <Text style = {{fontSize: 20, color: "black",fontFamily:"NotoSerifRegular",alignSelf:"center",marginTop:60}}>Don't have an account?</Text>
+            <Pressable 
+            style = {styles.signupButton}
+            onPress = {()=>{
+                navigation.navigate("Signup")
+            }}
+            >
+                <Text style = {{fontSize: 16, color: "white",fontFamily:"NotoSerifBold"}}> Sign Up </Text>
             </Pressable>
             
 
@@ -59,7 +71,119 @@ const Login = ({navigation}) => {
 
 }
 
+const Signup = ({navigation}) => {
+    const auth = getAuth();
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+    return(
+        
 
+        <SafeAreaView
+        style = {styles.container}>
+            <Text style = {styles.title}>libre</Text>
+            <Text style = {{fontSize: 20, color: "black",fontFamily:"NotoSerifRegular",alignSelf:"center",marginTop:60}}>Account Setup</Text>
+            <Text style = {styles.textStyle}>Username</Text>
+            <TextInput
+                style = {styles.textContainer}
+                placeholder='username'
+                textContentType='username'
+                onChangeText={newText => setEmail(newText)}
+            />
+            <Text style = {styles.textStyle}>Password</Text>
+            <TextInput
+                style = {styles.textContainer}
+                placeholder = 'password'
+                textContentType='password'
+                onChangeText={newText => setPassword(newText)}
+            />
+
+            <Pressable 
+            style = {styles.loginButton}
+            onPress = {()=>{
+                createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // ..
+                });
+            }}
+            >
+                <Text style = {{fontSize: 16, color: "white",fontFamily:"NotoSerifBold"}}> Create Account </Text>
+            </Pressable>
+
+            <Text style = {{fontSize: 20, color: "black",fontFamily:"NotoSerifRegular",alignSelf:"center",marginTop:60}}>Already have an account?</Text>
+            <Pressable 
+            style = {styles.signupButton}
+            onPress = {()=>{
+                navigation.navigate("Login")
+            }}
+            >
+                <Text style = {{fontSize: 16, color: "white",fontFamily:"NotoSerifBold"}}> Sign In </Text>
+            </Pressable>
+            
+
+
+        </SafeAreaView>
+        
+
+    )
+
+}
+
+const CreateAccount = ({navigation}) => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    
+    return(
+        <SafeAreaView style={styles.container}>
+            <Text style = {styles.textStyle}>First Name</Text>
+            <TextInput
+                style = {styles.textContainer}
+                onChangeText={newText => setEmail(newText)}
+            />
+            <Text style = {styles.textStyle}>Last Name</Text>
+            <TextInput
+                style = {styles.textContainer}
+                onChangeText={newText => setPassword(newText)}
+            />
+        </SafeAreaView>
+    )
+}
+
+const Stack = createNativeStackNavigator();
+
+const LoginPage = () => { 
+    return(
+        <NavigationContainer independent={true}>
+            <Stack.Navigator initialRouteName="Login">
+                <Stack.Screen
+                    name="Login"
+                    component={Login}
+                    options={{ headerShown: false }}
+                />
+
+                <Stack.Screen
+                    name="Signup"
+                    component={Signup}
+                    options={{ headerShown: false }}
+                />
+
+                <Stack.Screen
+                    name="CreateAccount"
+                    component={CreateAccount}
+                    options={{ headerShown: false }}
+                />
+                
+            </Stack.Navigator>
+        </NavigationContainer>
+    )
+}
 
 const styles = StyleSheet.create({
     container:{
@@ -95,7 +219,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#202020',
         borderRadius:16,
         width: 300,
-        padding: 'auto',
+        padding: 6,
+        alignSelf:'center',
+        alignItems:"center",
+    
+    },
+    signupButton:{
+        marginTop: 20,
+        backgroundColor: '#202020',
+        borderRadius:16,
+        width: 300,
+        padding: 6,
         alignSelf:'center',
         alignItems:"center",
     
@@ -115,4 +249,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default Login
+export default LoginPage
