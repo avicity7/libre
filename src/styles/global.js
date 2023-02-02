@@ -197,12 +197,7 @@ const globalStyles = StyleSheet.create({
     fontFamily: "NotoSerifRegular",
     borderRadius: 30
   },
-  shadowProp: {  
-    shadowOffset: {width: 0, height: 0},  
-    shadowColor: '#575757',  
-    shadowOpacity: 0.2,  
-    shadowRadius: 3,  
-  },  
+
 });
 
 export default globalStyles;
