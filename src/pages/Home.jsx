@@ -16,6 +16,8 @@ import PaymentScreen from '../components/payment';
 import { useCallback } from 'react';
 import { Linking } from 'react-native';
 const db = require('../../api/firebaseConfig.js');
+import {collection, getDocs, query, where} from "firebase/firestore";
+import { Shadow } from 'react-native-shadow-2';
 import {collection, getDocs, getDoc, doc} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
@@ -173,7 +175,7 @@ export const Article = ({route,navigation}) => {
 }
 
 const Credit = ({navigation}) => {
-    const secret = "sk_test_51MUsQUEyXbc8egvPk6J4P1EhtCJUu6Au8zrrl19S8WSolx98nd1MOSqDSyTuf1cb2dqfKyRIutScxNJfxeGiMDdc00e1xEP0Wc"
+   
     return(
      
 
@@ -189,11 +191,14 @@ const Credit = ({navigation}) => {
                     <Path d="M27.999 7.99994L21.3324 15.3333V24.6666L27.999 31.9999V7.99994Z" fill="#F5F5F5"/>
                     <Path d="M27.999 7.99994L21.3324 15.3333V24.6666L27.999 31.9999V7.99994Z" fill="#F5F5F5"/>
                 </Svg>
-                
 
-                <Pressable style = {styles.button} onPress = {()=>{navigation.navigate("Purchase Credits")}}>
+                <View style = {styles.button}>
+                <Shadow style = {{borderRadius: 30, padding: 5}} distance = {5}>
+                <Pressable  onPress = {()=>{navigation.navigate("Purchase Credits")}}>
                     <Text style = {{fontFamily:"NotoSerifRegular", fontSize: 13}}>Purchase Credits</Text>
                 </Pressable>
+                </Shadow>
+                </View>
 
                 <Text style = {styles.subscriptionSubHeader}>My Subscriptions</Text>
             
@@ -242,9 +247,10 @@ const PurchaseCredit = ({navigation})=>{
                         <Path d="M27.999 7.99994L21.3324 15.3333V24.6666L27.999 31.9999V7.99994Z" fill="#F5F5F5"/>
                     </Svg>
                     <Text style = {[styles.cashNumber,{color:"#DDDDDD"}]}>$0.00USD</Text>
-               
+                  
+
                     <Pressable
-                        style={styles.buyButton}
+                       style = {styles.buyButton}
                         onPress={handlePress}
                     >
                                 <Text style={styles.buttonText}>Purchase with Card</Text>
@@ -262,6 +268,7 @@ const PurchaseCredit = ({navigation})=>{
                                 />
                             </Svg>
                      </Pressable>
+
             
                         <Pressable style = {styles.buyButton}>
                             
