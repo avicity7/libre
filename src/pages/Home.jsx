@@ -159,11 +159,9 @@ export const Article = ({route,navigation}) => {
                 >
                     {article.title}
                 </Text>
-                <Text
-                    style={[globalStyles.articleDetails,globalStyles.detailPos]}
-                >
-                    Published by: {article.author}
-                </Text>
+                <Pressable onPress={()=>{
+                    
+                }}><Text style={[globalStyles.articleDetails,globalStyles.detailPos]}>Published by {article.author}</Text></Pressable>
                 <Text
                     style={[globalStyles.articleBody,{fontFamily: 'NotoSerifRegular'}]}
                 >
