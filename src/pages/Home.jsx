@@ -328,10 +328,14 @@ const Credit = ({route,navigation}) => {
      
 
         <SafeAreaView style = {globalStyles.container}>
-            <BackButton onPress={() => {navigation.navigate("Articles")}}/>
-            <ScrollView>
 
-                <Text style = {styles.creditNumber}>{credits}</Text>
+            <FlatList
+            
+            style = {{marginTop:10}}
+            data={localSubscriptions}
+            ListHeaderComponent={<>
+            <BackButton onPress={() => {navigation.navigate("Articles")}}/>
+            <Text style = {styles.creditNumber}>{credits}</Text>
                 <Svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style = {styles.coin}>
                     <Circle cx="20" cy="20" r="20" fill="#202020"/>
                     <Path d="M12.001 7.99994L18.6676 15.3333V24.6666L12.001 31.9999V7.99994Z" fill="#F5F5F5"/>
@@ -342,7 +346,7 @@ const Credit = ({route,navigation}) => {
 
                 <View style = {[styles.buyButton,styles.buyButtonPos]}>
                 <Shadow style = {{borderRadius: 30, padding: 5}} distance = {5}>
-                <Pressable  onPress = {()=>{navigation.navigate("PurchaseCredits")}}>
+                <Pressable  onPress = {()=>{navigation.navigate("PurchaseCredits",{credits:credits})}}>
                     <Text style = {{fontFamily:"NotoSerifRegular", fontSize: 13}}>Purchase Credits</Text>
                 </Pressable>
                 </Shadow>
@@ -350,10 +354,11 @@ const Credit = ({route,navigation}) => {
 
                 <Text style = {styles.subscriptionSubHeader}>My Subscriptions</Text>
             
-                <AuthorCard/>
+            </>}
+            renderItem={({ item }) => <AuthorCard item={item} />}
+            /> 
 
 
-            </ScrollView>
 
         </SafeAreaView>
 
@@ -369,8 +374,8 @@ const Credit = ({route,navigation}) => {
 
 }
 
-const PurchaseCredit = ({navigation})=>{
-
+const PurchaseCredit = ({route,navigation})=>{
+    const {credits} = route.params
     const url = "https://buy.stripe.com/test_cN2g2q6iE98XfeMdQU"
 
     const handlePress = useCallback(async () => {
@@ -382,11 +387,11 @@ const PurchaseCredit = ({navigation})=>{
 
     return(
         <SafeAreaView style ={globalStyles.container}>
-            <BackButton onPress={() => {navigation.navigate("Credit")}}/>
+            <BackButton onPress={() => {navigation.navigate("Credit",{credits:credits})}}/>
             <ScrollView>
                 <View style ={{marginTop:80}}>
 
-                    <Text style = {[styles.creditNumber,{color:"#DDDDDD"}]}>1234</Text>
+                    <Text style = {[styles.creditNumber,{color:"#DDDDDD"}]}>100</Text>
                     <Svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style = {styles.coin}>
                         <Circle cx="20" cy="20" r="20" fill="#202020"/>
                         <Path d="M12.001 7.99994L18.6676 15.3333V24.6666L12.001 31.9999V7.99994Z" fill="#F5F5F5"/>
@@ -394,7 +399,7 @@ const PurchaseCredit = ({navigation})=>{
                         <Path d="M27.999 7.99994L21.3324 15.3333V24.6666L27.999 31.9999V7.99994Z" fill="#F5F5F5"/>
                         <Path d="M27.999 7.99994L21.3324 15.3333V24.6666L27.999 31.9999V7.99994Z" fill="#F5F5F5"/>
                     </Svg>
-                    <Text style = {[styles.cashNumber,{color:"#DDDDDD"}]}>$0.00USD</Text>
+                    <Text style = {[styles.cashNumber,{color:"#DDDDDD"}]}>$10.00USD</Text>
                   
 
                     <Pressable
