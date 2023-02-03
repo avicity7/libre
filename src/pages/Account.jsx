@@ -14,7 +14,7 @@ import { Article } from './Home';
 import SubscribeButton from '../components/subscribe';
 import { Shadow } from 'react-native-shadow-2';
 const db = require('../../api/firebaseConfig.js');
-import {collection, getDocs, getDoc, doc, onSnapshot, setDoc} from "firebase/firestore";
+import {collection, getDocs, getDoc, doc, onSnapshot, setDoc, updateDoc} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 
@@ -91,19 +91,39 @@ const AccountView = ({route,navigation}) => {
     )
 }
 
-const EditAccount = ({route}) => {
+const EditAccount = ({route,navigation}) => {
+    const auth = getAuth();
+    const [username, setUsername] = useState('');
+    const [bio, setBio] = useState('');
+    const [profileImg, setProfileImg] = useState('');
+    const [bannerImg, setBannerImg] = useState('')
     return(
 
         <ScrollView style = {globalStyles.container}>
             <Text style = {globalStyles.publishSubHeader}>Username:</Text>
-            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true} onChangeText={newText => setUsername(newText)}></TextInput>
             <Text style = {globalStyles.publishSubHeader}>Enter Profile Image Url:</Text>
             <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
             <Text style = {globalStyles.publishSubHeader}>Enter Banner Image Url:</Text>
             <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
             <Text style = {globalStyles.publishSubHeader}>Bio:</Text>
-            <TextInput style  = {globalStyles.inputBoxBodyStyle} multiline = {true}></TextInput>
-            <PublishButton text = "Update Profile"/>
+            <TextInput style  = {globalStyles.inputBoxBodyStyle} multiline = {true} onChangeText={newText => setBio(newText)}></TextInput>
+            <PublishButton text = "Update Profile" onPress={()=>{
+                const docRef = doc(db,"users",auth.currentUser.email)
+                const data = {
+                    username: username,
+                    bio: bio,
+                    profileImg: profileImg,
+                    bannerImg: bannerImg,
+                }
+                updateDoc(docRef,data)
+                .then(()=>{
+                    console.log("updated profile");
+                    alert("Profile has been updated!");
+                    navigation.navigate("AccountView")
+                })
+
+            }}/>
         </ScrollView>
     
     )
