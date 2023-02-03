@@ -98,20 +98,28 @@ const EditAccount = ({route,navigation}) => {
     const [bio, setBio] = useState('');
     const [profileImg, setProfileImg] = useState('');
     const [bannerImg, setBannerImg] = useState('')
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('')
     return(
 
         <ScrollView style = {globalStyles.container}>
             <Text style = {globalStyles.publishSubHeader}>Username:</Text>
             <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true} onChangeText={newText => setUsername(newText)}></TextInput>
+            <Text style = {globalStyles.publishSubHeader}>First Name:</Text>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true} onChangeText={newText => setFirstName(newText)}></TextInput>
+            <Text style = {globalStyles.publishSubHeader}>Last Name:</Text>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true} onChangeText={newText => setLastName(newText)}></TextInput>
             <Text style = {globalStyles.publishSubHeader}>Enter Profile Image Url:</Text>
-            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}onChangeText={newText => setProfileImg(newText)}></TextInput>
             <Text style = {globalStyles.publishSubHeader}>Enter Banner Image Url:</Text>
-            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true} onChangeText={newText => setBannerImg(newText)}></TextInput>
             <Text style = {globalStyles.publishSubHeader}>Bio:</Text>
             <TextInput style  = {globalStyles.inputBoxBodyStyle} multiline = {true} onChangeText={newText => setBio(newText)}></TextInput>
             <PublishButton text = "Update Profile" onPress={()=>{
                 const docRef = doc(db,"users",auth.currentUser.email)
                 const data = {
+                    firstName: firstName,
+                    lastName:lastName,
                     username: username,
                     bio: bio,
                     profileImg: profileImg,
