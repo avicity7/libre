@@ -39,9 +39,10 @@ const AccountView = ({route,navigation}) => {
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [bio, setBio] = useState('');
-    const [articles,setArticles] = useState();
+    const [articles,setArticles] = useState([]);
 
     useEffect(()=>{
+        console.log("refreshing")
         let documentID = auth.currentUser.email;
 
         const getArticlesFunction = async () => {
