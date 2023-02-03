@@ -1,8 +1,10 @@
 import { View , Image, StyleSheet,SafeAreaView} from "react-native";
-
+import {collection, getDocs, getDoc, doc, onSnapshot, setDoc, updateDoc} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import globalStyles from "../styles/global";
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 
+const db = require('../../api/firebaseConfig.js');
 const styles = StyleSheet.create({
     circle:{
         borderRadius:100,
@@ -17,11 +19,54 @@ const styles = StyleSheet.create({
 
 })
 
+
 const ProfilePhoto = () => {
+   
+    const auth = getAuth();
+
+
+    const [localPublishedArticles, setLocalPublishedArticles] = useState([]);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [username, setUsername] = useState('');
+    const [bio, setBio] = useState('');
+    const [articles,setArticles] = useState([]);
+    const [profileImg, setProfileImg] = useState('');
+    const [bannerImg, setBannerImg] = useState('')
+
+    useEffect(()=>{
+        console.log("refreshing")
+        let documentID = auth.currentUser.email;
+        const fetchAccount = onSnapshot(doc(db,"users",documentID),(docSnap) => {
+            let firstName = docSnap.data().firstName;
+            let lastName = docSnap.data().lastName;
+            let username = docSnap.data().username;
+            let bio = docSnap.data().bio;
+            let profileImg = docSnap.data().profileImg;
+            let bannerImg = docSnap.data().bannerImg
+            
+            setFirstName(firstName);
+            setLastName(lastName);
+            setUsername(username);
+            setBio(bio);
+            setProfileImg(profileImg);
+            setBannerImg(bannerImg);
+           
+        })
+
+        
+        return () => fetchAccount();
+
+    },[])
+    
+    
+    const image =  `${profileImg}`
+    
+    console.log(image)
     return(
         <View>
             <Image
-                source = {{uri:'https://resources.stuff.co.nz/content/dam/images/1/e/l/h/x/4/image.related.StuffLandscapeThreeByTwo.1464x976.1elhn3.png/1475619330888.png'}}
+            source = {{uri:image}}
                 style = {styles.circle}
             >
 

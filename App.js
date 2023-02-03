@@ -72,6 +72,7 @@ const Login = ({navigation,onPress}) => {
                   const errorCode = error.code;
                   const errorMessage = error.message;
               });
+              navigation.navigate("Login")
           }}
           >
               <Text style = {{fontSize: 16, color: "white",fontFamily:"NotoSerifBold"}}> Sign In </Text>
@@ -147,7 +148,7 @@ const Signup = ({navigation}) => {
           <Pressable 
           style = {styles.signupButton}
           onPress = {()=>{
-              navigation.navigate("Signin");
+              navigation.navigate("Login");
           }}
           >
               <Text style = {{fontSize: 16, color: "white",fontFamily:"NotoSerifBold"}}> Sign In </Text>
@@ -212,7 +213,7 @@ const CreateAccount = ({navigation}) => {
               .then(() => {
                   console.log("Document has been added successfully");
                   alert("Account created","Please sign in!")
-                  navigation.navigate("Login");
+                  
                   
               })
               .catch(error => {

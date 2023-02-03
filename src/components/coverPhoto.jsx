@@ -1,6 +1,9 @@
-import { View , Image, StyleSheet,SafeAreaView , Dimensions} from "react-native";
-
-import React, {useState} from 'react'
+import { View , Image, StyleSheet,SafeAreaView,Dimensions} from "react-native";
+import {collection, getDocs, getDoc, doc, onSnapshot, setDoc, updateDoc} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import globalStyles from "../styles/global";
+import React, {useState,useEffect} from 'react'
+const db = require('../../api/firebaseConfig.js');
 
 const styles = StyleSheet.create({
     imageSize:{
@@ -11,11 +14,14 @@ const styles = StyleSheet.create({
     }
 })
 
-const CoverPhoto = () => {
+const CoverPhoto = ({}) => {
+    
+    
     return(
+        
         <View>
             <Image source={{
-                uri: 'https://image.itmedia.co.jp/business/articles/2201/22/dk_3hiroyuki0.jpg'
+                uri: `}`
             }} style = {styles.imageSize}
             />
 

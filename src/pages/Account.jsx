@@ -40,6 +40,8 @@ const AccountView = ({route,navigation}) => {
     const [username, setUsername] = useState('');
     const [bio, setBio] = useState('');
     const [articles,setArticles] = useState([]);
+    const [profileImg, setProfileImg] = useState('');
+    const [bannerImg, setBannerImg] = useState('')
 
     useEffect(()=>{
         console.log("refreshing")
@@ -56,11 +58,15 @@ const AccountView = ({route,navigation}) => {
             let lastName = docSnap.data().lastName;
             let username = docSnap.data().username;
             let bio = docSnap.data().bio;
+            let profileImg = docSnap.data().profileImg;
+            let bannerImg = docSnap.data().bannerImg
             
             setFirstName(firstName);
             setLastName(lastName);
             setUsername(username);
             setBio(bio);
+            setProfileImg(profileImg);
+            setBannerImg(bannerImg);
             getArticlesFunction();
         })
 
@@ -68,13 +74,16 @@ const AccountView = ({route,navigation}) => {
         return () => fetchAccount();
 
     },[])
+    console.log("before return:" + JSON.stringify({profileImg}))
 
+    const sentProfile = {profileImg: profileImg}
+    
     return ( 
         <SafeAreaView style={globalStyles.accountContainer}>
                 <FlatList
                 ListHeaderComponent={<>
                     <View>
-                    <CoverPhoto />
+                    <CoverPhoto  profile = {sentProfile}/>
                     <ProfilePhoto />
                     </View>
                     <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>{firstName} {lastName}</Text>
