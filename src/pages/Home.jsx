@@ -219,7 +219,7 @@ const Credit = ({navigation}) => {
                     <Path d="M27.999 7.99994L21.3324 15.3333V24.6666L27.999 31.9999V7.99994Z" fill="#F5F5F5"/>
                 </Svg>
 
-                <View style = {styles.button}>
+                <View style = {[styles.buyButton,styles.buyButtonPos]}>
                 <Shadow style = {{borderRadius: 30, padding: 5}} distance = {5}>
                 <Pressable  onPress = {()=>{navigation.navigate("Purchase Credits")}}>
                     <Text style = {{fontFamily:"NotoSerifRegular", fontSize: 13}}>Purchase Credits</Text>
@@ -401,6 +401,9 @@ const Home = (props) => {
 };
 
 const styles = StyleSheet.create({
+    buyButtonPos:{
+        left:35
+    },
     creditNumber: {
         alignSelf:'center',
         fontSize: 62,
