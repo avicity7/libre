@@ -6,7 +6,6 @@ import { useFonts } from 'expo-font';
 import {useState, useEffect} from 'react';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Alert, Pressable, StyleSheet, Text, TextInput, View, ScrollView, FlatList ,Dimensions} from 'react-native';
-
 //Import pages
 import Home from './src/pages/Home';
 import Library from './src/pages/Library';
@@ -16,11 +15,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 
 
-//Ignoring passing setLikedArticles() into a navigation prop
+//Ignoring expo warnings
 import { LogBox } from 'react-native';
 
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
+  'AsyncStorage has been extracted from react-native core and will be removed in a future release.'
 ]);
 
 //Import firebase stuff 
@@ -129,7 +129,6 @@ const Signup = ({navigation}) => {
               .then((userCredential) => {
                   // Signed in 
                   const user = userCredential.user;
-                  console.log(user);
                   navigation.navigate("CreateAccount")
                   // ...
               })
@@ -205,7 +204,8 @@ const CreateAccount = ({navigation}) => {
                   likes: [],
                   published: [],
                   subscriptions: [],
-                  username: username
+                  username: username,
+                  credits: 0
               };
 
               setDoc(docRef, data)
@@ -236,6 +236,21 @@ const updateLikes = async(likesArray,username) => {
   updateDoc(docRef, data)
   .then(docRef => {
       console.log("Likes updated to "+likesArray);
+  })
+  .catch(error => {
+      console.log(error);
+  })
+}
+
+const updateSubscriptions = async(subArray,username) => {
+  const docRef = doc(db, "users", username);
+  const data = {
+      subscriptions: subArray
+  };
+  
+  updateDoc(docRef, data)
+  .then(docRef => {
+      console.log("Subscriptions updated to "+subArray);
   })
   .catch(error => {
       console.log(error);
@@ -296,7 +311,7 @@ const HomeTabs = () => {
           initialRouteName = "Home"
           >
             <Tab.Screen name = "Library" component = {Library} initialParams = {{likedArticles: likedArticles,addLikedArticle:addLikedArticle,removeLikedArticle:removeLikedArticle,setLikedArticles:setLikedArticles}} ></Tab.Screen>
-            <Tab.Screen name = "Home" component = {Home} initialParams = {{likedArticles: likedArticles,addLikedArticle:addLikedArticle,removeLikedArticle:removeLikedArticle}}></Tab.Screen>
+            <Tab.Screen name = "Home" component = {Home} initialParams = {{likedArticles: likedArticles,addLikedArticle:addLikedArticle,removeLikedArticle:removeLikedArticle,updateSubscriptions:updateSubscriptions}}></Tab.Screen>
             <Tab.Screen name = "Account" component = {Account} initialParams = {{likedArticles: likedArticles,addLikedArticle:addLikedArticle,removeLikedArticle:removeLikedArticle}}></Tab.Screen>
     </Tab.Navigator>
   )

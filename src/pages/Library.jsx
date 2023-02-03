@@ -25,12 +25,13 @@ const LibraryView = ({route,navigation}) => {
     const auth = getAuth();
     const {likedArticles} = route.params;
     const [localLikedArticles,setLocalLikedArticles] = useState();
+    const [localSubscriptions, setLocalSubscriptions] = useState([]);
     const [displayCategory, setDisplayCategory] = useState("subscriptions");
     const [articles,setArticles] = useState();
 
     useEffect(() => {
         let documentID = auth.currentUser.email;
-        console.log(documentID)
+        console.log("refreshing")
         const getArticlesFunction = async () => {
             let fetchedArticles = await getArticles();
             setArticles(fetchedArticles);
@@ -38,15 +39,20 @@ const LibraryView = ({route,navigation}) => {
 
         getArticlesFunction();
 
-        const fetchLikedArticles = onSnapshot(doc(db,"users",documentID),(docSnap) => {
+        const fetchUser = onSnapshot(doc(db,"users",documentID),(docSnap) => {
             let likes = [];
+            let subscriptions = [];
             for (let i = 0; i < docSnap.data().likes.length; i++){
                 likes.push(docSnap.data().likes[i])
             }
-            setLocalLikedArticles(likes)
+            for (let i = 0; i < docSnap.data().subscriptions.length; i++){
+                subscriptions.push(docSnap.data().subscriptions[i])
+            }
+            setLocalSubscriptions(subscriptions);
+            setLocalLikedArticles(likes);
         })
         
-        return () => fetchLikedArticles();
+        return () => fetchUser();
 
     },[likedArticles])
 
@@ -87,12 +93,18 @@ const LibraryView = ({route,navigation}) => {
                 </Pressable>
             </View>
 
-            <FlatList
-                extraData={localLikedArticles}
-                style = {[displayCategory == "liked"?{opacity:100}:{opacity:0},{marginTop:10}]}
+            {displayCategory == "liked" && (<FlatList
+                
+                style = {{marginTop:10}}
                 data={articles}
-                renderItem={({ item }) => likedArticles.includes(item.id) && displayCategory == "liked"?<ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />:null}
-            />
+                renderItem={({ item }) => likedArticles.includes(item.id)?<ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />:null}
+            /> )}
+            {displayCategory == "subscriptions" && (<FlatList
+                
+                style = {{marginTop:10}}
+                data={articles}
+                renderItem={({ item }) => localSubscriptions.includes(item.authorEmail)?<ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />:null}
+            /> )}
             
         </SafeAreaView>
     )

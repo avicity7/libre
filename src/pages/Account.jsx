@@ -14,21 +14,9 @@ import { Article } from './Home';
 import SubscribeButton from '../components/subscribe';
 import { Shadow } from 'react-native-shadow-2';
 const db = require('../../api/firebaseConfig.js');
-import {collection, getDocs, getDoc, doc, onSnapshot} from "firebase/firestore";
+import {collection, getDocs, getDoc, doc, onSnapshot, setDoc} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
-
-const getLikes = async() => {
-    var likedArray = []
-    const docRef = doc(db, "users", "hiroyuki");
-    const docSnap = await getDoc(docRef);
-    likedArray = docSnap.data().likes
-    // const user = await getDocs(query(collection(db, "users"), where("username", "==", "hiroyuki")))
-    // user.forEach(doc => {
-    //   likedArray = doc.data().likes
-    // });
-    return likedArray
-}
 
 const getArticles = async() => {
     var articlesArray = []
@@ -40,6 +28,8 @@ const getArticles = async() => {
 }
 
 import EditProfile from '../components/editProfile';
+import AccountViewUser from './Home'
+
 const AccountView = ({route,navigation}) => {
     const auth = getAuth();
 
@@ -47,6 +37,7 @@ const AccountView = ({route,navigation}) => {
     const [localPublishedArticles, setLocalPublishedArticles] = useState([]);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [username, setUsername] = useState('');
     const [bio, setBio] = useState('');
     const [articles,setArticles] = useState();
 
@@ -58,26 +49,24 @@ const AccountView = ({route,navigation}) => {
             setArticles(fetchedArticles);
         }
 
-        getArticlesFunction();
         
         const fetchAccount = onSnapshot(doc(db,"users",documentID),(docSnap) => {
-            let likes = [];
-            for (let i = 0; i < docSnap.data().likes.length; i++){
-                likes.push(docSnap.data().published[i])
-            }
             let firstName = docSnap.data().firstName;
             let lastName = docSnap.data().lastName;
+            let username = docSnap.data().username;
             let bio = docSnap.data().bio;
-            setLocalPublishedArticles(likes);
+            
             setFirstName(firstName);
             setLastName(lastName);
+            setUsername(username);
             setBio(bio);
+            getArticlesFunction();
         })
 
         
         return () => fetchAccount();
 
-    },[localPublishedArticles])
+    },[])
 
     return ( 
         <SafeAreaView style={globalStyles.accountContainer}>
@@ -94,32 +83,10 @@ const AccountView = ({route,navigation}) => {
                 extraData={articles}
                 removeClippedSubviews={false} 
                 data={articles}
-                renderItem={({ item }) => localPublishedArticles.includes(item.id)?<ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />:null}
+                renderItem={({ item }) => item.authorEmail == auth.currentUser.email?<ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />:null}
                 keyExtractor={item => item.id}
                 />
-            <WriteButton onPress = {() => {navigation.navigate("Publish")}}/>
-        </SafeAreaView>
-    )
-}
-const AccountViewUser = ({route,navigation}) => {
-    const {likedArticles, addLikedArticle,removeLikedArticle} = route.params;
-    return ( 
-        <SafeAreaView style={globalStyles.accountContainer}>
-                <FlatList
-                ListHeaderComponent={<>
-                    <View>
-                    <CoverPhoto />
-                    <ProfilePhoto />
-                    </View>
-                    <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>Hiroyuki Nishimura</Text>
-                    <Text style = {globalStyles.bioText}>A journalist enthusiastic about different perspectives. Looking to venture into Arts.</Text>
-                    <SubscribeButton style = {globalStyles.SubscribeButtonPos}/>
-                </>}
-                removeClippedSubviews={false} 
-                data={databaseData.articles}
-                renderItem={({ item }) => <ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />}
-                keyExtractor={item => item.id}
-                />
+            <WriteButton onPress = {() => {navigation.navigate("Publish",{articles:articles,firstName:firstName,lastName:lastName,username:username,email:auth.currentUser.email})}}/>
         </SafeAreaView>
     )
 }
@@ -143,19 +110,55 @@ const EditAccount = ({route}) => {
 
 }
 
-const Publish = ({route}) => {
+const Publish = ({route,navigation}) => {
+    const {articles,firstName,lastName,username,email} = route.params
+    const [articleName, setArticleName] = useState('');
+    const [articleImage, setArticleImage] = useState('');
+    const [descriptionText, setDescriptionText] = useState('');
+    const [category, setCategory] = useState('');
+    const [body, setBody] = useState('')
     return(
 
         <ScrollView style = {globalStyles.container}>
             <Text style = {globalStyles.publishSubHeader}>Article Name</Text>
-            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true} onChangeText={newText => setArticleName(newText)}></TextInput>
             <Text style = {globalStyles.publishSubHeader}>Enter Article Image Url:</Text>
-            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true} onChangeText={newText => setArticleImage(newText)}></TextInput>
             <Text style = {globalStyles.publishSubHeader}>Synopsis:</Text>
-            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true}></TextInput>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true} onChangeText={newText => setDescriptionText(newText)}></TextInput>
+            <Text style = {globalStyles.publishSubHeader}>Category</Text>
+            <TextInput style  = {globalStyles.inputBoxArticleStyle} multiline = {true} onChangeText={newText => setCategory(newText)}></TextInput>
             <Text style = {globalStyles.publishSubHeader}>Article Body</Text>
-            <TextInput style  = {globalStyles.inputBoxBodyStyle} multiline = {true}></TextInput>
-            <PublishButton text = "Publish Article"/>
+            <TextInput style  = {globalStyles.inputBoxBodyStyle} multiline = {true} onChangeText={newText => setBody(newText)}></TextInput>
+            <PublishButton text = "Publish Article" onPress={()=>{
+                
+                let id = articles.length+1
+                
+                const docRef = doc(db, "articles", String(id));
+
+                const data = {
+                    author: firstName + " " + lastName,
+                    authorUsername: username,
+                    authorEmail: email,
+                    body: body, 
+                    category: category,
+                    descriptionText: descriptionText,
+                    id: id, 
+                    image: articleImage,
+                    title: articleName
+                };
+                
+
+                setDoc(docRef, data)
+                .then(() => {
+                    console.log("Document has been added successfully");
+                    alert("Article Published!");
+                    navigation.navigate("AccountView");
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            }}/>
         </ScrollView>
     
     )

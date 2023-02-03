@@ -53,6 +53,7 @@ const globalStyles = StyleSheet.create({
     borderRadius: 15,
     marginLeft: 20,
     marginRight: 20,
+    marginBottom: 50
   },
   publishButtonText: {
     fontSize: 20,
@@ -181,7 +182,7 @@ const globalStyles = StyleSheet.create({
   SubscribeButtonPos:{
    marginLeft:20,
    marginBottom: 15,
-   marginTop: -20,
+   marginTop: -10,
    
   },
   SubscribeButton:{

@@ -17,11 +17,14 @@ import { useCallback } from 'react';
 import { Linking } from 'react-native';
 const db = require('../../api/firebaseConfig.js');
 import { Shadow } from 'react-native-shadow-2';
-import {collection, getDocs, getDoc, doc} from "firebase/firestore";
+import {collection, getDocs, getDoc, doc, onSnapshot} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 import EditButton from '../components/editButton';
 import PublishButton from '../components/publishButton';
+import CoverPhoto from '../components/coverPhoto';
+import ProfilePhoto from '../components/profilePhoto';
+import SubscribeButton from '../components/subscribe';
 
 const getLikes = async(username) => {
     var likedArray = []
@@ -33,12 +36,23 @@ const getLikes = async(username) => {
 
 const getArticles = async() => {
     var articlesArray = []
-    const articles = await getDocs(collection(db,"articles"));
-    articles.forEach(doc => {
-      articlesArray.push(doc.data());
+    const dbRef = collection(db, "articles");
+
+    onSnapshot(dbRef, docsSnap => {
+        docsSnap.forEach(doc => {
+            !articlesArray.includes(doc.data())? articlesArray.push(doc.data()): null
+        })
     });
     return articlesArray
 }
+
+// const getArticles = async () => onSnapshot(collection(db,"articles"), docsSnap => {
+//     let articlesArr = []
+//     docsSnap.forEach(doc => {
+//       articlesArr.push(doc.data())
+//     })
+//     return articlesArr
+// });
 
 const getCarousel = async() => {
     let carouselArray = [];
@@ -52,19 +66,43 @@ const getCarousel = async() => {
 const ArticlesView = ({ route, navigation }) => {
     const auth = getAuth();
     const {likedArticles, addLikedArticle,removeLikedArticle} = route.params;
-    const [articles,setArticles] = useState();
+    const [articles,setArticles] = useState([]);
     const [carouselArray, setCarouselArray] = useState([]);
+    const [credits, setCredits] = useState(0);
     useEffect(()=>{
+        console.log("refreshing")
+        const fetchCredits = onSnapshot(doc(db,"users",auth.currentUser.email),(docSnap) => {
+            let creditValue = 0;
+            for (let i = 0; i < docSnap.data().likes.length; i++){
+                creditValue = docSnap.data().credits
+            }
+            console.log(creditValue)
+            setCredits(creditValue);
+        })
         const getArticlesFunction = async () => {
             let fetchedArticles = await getArticles();
-            let featuredArticles = carouselArray.slice();
+            let featuredArticles = []
             let fetchedFeaturedArticles = await getCarousel();
             for (let i = 0; i < fetchedFeaturedArticles.length; i++){
-                !featuredArticles.includes(fetchedFeaturedArticles[i])? featuredArticles.push(fetchedArticles[fetchedFeaturedArticles[i]-1]): null
+                !featuredArticles.includes(fetchedArticles[fetchedFeaturedArticles[i]-1])? featuredArticles.push(fetchedArticles[fetchedFeaturedArticles[i]-1]): null
             }
             setCarouselArray(featuredArticles);
-            setArticles(fetchedArticles);
+            let articlesArr = []
+            for (let i = 0; i < fetchedArticles.length; i++){
+                if (articlesArr.includes(fetchedArticles[i]) == false) {articlesArr.push(fetchedArticles[i])}
+            }
+            setArticles(articlesArr)
+            fetchCredits()
         }
+
+        // const fetchArticles = onSnapshot(collection(db,"articles"), docsSnap => {
+        //     let articlesArr = []
+        //     docsSnap.forEach(doc => {
+        //       articlesArr.push(doc.data())
+        //     })
+        //     setArticles(articlesArr)
+        // });
+        
 
         getArticlesFunction();
         
@@ -76,7 +114,8 @@ const ArticlesView = ({ route, navigation }) => {
         }
         fetchLikedArticles();
 
-    },[])
+        return () => getArticlesFunction()
+    },[credits])
 
     const [loaded] = useFonts({
         NotoSerifRegular: require('../../assets/fonts/NotoSerif-Regular.ttf'),
@@ -95,8 +134,8 @@ const ArticlesView = ({ route, navigation }) => {
                 >
                     Articles
                 </Text>
-                <Pressable style = {{flex:1,flexDirection:"row-reverse"}} onPress = {()=>{navigation.navigate("Credit")}}>
-                    <Text style = {{marginLeft:10,marginRight:10,marginTop:20,fontFamily:"NotoSerifRegular",fontSize:25}}>0</Text>
+                <Pressable style = {{flex:1,flexDirection:"row-reverse"}} onPress = {()=>{navigation.navigate("Credit",{credits:credits})}}>
+                    <Text style = {{marginLeft:10,marginRight:10,marginTop:20,fontFamily:"NotoSerifRegular",fontSize:25}}>{credits}</Text>
                     <Svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style = {{alignSelf:"center"}}>
                         <Circle cx="20" cy="20" r="20" fill="#202020"/>
                         <Path d="M12.001 7.99994L18.6676 15.3333V24.6666L12.001 31.9999V7.99994Z" fill="#F5F5F5"/>
@@ -113,15 +152,80 @@ const ArticlesView = ({ route, navigation }) => {
                 removeClippedSubviews={false} 
                 ListHeaderComponent = {<ArticleCarou key={carouselArray} navigation={navigation} carouselArray={carouselArray}/>}
                 data={articles}
-                renderItem={({ item }) => <ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />}
+                renderItem={({ item }) => <ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item,'articles':articles})} />}
             />
         
         </View>
     )
 }
 
+export const AccountViewUser = ({route,navigation}) => {
+    const auth = getAuth();
+    const {article,articles,updateSubscriptions} = route.params;
+
+    const [localSubscriptions, setLocalSubscriptions] = useState([]);
+    const [documentID,setDocumentID] = useState(article.authorEmail)
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [bio, setBio] = useState('');
+
+    useEffect(() => {
+        const fetchUser = onSnapshot(doc(db,"users",auth.currentUser.email),(docSnap) => {
+            let subscriptions = [];            
+            for (let i = 0; i < docSnap.data().subscriptions.length; i++){
+                subscriptions.push(docSnap.data().subscriptions[i])
+            }
+            setLocalSubscriptions(subscriptions);
+        })
+
+        setDocumentID(article.authorEmail)
+        
+        const fetchAuthor = onSnapshot(doc(db,"users",documentID),(docSnap) => {
+            let firstName = docSnap.data().firstName;
+            let lastName = docSnap.data().lastName;
+            let bio = docSnap.data().bio;
+            setFirstName(firstName);
+            setLastName(lastName);
+            setBio(bio);
+            fetchUser();
+        })
+
+        return () => fetchAuthor();
+    },[article])
+
+    return ( 
+        <View style={globalStyles.accountContainer}>
+                <FlatList
+                ListHeaderComponent={<>
+                    <View>
+                    <CoverPhoto />
+                    <ProfilePhoto />
+                    </View>
+                    <Text style = {[globalStyles.profileName,{fontFamily: 'NotoSerifRegular'}]}>{firstName} {lastName}</Text>
+                    <Text style = {globalStyles.bioText}>{bio}</Text>
+                    <SubscribeButton style = {globalStyles.SubscribeButtonPos} subscribed={localSubscriptions.includes(article.authorEmail)} onPress={()=>{
+                        if(localSubscriptions.includes(article.authorEmail)) {
+                            localSubscriptions.splice(localSubscriptions.indexOf(article.authorEmail),1)
+                            updateSubscriptions(localSubscriptions, auth.currentUser.email)
+                        }
+                        else {
+                            localSubscriptions.push(article.authorEmail);
+                            updateSubscriptions(localSubscriptions, auth.currentUser.email)
+                        }
+                    }}/>
+                </>}
+                removeClippedSubviews={false} 
+                data={articles}
+                renderItem={({ item }) => item.authorUsername == article.authorUsername?<ArticleCard item={item} onPress={()=>navigation.navigate("Author",{'article':item})}/>:null}
+                keyExtractor={item => item.id}
+                />
+        </View>
+    )
+}
+
 export const Article = ({route,navigation}) => {
-    const {article,likedArticles,addLikedArticle,removeLikedArticle,onPress} = route.params;
+    const auth = getAuth();
+    const {article,articles,likedArticles,addLikedArticle,removeLikedArticle,onPress} = route.params;
     const [modalVisible, setModalVisible] = useState(false);
     return (
         <SafeAreaView style = {globalStyles.articleContainer}>
@@ -147,8 +251,7 @@ export const Article = ({route,navigation}) => {
                         <BackButton onPress={() => {navigation.navigate(onPress)}}/>
                     </View>
                     <View style = {{flex:1}}> 
-                    <EditButton onPress={()=>{navigation.navigate("Edit Article")}}/>
-                    {/* Edit article when user is viewing their own account */}
+                        {article.authorEmail == auth.currentUser.email && (<EditButton onPress={()=>{navigation.navigate("Edit Article")}}/>)}
                     </View>
                         
                     <View style = {{flex:1}}>
@@ -170,7 +273,7 @@ export const Article = ({route,navigation}) => {
                     {article.title}
                 </Text>
                 <Pressable onPress={()=>{
-                    
+                    navigation.navigate("Author", {article:article,articles:articles});
                 }}><Text style={[globalStyles.articleDetails,globalStyles.detailPos]}>Published by {article.author}</Text></Pressable>
                 <Text
                     style={[globalStyles.articleBody,{fontFamily: 'NotoSerifRegular'}]}
@@ -201,8 +304,26 @@ const EditArticle = ({navigation}) => {
 
 }
 
-const Credit = ({navigation}) => {
-   
+
+
+const Credit = ({route,navigation}) => {
+    const auth = getAuth();
+    const {credits} = route.params
+    const [localSubscriptions, setLocalSubscriptions] = useState([])
+    useEffect(() => {
+
+        const fetchUser = onSnapshot(doc(db,"users",auth.currentUser.email),(docSnap) => {
+            let subscriptions = [];
+            for (let i = 0; i < docSnap.data().subscriptions.length; i++){
+                subscriptions.push(docSnap.data().subscriptions[i])
+            }
+            setLocalSubscriptions(subscriptions);
+        })
+        
+        return () => fetchUser();
+
+    },[])
+
     return(
      
 
@@ -210,7 +331,7 @@ const Credit = ({navigation}) => {
             <BackButton onPress={() => {navigation.navigate("Articles")}}/>
             <ScrollView>
 
-                <Text style = {styles.creditNumber}>1234</Text>
+                <Text style = {styles.creditNumber}>{credits}</Text>
                 <Svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style = {styles.coin}>
                     <Circle cx="20" cy="20" r="20" fill="#202020"/>
                     <Path d="M12.001 7.99994L18.6676 15.3333V24.6666L12.001 31.9999V7.99994Z" fill="#F5F5F5"/>
@@ -221,7 +342,7 @@ const Credit = ({navigation}) => {
 
                 <View style = {[styles.buyButton,styles.buyButtonPos]}>
                 <Shadow style = {{borderRadius: 30, padding: 5}} distance = {5}>
-                <Pressable  onPress = {()=>{navigation.navigate("Purchase Credits")}}>
+                <Pressable  onPress = {()=>{navigation.navigate("PurchaseCredits")}}>
                     <Text style = {{fontFamily:"NotoSerifRegular", fontSize: 13}}>Purchase Credits</Text>
                 </Pressable>
                 </Shadow>
@@ -331,7 +452,7 @@ const CreditPayment = ({navigation}) =>{
 
     return(
         <SafeAreaView style = {globalStyles.container}>
-            <BackButton onPress={() => {navigation.navigate("Purchase Credits")}}/>
+            <BackButton onPress={() => {navigation.navigate("PurchaseCredits")}}/>
             <StripeProvider
             publishableKey='pk_test_51MUsQUEyXbc8egvPrbN3O7COG9dY0wy7SUEoXU8tntf9VUYe5NtUXL8S03OirDwdFLEeh0P9zP8ZBcdhBdGBsQCP00BP4klRT5'
             >
@@ -375,17 +496,17 @@ const Home = (props) => {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="Purchase Credits"
+            name="PurchaseCredits"
             component={PurchaseCredit}
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name = "Purchase With Card"
+            name = "PurchaseWithCard"
             component={CreditPayment}
             options = {{ headerShown: false }}
           />
          <Stack.Screen
-            name="Edit Article"
+            name="EditArticle"
             component={EditArticle}
             options={{
             headerBackTitle: "",
@@ -395,6 +516,19 @@ const Home = (props) => {
             }
             }}
           />
+        <Stack.Screen
+            name="Author"
+            component = {AccountViewUser}
+            options={{
+            headerBackTitle: "",
+            headerTintColor: "black",
+            headerTitleStyle: {
+                color: "black",
+            }
+            }}
+            initialParams={{updateSubscriptions:props.route.params.updateSubscriptions}}
+        
+        />
         </Stack.Navigator>
       </NavigationContainer>
     );

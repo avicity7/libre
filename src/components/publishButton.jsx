@@ -1,17 +1,13 @@
-import { View , Text , StyleSheet} from "react-native";
+import { View , Text , StyleSheet, Pressable} from "react-native";
 import globalStyles from "../styles/global";
 import React, {useState} from 'react'
 import { Shadow } from "react-native-shadow-2";
 
-const PublishButton = ({text}) =>{
+const PublishButton = ({text,onPress}) =>{
     return(
-     
-            <View style = {globalStyles.publishButton}>
-                <Text style = {globalStyles.publishButtonText}>  {text} </Text>
-            </View>
-       
-
-
+        <Pressable style = {globalStyles.publishButton} onPress={onPress}>
+            <Text style = {globalStyles.publishButtonText}>  {text} </Text>
+        </Pressable>
     )
 
 }

@@ -10,13 +10,13 @@ const LikeButton = ({id,likedArticles,addLikedArticle,removeLikedArticle,setModa
         setColor(!notLiked)
         if (!notLiked){
             addLikedArticle(id);
-            setModalVisible(true);
-            setTimeout(()=>{setModalVisible(false)},1000);
+            // setModalVisible(true);
+            // setTimeout(()=>{setModalVisible(false)},1000);
         }
         else { 
             removeLikedArticle(id);
-            setModalVisible(true);
-            setTimeout(()=>{setModalVisible(false)},1000);
+            // setModalVisible(true);
+            // setTimeout(()=>{setModalVisible(false)},1000);
         }
     };
     return(
