@@ -147,7 +147,7 @@ const Signup = ({navigation}) => {
           <Pressable 
           style = {styles.signupButton}
           onPress = {()=>{
-              navigation.navigate("Signin");
+              navigation.navigate("Login");
           }}
           >
               <Text style = {{fontSize: 16, color: "white",fontFamily:"NotoSerifBold"}}> Sign In </Text>
