@@ -40,6 +40,7 @@ const AccountView = ({route,navigation}) => {
     const [username, setUsername] = useState('');
     const [bio, setBio] = useState('');
     const [articles,setArticles] = useState([]);
+    const [refresh, setRefresh] = useState(true);
 
     useEffect(()=>{
         console.log("refreshing")
@@ -67,7 +68,7 @@ const AccountView = ({route,navigation}) => {
         
         return () => fetchAccount();
 
-    },[])
+    },[refresh])
 
     return ( 
         <SafeAreaView style={globalStyles.accountContainer}>
@@ -87,7 +88,7 @@ const AccountView = ({route,navigation}) => {
                 renderItem={({ item }) => item.authorEmail == auth.currentUser.email?<ArticleCard item={item} onPress={()=>navigation.navigate("Article",{'article':item})} />:null}
                 keyExtractor={item => item.id}
                 />
-            <WriteButton onPress = {() => {navigation.navigate("Publish",{articles:articles,firstName:firstName,lastName:lastName,username:username,email:auth.currentUser.email})}}/>
+            <WriteButton onPress = {() => {navigation.navigate("Publish",{articles:articles,firstName:firstName,lastName:lastName,username:username,email:auth.currentUser.email, refresh: refresh, setRefresh:setRefresh})}}/>
         </SafeAreaView>
     )
 }
@@ -140,7 +141,7 @@ const EditAccount = ({route,navigation}) => {
 }
 
 const Publish = ({route,navigation}) => {
-    const {articles,firstName,lastName,username,email} = route.params
+    const {articles, firstName, lastName, username, email, refresh, setRefresh} = route.params
     const [articleName, setArticleName] = useState('');
     const [articleImage, setArticleImage] = useState('');
     const [descriptionText, setDescriptionText] = useState('');
@@ -182,6 +183,7 @@ const Publish = ({route,navigation}) => {
                 .then(() => {
                     console.log("Document has been added successfully");
                     alert("Article Published!");
+                    setRefresh(!refresh);
                     navigation.navigate("AccountView");
                 })
                 .catch(error => {
